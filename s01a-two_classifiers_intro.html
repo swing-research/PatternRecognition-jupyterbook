@@ -1,0 +1,1941 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Lecture 1: Introduction &#8212; Pattern Recognition Lecture notes</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Lecture 2: Generalization and Knowledge Modeling" href="s01b-generalization_and_knowledge_models.html" />
+    <link rel="prev" title="Welcome to your Jupyter Book" href="intro.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Pattern Recognition Lecture notes</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Lecture 1: Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="s01b-generalization_and_knowledge_models.html">
+   Lecture 2: Generalization and Knowledge Modeling
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="markdown.html">
+   Markdown Files
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="notebooks.html">
+   Content with notebooks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="markdown-notebooks.html">
+   Notebooks with MyST Markdown
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/swing-research/PatternRecognition/master?urlpath=tree/docs/s01a-two_classifiers_intro.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/swing-research/PatternRecognition"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/swing-research/PatternRecognition/issues/new?title=Issue%20on%20page%20%2Fs01a-two_classifiers_intro.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/s01a-two_classifiers_intro.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Lecture 1: Introduction
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pattern-recognition-fall-2022">
+     Pattern Recognition, Fall 2022
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-s-the-plan">
+   What’s the plan?
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#yann-lecun-and-mnist-ftw">
+   Yann LeCun and MNIST ftw
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mnist">
+   MNIST
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#our-goal-ship-a-pr-system">
+   Our goal: ship a PR system
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#let-s-focus-on-two-digits">
+   Let’s focus on two digits
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#rule-0-simple-ideas-first">
+   Rule 0: simple ideas first
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#simple-ideas-first-choosing-mathbf-w">
+   Simple ideas first: choosing
+   <span class="math notranslate nohighlight">
+    \(\mathbf{w}\)
+   </span>
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#let-s-make-this-into-an-algorithm">
+   Let’s make this into an algorithm
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-do-the-weights-do">
+   What do the weights do?
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#this-seems-to-be-reasonable">
+   This seems to be reasonable
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#which-k-works-best-the-power-of-vectorization">
+   Which
+   <span class="math notranslate nohighlight">
+    \(k\)
+   </span>
+   works best? (+ the power of vectorization)
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-iris-flower-datset">
+   The Iris flower datset
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-cool-are-we">
+   How cool are we?
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#well-we-first-reinvented-the-perceptron">
+   Well, we first reinvented the
+   <em>
+    perceptron
+   </em>
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#we-then-reinvented-k-nearest-neighbors">
+   We then reinvented
+   <span class="math notranslate nohighlight">
+    \(k\)
+   </span>
+   nearest neighbors
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#some-of-the-questions-we-must-answer">
+   Some of the questions we must answer
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#we-have-been-committing-a-crime">
+     We have been committing a crime
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#this-course">
+   This course
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#why-pattern-recognition-or-machine-learning">
+   Why pattern recognition or machine learning
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#machine-learning-is-all-the-rage">
+   Machine Learning is all the rage
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ml-in-everyday-life-search-engines">
+   ML in Everyday Life: Search Engines
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ml-in-everyday-life-personal-assistants">
+   ML in Everyday Life: Personal Assistants
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ml-in-everyday-life-spam-fraud-detection">
+   ML in Everyday Life: Spam/Fraud Detection
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ml-in-everyday-life-self-driving-cars">
+   ML in Everyday Life: Self-Driving Cars
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-definition-of-machine-learning">
+   A Definition of Machine Learning
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#an-example-self-driving-cars">
+   An Example: Self Driving Cars
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#self-driving-cars-a-rule-based-algorithm">
+   Self Driving Cars: A Rule-Based Algorithm
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#self-driving-cars-an-ml-approach">
+   Self Driving Cars: An ML Approach
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#revisiting-our-definition-of-ml">
+   Revisiting Our Definition of ML
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#why-machine-learning">
+   Why Machine Learning?
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#history">
+   History
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#beware">
+   Beware
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#key-mathematical-tools">
+   Key mathematical tools
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#probability-theory-and-statistics">
+     Probability theory (and statistics)
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#linear-algebra">
+     Linear algebra
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-course-team">
+   The course team
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#course-structure-week-structure-grade-structure">
+   Course structure, week structure, grade structure
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lectures">
+     Lectures
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#recitations">
+     Recitations
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#known-perturbations">
+     Known perturbations
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#online-resources">
+   Online resources
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#course-website">
+     Course website
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#gradescope">
+     Gradescope
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#forum">
+     Forum
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#grading-scheme">
+   Grading scheme
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-bad-news-and-the-good-news">
+   The bad news and the good news
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bad">
+     Bad
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#good">
+     Good
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-rough-plan-this-will-certainly-evolve">
+   A rough plan (this will certainly evolve)
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#quiz">
+   Quiz
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summary-next-time">
+   Summary -&gt; Next time
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Lecture 1: Introduction</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Lecture 1: Introduction
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pattern-recognition-fall-2022">
+     Pattern Recognition, Fall 2022
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-s-the-plan">
+   What’s the plan?
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#yann-lecun-and-mnist-ftw">
+   Yann LeCun and MNIST ftw
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mnist">
+   MNIST
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#our-goal-ship-a-pr-system">
+   Our goal: ship a PR system
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#let-s-focus-on-two-digits">
+   Let’s focus on two digits
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#rule-0-simple-ideas-first">
+   Rule 0: simple ideas first
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#simple-ideas-first-choosing-mathbf-w">
+   Simple ideas first: choosing
+   <span class="math notranslate nohighlight">
+    \(\mathbf{w}\)
+   </span>
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#let-s-make-this-into-an-algorithm">
+   Let’s make this into an algorithm
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-do-the-weights-do">
+   What do the weights do?
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#this-seems-to-be-reasonable">
+   This seems to be reasonable
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#which-k-works-best-the-power-of-vectorization">
+   Which
+   <span class="math notranslate nohighlight">
+    \(k\)
+   </span>
+   works best? (+ the power of vectorization)
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-iris-flower-datset">
+   The Iris flower datset
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-cool-are-we">
+   How cool are we?
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#well-we-first-reinvented-the-perceptron">
+   Well, we first reinvented the
+   <em>
+    perceptron
+   </em>
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#we-then-reinvented-k-nearest-neighbors">
+   We then reinvented
+   <span class="math notranslate nohighlight">
+    \(k\)
+   </span>
+   nearest neighbors
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#some-of-the-questions-we-must-answer">
+   Some of the questions we must answer
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#we-have-been-committing-a-crime">
+     We have been committing a crime
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#this-course">
+   This course
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#why-pattern-recognition-or-machine-learning">
+   Why pattern recognition or machine learning
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#machine-learning-is-all-the-rage">
+   Machine Learning is all the rage
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ml-in-everyday-life-search-engines">
+   ML in Everyday Life: Search Engines
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ml-in-everyday-life-personal-assistants">
+   ML in Everyday Life: Personal Assistants
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ml-in-everyday-life-spam-fraud-detection">
+   ML in Everyday Life: Spam/Fraud Detection
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ml-in-everyday-life-self-driving-cars">
+   ML in Everyday Life: Self-Driving Cars
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-definition-of-machine-learning">
+   A Definition of Machine Learning
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#an-example-self-driving-cars">
+   An Example: Self Driving Cars
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#self-driving-cars-a-rule-based-algorithm">
+   Self Driving Cars: A Rule-Based Algorithm
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#self-driving-cars-an-ml-approach">
+   Self Driving Cars: An ML Approach
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#revisiting-our-definition-of-ml">
+   Revisiting Our Definition of ML
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#why-machine-learning">
+   Why Machine Learning?
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#history">
+   History
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#beware">
+   Beware
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#key-mathematical-tools">
+   Key mathematical tools
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#probability-theory-and-statistics">
+     Probability theory (and statistics)
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#linear-algebra">
+     Linear algebra
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-course-team">
+   The course team
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#course-structure-week-structure-grade-structure">
+   Course structure, week structure, grade structure
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lectures">
+     Lectures
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#recitations">
+     Recitations
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#known-perturbations">
+     Known perturbations
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#online-resources">
+   Online resources
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#course-website">
+     Course website
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#gradescope">
+     Gradescope
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#forum">
+     Forum
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#grading-scheme">
+   Grading scheme
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-bad-news-and-the-good-news">
+   The bad news and the good news
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bad">
+     Bad
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#good">
+     Good
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-rough-plan-this-will-certainly-evolve">
+   A rough plan (this will certainly evolve)
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#quiz">
+   Quiz
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summary-next-time">
+   Summary -&gt; Next time
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <div class="math notranslate nohighlight">
+\[
+\newcommand{\sign}{\mathrm{sign}}
+%
+\newcommand{\vw}{\mathbf{w}}
+\newcommand{\vx}{\mathbf{x}}
+\]</div>
+<section class="tex2jax_ignore mathjax_ignore" id="lecture-1-introduction">
+<h1>Lecture 1: Introduction<a class="headerlink" href="#lecture-1-introduction" title="Permalink to this headline">#</a></h1>
+<section id="pattern-recognition-fall-2022">
+<h2>Pattern Recognition, Fall 2022<a class="headerlink" href="#pattern-recognition-fall-2022" title="Permalink to this headline">#</a></h2>
+<p><strong>Ivan Dokmanić</strong></p>
+<p><br><br><br></p>
+<img src="figs/sada-unibas-0.svg" width="60%" float="left">
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="what-s-the-plan">
+<h1>What’s the plan?<a class="headerlink" href="#what-s-the-plan" title="Permalink to this headline">#</a></h1>
+<ul class="simple">
+<li><p>Pattern recognition is about … recognizing patterns!</p></li>
+<li><p>Normally we would have to start by defining a “pattern”, “recognition”, and all that…</p></li>
+</ul>
+<center>
+<img src="figs/yoda.jpg" width="40%" />
+</center>
+<p>I’m a big fan of learning by doing, so before getting all historical, philosophical, and mathematical, and asking what is a pattern, let’s start by recognizing patterns!</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="yann-lecun-and-mnist-ftw">
+<h1>Yann LeCun and MNIST ftw<a class="headerlink" href="#yann-lecun-and-mnist-ftw" title="Permalink to this headline">#</a></h1>
+<center>
+    <img src="figs/lecun-mnist.jpg" width="70%">
+</center>
+<ul class="simple">
+<li><p>A very early evangelist of convolutional neural networks, backpropagation, and all that</p></li>
+<li><p>One of the poster boys of deep learning</p></li>
+<li><p>The creator of the indestructible MNIST dataset</p></li>
+</ul>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="mnist">
+<h1>MNIST<a class="headerlink" href="#mnist" title="Permalink to this headline">#</a></h1>
+<p>Let’s start by loading and displaying a couple of digits</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mlxtend.data</span> <span class="kn">import</span> <span class="n">loadlocal_mnist</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">loadlocal_mnist</span><span class="p">(</span>
+        <span class="n">images_path</span><span class="o">=</span><span class="s1">&#39;/Users/dokman0000/Downloads/train-images-idx3-ubyte&#39;</span><span class="p">,</span> 
+        <span class="n">labels_path</span><span class="o">=</span><span class="s1">&#39;/Users/dokman0000/Downloads/train-labels-idx1-ubyte&#39;</span>
+        <span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axs</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1000</span><span class="p">)]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="o">~</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">Temp</span>\<span class="n">ipykernel_15356</span>\<span class="mf">106244075.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">mlxtend.data</span> <span class="kn">import</span> <span class="n">loadlocal_mnist</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> 
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">loadlocal_mnist</span><span class="p">(</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>         <span class="n">images_path</span><span class="o">=</span><span class="s1">&#39;/Users/dokman0000/Downloads/train-images-idx3-ubyte&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>         <span class="n">labels_path</span><span class="o">=</span><span class="s1">&#39;/Users/dokman0000/Downloads/train-labels-idx1-ubyte&#39;</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;mlxtend&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="our-goal-ship-a-pr-system">
+<h1>Our goal: ship a PR system<a class="headerlink" href="#our-goal-ship-a-pr-system" title="Permalink to this headline">#</a></h1>
+<ul class="simple">
+<li><p>We have some examples of patterns and classes from the real world</p></li>
+<li><p>We can do whatever we want with them</p></li>
+<li><p>But we have no clue what our system will see out there!</p></li>
+<li><p>Hope: similar stuff, similar “distribution”, but certainly not the same</p></li>
+</ul>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="let-s-focus-on-two-digits">
+<h1>Let’s focus on two digits<a class="headerlink" href="#let-s-focus-on-two-digits" title="Permalink to this headline">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">classes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+<span class="n">d</span> <span class="o">=</span> <span class="mi">28</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">cl</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">:</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">X</span><span class="p">,</span> <span class="n">X_train</span><span class="p">[</span><span class="n">y_train</span> <span class="o">==</span> <span class="n">cl</span><span class="p">]))</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">y</span><span class="p">,</span> <span class="n">y_train</span><span class="p">[</span><span class="n">y_train</span> <span class="o">==</span> <span class="n">cl</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]))</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="n">shuffle_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">shuffle_idx</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">shuffle_idx</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">classes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="mi">5000</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># (some hidden code above selects only 4s and 7s)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axs</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1000</span><span class="p">)]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/s01a-two_classifiers_intro_9_0.png" src="_images/s01a-two_classifiers_intro_9_0.png" />
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="rule-0-simple-ideas-first">
+<h1>Rule 0: simple ideas first<a class="headerlink" href="#rule-0-simple-ideas-first" title="Permalink to this headline">#</a></h1>
+<p>Let’s start with a <em>linear</em> classifier. What does <em>linear</em> mean?</p>
+<p>Represent the “pattern” as a sequence of numbers in a “vector” <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> (we can always do this!),</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    \mathbf{x} = 
+    \begin{bmatrix}
+    x_1 \\ x_2 \\ \vdots \\ x_d
+    \end{bmatrix}.
+\end{split}\]</div>
+<p>A linear classifier returns the label <span class="math notranslate nohighlight">\(y = \mathrm{sign}\left(\sum_{i = 1}^d w_i x_i\right) = \mathrm{sign}(\mathbf{w} \cdot \mathbf{x}) = \mathrm{sign}(\langle \mathbf{w}, \mathbf{x} \rangle) = \mathrm{sign}(\mathbf{w}^T \mathbf{x}\)</span>).</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="simple-ideas-first-choosing-mathbf-w">
+<h1>Simple ideas first: choosing <span class="math notranslate nohighlight">\(\mathbf{w}\)</span><a class="headerlink" href="#simple-ideas-first-choosing-mathbf-w" title="Permalink to this headline">#</a></h1>
+<p>How about randomly? 🤭</p>
+<p>No seriously… let’s give it a shot.</p>
+<div class="math notranslate nohighlight">
+\[
+    \widehat{y} = \sum_{i = 1}^{28} \sum_{j = 1}^{28} w_{ij} x_{ij}
+\]</div>
+<p>with <span class="math notranslate nohighlight">\(w_{ij} \stackrel{\text{iid}}{\sim} \mathcal{N}(0, 1)\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># generate random weights</span>
+<span class="n">w_random</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+
+<span class="c1"># predict labels</span>
+<span class="n">y_est</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">X</span> <span class="o">@</span> <span class="n">w_random</span><span class="p">)</span>
+
+<span class="n">correct</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y_est</span> <span class="o">*</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1"> out of </span><span class="si">%d</span><span class="s1"> patterns correctly classified (</span><span class="si">%5.2f%%</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">correct</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="mi">100</span><span class="o">*</span><span class="n">correct</span><span class="o">/</span><span class="n">n</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">X</span> <span class="o">@</span> <span class="n">w_random</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Dot products between </span><span class="se">\n</span><span class="s1"> $\mathbf</span><span class="si">{w}</span><span class="s1">_{\mathrm</span><span class="si">{random}</span><span class="s1">}$ and the patterns</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2393 out of 5000 patterns correctly classified (47.86%)
+</pre></div>
+</div>
+<img alt="_images/s01a-two_classifiers_intro_14_1.png" src="_images/s01a-two_classifiers_intro_14_1.png" />
+</div>
+</div>
+<p>OK, this is not great.</p>
+<p>Let’s visualize what’s going on: pretend that the digits only have two pixels</p>
+ <div class="row">
+  <div class="column">
+    <center>
+        <img src="figs/linear-random-1.svg" width="70%"/><br>
+        some examples are missclassified
+    </center>    
+  </div>
+  <div class="column">
+    <center>
+        <img src="figs/linear-random.svg" width="70%"/><br>
+        we bump $\mathbf{w}$ "away" from the closest misclassified example    
+    </center>   
+  </div>
+</div> <p>We currently have for the “nearby” misclassified example <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> that</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{w}^T \mathbf{x} = \alpha
+\]</div>
+<p>We want to compute a small bump in the direction of negative <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>, say <span class="math notranslate nohighlight">\(c \mathbf{x}\)</span> so that</p>
+<div class="math notranslate nohighlight">
+\[
+    (\mathbf{w} + c \mathbf{x})^T \mathbf{x} = 0
+\]</div>
+<p>Thus</p>
+<div class="math notranslate nohighlight">
+\[
+    \mathbf{w}^T \mathbf{x} + c \mathbf{x}^T \mathbf{x} = 0 
+    \Longrightarrow
+    c = - \frac{\mathbf{w}^T \mathbf{x}}{\mathbf{x}^T \mathbf{x}} = -\frac{\alpha}{\| \mathbf{x} \|^2}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+    \mathbf{w}^T \mathbf{x} + c \mathbf{x}^T \mathbf{x} = 0 
+    \Longrightarrow
+    c = - \frac{\mathbf{w}^T \mathbf{x}}{\mathbf{x}^T \mathbf{x}} = -\frac{\alpha}{\| \mathbf{x} \|^2}
+\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># find indices of misclassfied examples</span>
+<span class="n">idx_miss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">y</span> <span class="o">!=</span> <span class="n">y_est</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">idx_miss</span>
+<span class="n">i</span> <span class="o">=</span> <span class="n">idx_miss</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">((</span><span class="n">X</span> <span class="o">@</span> <span class="n">w_random</span><span class="p">)[</span><span class="n">idx_miss</span><span class="p">]))]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The smallest dot product (in abs) is </span><span class="si">%.2e</span><span class="s1">&#39;</span> <span class="o">%</span> \
+      <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">w_random</span><span class="p">)))</span>
+
+<span class="n">w_random_bumped</span> <span class="o">=</span> <span class="n">w_random</span> <span class="o">-</span> <span class="mf">1.000001</span> <span class="o">*</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">w_random</span><span class="p">)</span> \
+                <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The smallest dot product after updating the weights is </span><span class="si">%.2e</span><span class="s1">&#39;</span> <span class="o">%</span> \
+      <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">w_random_bumped</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The smallest dot product (in abs) is 1.01e-02
+The smallest dot product after updating the weights is -1.01e-08
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_est_bumped</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">X</span> <span class="o">@</span> <span class="n">w_random_bumped</span><span class="p">)</span>
+<span class="n">correct_bumped</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y_est_bumped</span> <span class="o">*</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Correct before: </span><span class="si">%d</span><span class="s1">/</span><span class="si">%d</span><span class="s1">, correct after: </span><span class="si">%d</span><span class="s1">/</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">correct</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">correct_bumped</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Correct before: 2393/5000, correct after: 2394/5000
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="let-s-make-this-into-an-algorithm">
+<h1>Let’s make this into an algorithm<a class="headerlink" href="#let-s-make-this-into-an-algorithm" title="Permalink to this headline">#</a></h1>
+<ul class="simple">
+<li><p>Cycle over “training examples” and do a small update for each</p></li>
+<li><p>Repeat some number of times</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># write a function that implements this recipe</span>
+<span class="c1"># nb: we&#39;ll write a nice one later</span>
+
+<span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
+    <span class="c1"># X : a (n, d) matrix with rows being training examples (digits)</span>
+    <span class="c1"># y : a (d, 1) vector of labels</span>
+
+    <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">d</span><span class="p">,))</span>
+    
+    <span class="k">for</span> <span class="n">i_iter</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_iter</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i_example</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">y_est</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">i_example</span><span class="p">],</span> <span class="n">w</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">y_est</span> <span class="o">!=</span> <span class="n">y</span><span class="p">[</span><span class="n">i_example</span><span class="p">]:</span>
+                <span class="n">w</span> <span class="o">+=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">X</span><span class="p">[</span><span class="n">i_example</span><span class="p">]</span> <span class="o">*</span> <span class="n">y</span><span class="p">[</span><span class="n">i_example</span><span class="p">]</span>
+        
+    <span class="k">return</span> <span class="n">w</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="n">error_count</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">X</span> <span class="o">@</span> <span class="n">w</span><span class="p">)</span> <span class="o">*</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> out of </span><span class="si">%d</span><span class="s2"> patterns are misclassified&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">error_count</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+ 
+<span class="n">w_orth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> 
+<span class="n">w_orth</span> <span class="o">-=</span> <span class="n">w</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w_orth</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">w</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="n">X_w</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">w</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+<span class="n">X_orth</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">w_orth</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">w_orth</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_orth</span><span class="p">[</span><span class="n">y</span><span class="o">==</span><span class="mi">1</span><span class="p">],</span> <span class="n">X_w</span><span class="p">[</span><span class="n">y</span><span class="o">==</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_orth</span><span class="p">[</span><span class="n">y</span><span class="o">==-</span><span class="mi">1</span><span class="p">],</span> <span class="n">X_w</span><span class="p">[</span><span class="n">y</span><span class="o">==-</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>28 out of 5000 patterns are misclassified
+</pre></div>
+</div>
+<img alt="_images/s01a-two_classifiers_intro_23_1.png" src="_images/s01a-two_classifiers_intro_23_1.png" />
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="what-do-the-weights-do">
+<h1>What do the weights do?<a class="headerlink" href="#what-do-the-weights-do" title="Permalink to this headline">#</a></h1>
+<p>We can visualize the weights as a 28 <span class="math notranslate nohighlight">\(\times\)</span> 28 image and see exactly how the different digits are distinguished. Very <em>interpretable</em>!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;winter&#39;</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">shrink</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/s01a-two_classifiers_intro_25_0.png" src="_images/s01a-two_classifiers_intro_25_0.png" />
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="this-seems-to-be-reasonable">
+<h1>This seems to be reasonable<a class="headerlink" href="#this-seems-to-be-reasonable" title="Permalink to this headline">#</a></h1>
+<p>Are there other reasonable ideas to classify digits?</p>
+<center>
+<img src="figs/Meyer_Lemon.jpg" width="30%"  style="vertical-align:middle;margin:2% 2%" />
+</center>
+Imagine I ask you to classify a citrus as either a Meyer lemon or an ordinary lemon. I also give you 30 ordinary lemons and 30 Meyer lemons.
+<p>We can compare the fruit under scrutiny to both piles of citri…</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">k</span> <span class="o">=</span> <span class="mi">31</span>
+<span class="n">error_count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">i_example</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;n processed&#39;</span><span class="p">):</span>
+
+    <span class="c1"># compute distance from the current example to all other examples</span>
+    <span class="n">dist2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">X</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="n">i_example</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># find k closest examples, ignoring zero distance to the current one</span>
+    <span class="n">k_closest_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">dist2</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="c1"># do majority vote on the corresponding labels</span>
+    <span class="n">y_est</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">k_closest_idx</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+    <span class="c1"># check for errors</span>
+    <span class="k">if</span> <span class="n">y_est</span> <span class="o">*</span> <span class="n">y</span><span class="p">[</span><span class="n">i_example</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">error_count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The number of misclassified points is: &quot;</span><span class="p">,</span> <span class="n">error_count</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>n processed: 100%|█████████████████████████████████████████████████████████████████████| 5000/5000 [00:19&lt;00:00, 251.32it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The number of misclassified points is:  43
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="which-k-works-best-the-power-of-vectorization">
+<h1>Which <span class="math notranslate nohighlight">\(k\)</span> works best? (+ the power of vectorization)<a class="headerlink" href="#which-k-works-best-the-power-of-vectorization" title="Permalink to this headline">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ec</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="c1"># ref: EDMs -&gt; hw</span>
+<span class="n">dist22</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">G</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">G</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">G</span><span class="p">)[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+<span class="n">sorted_dist_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">dist22</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">)):</span>
+    <span class="n">k_closest_idx</span> <span class="o">=</span> <span class="n">sorted_dist_idx</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">y_est</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">k_closest_idx</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">error_count</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_est</span> <span class="o">*</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>    
+    <span class="n">ec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">error_count</span><span class="p">)</span>
+
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ec</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$k$&#39;</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Misclassified points&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████████████████████████████████████████████████████████| 49/49 [00:00&lt;00:00, 1331.96it/s]
+</pre></div>
+</div>
+<img alt="_images/s01a-two_classifiers_intro_30_1.png" src="_images/s01a-two_classifiers_intro_30_1.png" />
+</div>
+</div>
+<p>It seems that both <span class="math notranslate nohighlight">\(k\)</span> too small and <span class="math notranslate nohighlight">\(k\)</span> too large are bad</p>
+<p>Can we visualize what is going on? We need to use a low-dimensional example</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="the-iris-flower-datset">
+<h1>The Iris flower datset<a class="headerlink" href="#the-iris-flower-datset" title="Permalink to this headline">#</a></h1>
+<ul class="simple">
+<li><p>Yet another legendary dataset used by every data science course on the planet</p></li>
+<li><p>Ronald Fisher, probably the most important statistician of all time (and a complicated person)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Modified from Gaël Varoquaux</span>
+
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
+
+<span class="n">iris</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_iris</span><span class="p">()</span>
+<span class="n">X_iris</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span>  <span class="c1"># take only the first two features</span>
+<span class="n">y_iris</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span>
+
+<span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span> <span class="o">=</span> <span class="n">X_iris</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">X_iris</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mf">0.5</span>
+<span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span> <span class="o">=</span> <span class="n">X_iris</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">X_iris</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mf">0.5</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_iris</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_iris</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y_iris</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Set1</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Sepal length&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Sepal width&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/s01a-two_classifiers_intro_33_0.png" src="_images/s01a-two_classifiers_intro_33_0.png" />
+</div>
+</div>
+<p>We again focus on two classes</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">excluded_class</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">classes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">setdiff1d</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">excluded_class</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">X_iris</span><span class="p">[</span><span class="n">y_iris</span> <span class="o">!=</span> <span class="n">excluded_class</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">y_iris</span><span class="p">[</span><span class="n">y_iris</span> <span class="o">!=</span> <span class="n">excluded_class</span><span class="p">]</span>
+<span class="n">y</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="n">classes</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="n">y</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="n">classes</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">-=</span> <span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">w</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">w</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+<span class="n">w_orth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+
+<span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mf">0.5</span>
+<span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mf">0.5</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Set1</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+<span class="n">s</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="o">-</span><span class="n">s</span><span class="o">*</span><span class="n">w_orth</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">s</span><span class="o">*</span><span class="n">w_orth</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="o">-</span><span class="n">s</span><span class="o">*</span><span class="n">w_orth</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">*</span><span class="n">w_orth</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Sepal length&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Sepal width&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/s01a-two_classifiers_intro_36_0.png" src="_images/s01a-two_classifiers_intro_36_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">k</span> <span class="o">=</span> <span class="mi">51</span>
+<span class="n">n_points</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">x_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">n_points</span><span class="p">)</span>
+<span class="n">y_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">,</span> <span class="n">n_points</span><span class="p">)</span>
+
+<span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x_</span><span class="p">,</span> <span class="n">y_</span><span class="p">)</span>
+<span class="n">label</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_points</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_points</span><span class="p">):</span>
+        <span class="n">point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">xx</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="n">yy</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]])</span> <span class="c1"># classify current point</span>
+        <span class="n">knn_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">X</span> <span class="o">-</span> <span class="n">point</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))[:</span><span class="n">k</span><span class="p">]</span>
+        <span class="n">label</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">knn_idx</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="n">y</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Set1</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="o">-</span><span class="n">s</span><span class="o">*</span><span class="n">w_orth</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">s</span><span class="o">*</span><span class="n">w_orth</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="o">-</span><span class="n">s</span><span class="o">*</span><span class="n">w_orth</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">*</span><span class="n">w_orth</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">label</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;summer&#39;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/s01a-two_classifiers_intro_37_0.png" src="_images/s01a-two_classifiers_intro_37_0.png" />
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="how-cool-are-we">
+<h1>How cool are we?<a class="headerlink" href="#how-cool-are-we" title="Permalink to this headline">#</a></h1>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="well-we-first-reinvented-the-perceptron">
+<h1>Well, we first reinvented the <em>perceptron</em><a class="headerlink" href="#well-we-first-reinvented-the-perceptron" title="Permalink to this headline">#</a></h1>
+ <div class="row">
+  <div class="column">
+    <center>
+        <img src="figs/rosenblatt.jpg" width="50%"/> 
+    </center>    
+  </div>
+  <div class="column">
+    •  A brainchild of Frank Rosenblatt <br>
+    •  Huge press coverage at the time <br> 
+    •  Huge implications today <br><br>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>The New York Times, 1958
+</pre></div>
+</div>
+<img src="figs/nytp.png" width="60%"/>
+  </div>
+</div> 
+<center>
+<img src="figs/0925_rosenblatt4.jpg" width="80%"/>
+</center></section>
+<section class="tex2jax_ignore mathjax_ignore" id="we-then-reinvented-k-nearest-neighbors">
+<h1>We then reinvented <span class="math notranslate nohighlight">\(k\)</span> nearest neighbors<a class="headerlink" href="#we-then-reinvented-k-nearest-neighbors" title="Permalink to this headline">#</a></h1>
+ <div class="row">
+  <div class="column">
+    <center>
+<img src="figs/tomcover.jpg" width="40%"/>
+    </center>    
+  </div>
+  <div class="column"><br>
+    • Evelyn Fix & Joseph Lawson Hodges Jr. circa 1951 <br><br>
+    • Expanded and analyzed by Thomas Cover (on the left)  <br><br>
+    • Despite simplicity it is an incredibly useful technique, and one which has been keeping machine learning theorists busy for many years <br>
+  </div>
+</div> 
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="some-of-the-questions-we-must-answer">
+<h1>Some of the questions we must answer<a class="headerlink" href="#some-of-the-questions-we-must-answer" title="Permalink to this headline">#</a></h1>
+<ul class="simple">
+<li><p>Which classifier is better?</p></li>
+<li><p>What does “better” even mean?</p></li>
+</ul>
+<section id="we-have-been-committing-a-crime">
+<h2>We have been committing a crime<a class="headerlink" href="#we-have-been-committing-a-crime" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>We “trained”, “validated”, and “tested” on one and the same dataset</p></li>
+<li><p>For <span class="math notranslate nohighlight">\(k\)</span>NN it’s even a bit silly (consider the iris example)</p></li>
+</ul>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="this-course">
+<h1>This course<a class="headerlink" href="#this-course" title="Permalink to this headline">#</a></h1>
+<ul class="simple">
+<li><p>“Pattern recognition” very close to “machine learning”</p></li>
+<li><p>Focus in PR is on “supervised learning”</p>
+<ul>
+<li><p>classification</p></li>
+<li><p>prediction</p></li>
+</ul>
+</li>
+<li><p>But “unsupervised learning” plays a key role</p>
+<ul>
+<li><p>representation learning</p></li>
+<li><p>feature maps: learning good features</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="why-pattern-recognition-or-machine-learning">
+<h1>Why pattern recognition or machine learning<a class="headerlink" href="#why-pattern-recognition-or-machine-learning" title="Permalink to this headline">#</a></h1>
+<p>The following couple of slides were made by <strong>Volodymyr Kuleshov</strong> of Cornell Tech</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="machine-learning-is-all-the-rage">
+<h1>Machine Learning is all the rage<a class="headerlink" href="#machine-learning-is-all-the-rage" title="Permalink to this headline">#</a></h1>
+<p>We hear a lot about machine learning (or ML for short) in the news.</p>
+<table><tr>
+    <td><center><img src="img/breakthrough.jpg"/></center></td>
+    <td><center><img width=90% src="img/alphago.jpeg"/></center></td>
+    <td><center><img src="img/obama2.jpg"/></center></td>    
+</tr></table>    
+<p>But what is it, really?</p>
+<p><font size="2">Slide by <strong>Volodymyr Kuleshov</strong></font></p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="ml-in-everyday-life-search-engines">
+<h1>ML in Everyday Life: Search Engines<a class="headerlink" href="#ml-in-everyday-life-search-engines" title="Permalink to this headline">#</a></h1>
+<p>You use machine learning every day when you run a search engine query.</p>
+<center><img src="img/google.png"/></center>
+<p><font size="2">Slide by <strong>Volodymyr Kuleshov</strong></font></p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="ml-in-everyday-life-personal-assistants">
+<h1>ML in Everyday Life: Personal Assistants<a class="headerlink" href="#ml-in-everyday-life-personal-assistants" title="Permalink to this headline">#</a></h1>
+<p>Machine learning also powers the speech recognition, question answering and other intelligent capabilities of smartphone assistants like Apple Siri.</p>
+<table><tr>
+    <td><center><img src="img/siri.png"/></center></td>
+    <td><center><img src="img/google_assistant.png"/></center></td>
+</tr></table>  
+<p><font size="2">Slide by <strong>Volodymyr Kuleshov</strong></font></p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="ml-in-everyday-life-spam-fraud-detection">
+<h1>ML in Everyday Life: Spam/Fraud Detection<a class="headerlink" href="#ml-in-everyday-life-spam-fraud-detection" title="Permalink to this headline">#</a></h1>
+<p>Machine learning is used in every spam filter, such as in Gmail.
+<br></p>
+<center><img src="img/spam.png"/></center><p>ML systems are also used by credit card companies and banks to automatically detect fraudulent behavior.</p>
+<p><font size="2">Slide by <strong>Volodymyr Kuleshov</strong></font></p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="ml-in-everyday-life-self-driving-cars">
+<h1>ML in Everyday Life: Self-Driving Cars<a class="headerlink" href="#ml-in-everyday-life-self-driving-cars" title="Permalink to this headline">#</a></h1>
+<p>One of the most exciting and cutting-edge uses of machine learning algorithms are in autonomous vehicles.</p>
+<center><img width="80%" src="img/waymo.jpg"/></center></section>
+<section class="tex2jax_ignore mathjax_ignore" id="a-definition-of-machine-learning">
+<h1>A Definition of Machine Learning<a class="headerlink" href="#a-definition-of-machine-learning" title="Permalink to this headline">#</a></h1>
+<p>In 1959, Arthur Samuel defined machine learning as follows.</p>
+<blockquote>
+<div><p>Machine learning is a field of study that gives computers the ability to learn without being explicitly programmed.</p>
+</div></blockquote>
+<p>What does “learn” and “explicitly programmed” mean here? Let’s look at an example.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="an-example-self-driving-cars">
+<h1>An Example: Self Driving Cars<a class="headerlink" href="#an-example-self-driving-cars" title="Permalink to this headline">#</a></h1>
+<p>A self-driving car system uses dozens of components that include detection of cars, pedestrians, and other objects.
+<br></p>
+<center><img width=80% src="img/tesla.jpg"/></center>
+<p><font size="2">Slide by <strong>Volodymyr Kuleshov</strong></font></p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="self-driving-cars-a-rule-based-algorithm">
+<h1>Self Driving Cars: A Rule-Based Algorithm<a class="headerlink" href="#self-driving-cars-a-rule-based-algorithm" title="Permalink to this headline">#</a></h1>
+<p>One way to build a detection system is to write down rules.
+<left><img width=50% src="img/tesla_zoom.jpg"/></left></p>
+<!-- <table style="border: 1px"><tr>
+    <td><left>One way to build a detection system is to write down rules.</left></td>
+    <td><img src="img/tesla_zoom.jpg"/></td>
+</tr></table> --><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pseudocode example for a rule-based classification system</span>
+<span class="nb">object</span> <span class="o">=</span> <span class="n">camera</span><span class="o">.</span><span class="n">get_object</span><span class="p">()</span>
+<span class="k">if</span> <span class="nb">object</span><span class="o">.</span><span class="n">has_wheels</span><span class="p">():</span> <span class="c1"># does the object have wheels?</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">object</span><span class="o">.</span><span class="n">wheels</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span> <span class="k">return</span> <span class="s2">&quot;Car&quot;</span> <span class="c1"># four wheels =&gt; car    </span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="nb">object</span><span class="o">.</span><span class="n">wheels</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">object</span><span class="o">.</span><span class="n">seen_from_back</span><span class="p">():</span>
+            <span class="k">return</span> <span class="s2">&quot;Car&quot;</span> <span class="c1"># viewed from back, car has 2 wheels</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;Bicycle&quot;</span> <span class="c1"># normally, 2 wheels =&gt; bicycle</span>
+<span class="k">return</span> <span class="s2">&quot;Unknown&quot;</span> <span class="c1"># no wheels? we don&#39;t know what it is</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In practice, it’s almost impossible for a human to specify all the edge cases.</p>
+<p><font size="2">Slide by <strong>Volodymyr Kuleshov</strong></font></p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="self-driving-cars-an-ml-approach">
+<h1>Self Driving Cars: An ML Approach<a class="headerlink" href="#self-driving-cars-an-ml-approach" title="Permalink to this headline">#</a></h1>
+<p>The machine learning approach is to teach a computer how to do detection by showing it many examples of different objects.</p>
+<center><img src="img/tesla_data.png"/></center>
+<p>No manual programming is needed: the computer learns what defines a pedestrian or a car on its own!</p>
+<p><font size="2">Slide by <strong>Volodymyr Kuleshov</strong></font></p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="revisiting-our-definition-of-ml">
+<h1>Revisiting Our Definition of ML<a class="headerlink" href="#revisiting-our-definition-of-ml" title="Permalink to this headline">#</a></h1>
+<blockquote>
+<div><p>Machine learning is a field of study that gives computers the ability to learn without being explicitly programmed. (Arthur Samuel, 1959.)</p>
+</div></blockquote>
+<p>This principle can be applied to countless domains:
+medical diagnosis, factory automation, machine translation, and many more!</p>
+<p><font size="2">Slide by <strong>Volodymyr Kuleshov</strong></font></p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="why-machine-learning">
+<h1>Why Machine Learning?<a class="headerlink" href="#why-machine-learning" title="Permalink to this headline">#</a></h1>
+<p>Why is this approach to building software interesting?</p>
+<ul class="simple">
+<li><p>It allows building practical systems for real-world applications that couldn’t be solved otherwise.</p></li>
+</ul>
+<ul class="simple">
+<li><p>Learning is wildly regarded as a key approach towards building general-purpose artificial intelligence systems.</p></li>
+</ul>
+<ul class="simple">
+<li><p>The science and engineering of machine learning offers insights into human intelligence.</p></li>
+</ul>
+<p><font size="2">Slide by <strong>Volodymyr Kuleshov</strong></font></p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="history">
+<h1>History<a class="headerlink" href="#history" title="Permalink to this headline">#</a></h1>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="beware">
+<h1>Beware<a class="headerlink" href="#beware" title="Permalink to this headline">#</a></h1>
+<ul class="simple">
+<li><p>The language of pattern recognition is mathematical</p></li>
+<li><p>We will give intuition but to really get it, make sure you know your probability and linear algebra well</p></li>
+<li><p>That is a good thing; without the formal understanding PR would not be where it’s now</p></li>
+<li><p>Let me tell you a story about interviewing people for CeDA…</p></li>
+</ul>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="key-mathematical-tools">
+<h1>Key mathematical tools<a class="headerlink" href="#key-mathematical-tools" title="Permalink to this headline">#</a></h1>
+<section id="probability-theory-and-statistics">
+<h2>Probability theory (and statistics)<a class="headerlink" href="#probability-theory-and-statistics" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>What is a random variable? A random vector?</p></li>
+<li><p>A joint distribution? A conditional distribution? An expectation?</p></li>
+<li><p>What are independent random variables?</p></li>
+<li><p>…</p></li>
+</ul>
+</section>
+<section id="linear-algebra">
+<h2>Linear algebra<a class="headerlink" href="#linear-algebra" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>What does <span class="math notranslate nohighlight">\(\mathbf{w}^T \mathbf{x}\)</span> mean? How about <span class="math notranslate nohighlight">\(\| \mathbf{x} \|\)</span>?</p></li>
+<li><p>Why is <span class="math notranslate nohighlight">\(\arg \min_{\mathbf{w}} ~ \| \mathbf{y} - \mathbf{X} \mathbf{w} \|^2 + \lambda \| \mathbf{x} \|^2 \)</span> precisely <span class="math notranslate nohighlight">\(\mathbf{x}^* = ( \mathbf{X}^T \mathbf{X} + \lambda \mathbf{I})^{-1} \mathbf{X}^T \mathbf{y}\)</span></p></li>
+<li><p>What does it mean to invert a matrix?</p></li>
+<li><p>What is a projection?</p></li>
+<li><p>…</p></li>
+</ul>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="the-course-team">
+<h1>The course team<a class="headerlink" href="#the-course-team" title="Permalink to this headline">#</a></h1>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="course-structure-week-structure-grade-structure">
+<h1>Course structure, week structure, grade structure<a class="headerlink" href="#course-structure-week-structure-grade-structure" title="Permalink to this headline">#</a></h1>
+<section id="lectures">
+<h2>Lectures<a class="headerlink" href="#lectures" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>Tuesdays (8:40 - 10:00?)</p></li>
+<li><p>Fridays (10:15 - 12:00)</p></li>
+</ul>
+</section>
+<section id="recitations">
+<h2>Recitations<a class="headerlink" href="#recitations" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>Wednesdays (14:15 - 16:00)</p></li>
+<li><p>Clinique and office hours on Mondays; sometimes we may do an interesting proof (kNN or perceptron or …)</p></li>
+</ul>
+</section>
+<section id="known-perturbations">
+<h2>Known perturbations<a class="headerlink" href="#known-perturbations" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>There will be regular perturbations to this plan</p></li>
+<li><p>Next week I will teach on Monday and either post a video or find a replacement for Friday</p></li>
+</ul>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="online-resources">
+<h1>Online resources<a class="headerlink" href="#online-resources" title="Permalink to this headline">#</a></h1>
+<section id="course-website">
+<h2>Course website<a class="headerlink" href="#course-website" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://sada.dmi.unibas.ch/teaching/pr22">https://sada.dmi.unibas.ch/teaching/pr22</a></p></li>
+</ul>
+</section>
+<section id="gradescope">
+<h2>Gradescope<a class="headerlink" href="#gradescope" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>Assignment submission will happen through Gradescope</p></li>
+<li><p>Details to follow in a jiffy</p></li>
+</ul>
+</section>
+<section id="forum">
+<h2>Forum<a class="headerlink" href="#forum" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>We’ll use piazza</p></li>
+<li><p>Details to follow in jiffy</p></li>
+</ul>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="grading-scheme">
+<h1>Grading scheme<a class="headerlink" href="#grading-scheme" title="Permalink to this headline">#</a></h1>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>What</p></th>
+<th class="head"><p>Frequency</p></th>
+<th class="head"><p>How much?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Graded homework assignments</p></td>
+<td><p>about biweekly</p></td>
+<td><p>50%</p></td>
+</tr>
+<tr class="row-odd"><td><p>Final written exam</p></td>
+<td><p>a one-off</p></td>
+<td><p>40%</p></td>
+</tr>
+<tr class="row-even"><td><p>Attendance and participation</p></td>
+<td><p>weekly</p></td>
+<td><p>10%</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p>To write the final exam you need to make at least 50% HW points in total with a reasonable attempt at every assignment</p></li>
+<li><p>Attendance will be taken at random points throughout the semester</p></li>
+<li><p>Scheme subject to minor tweaks in the first few weeks</p></li>
+</ul>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="the-bad-news-and-the-good-news">
+<h1>The bad news and the good news<a class="headerlink" href="#the-bad-news-and-the-good-news" title="Permalink to this headline">#</a></h1>
+<section id="bad">
+<h2>Bad<a class="headerlink" href="#bad" title="Permalink to this headline">#</a></h2>
+<p>It won’t be easy. 🥹</p>
+</section>
+<section id="good">
+<h2>Good<a class="headerlink" href="#good" title="Permalink to this headline">#</a></h2>
+<p>It will be professionally and academically rewarding. 💪🏼</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="a-rough-plan-this-will-certainly-evolve">
+<h1>A rough plan (this will certainly evolve)<a class="headerlink" href="#a-rough-plan-this-will-certainly-evolve" title="Permalink to this headline">#</a></h1>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>week</p></th>
+<th class="head"><p>theme(s)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Introduction to PR</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>Modeling knowledge, probabilistically</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>Supervised learning</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>Linear methods and the importance of good features</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>Signal processing, good features for images, sounds, text, …</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>Signal processing, the multiscale idea, seeds of CNNs</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>Deblurring and denoising: linear methods</p></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p>Statistical framing for deblurring and denoising, image models</p></td>
+</tr>
+<tr class="row-even"><td><p>9</p></td>
+<td><p>Deep learning</p></td>
+</tr>
+<tr class="row-odd"><td><p>10</p></td>
+<td><p>Deep learning</p></td>
+</tr>
+<tr class="row-even"><td><p>11</p></td>
+<td><p>Sampling (MCMC, …)</p></td>
+</tr>
+<tr class="row-odd"><td><p>12</p></td>
+<td><p>Sampling (MCMC, …</p></td>
+</tr>
+<tr class="row-even"><td><p>13</p></td>
+<td><p>Applications of MCMC to the stuff above</p></td>
+</tr>
+<tr class="row-odd"><td><p>14</p></td>
+<td><p>TBD</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="quiz">
+<h1>Quiz<a class="headerlink" href="#quiz" title="Permalink to this headline">#</a></h1>
+<ul class="simple">
+<li><p>How would our perceptron behave if the learning rate is multiplied by 10? Recall that we initialized the weights to an all-zero vector</p></li>
+<li><p>When is it a good idea to use a small k in k-nearest-neighbor classification?</p></li>
+</ul>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="summary-next-time">
+<h1>Summary -&gt; Next time<a class="headerlink" href="#summary-next-time" title="Permalink to this headline">#</a></h1>
+<ul class="simple">
+<li><p>Cautionary tales: not everything is pink in PR land</p></li>
+<li><p>Generalization and clever Hans predictors (der Kluge Hans)</p></li>
+<li><p>What is a pattern? (spoiler: it’s a vector)</p></li>
+<li><p>What is a “feature”?</p></li>
+<li><p>Towards modeling knowledge, the probabilistic way</p></li>
+</ul>
+<center>
+<br>
+<img src="figs/CleverHans.jpg" width="35%"/>
+</center>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.family&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Courier New&#39;</span><span class="p">,</span> <span class="s1">&#39;monospace&#39;</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.spines.top&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.spines.right&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.spines.left&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.spines.bottom&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="mi">14</span><span class="p">})</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Some title with $\int_{\mathbb</span><span class="si">{R}</span><span class="s1">} e^{i\omega t} dt$&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Some title with $\\int_{\\mathbb{R}} e^{i\\omega t} dt$&#39;)
+</pre></div>
+</div>
+<img alt="_images/s01a-two_classifiers_intro_78_1.png" src="_images/s01a-two_classifiers_intro_78_1.png" />
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Welcome to your Jupyter Book</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="s01b-generalization_and_knowledge_models.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Lecture 2: Generalization and Knowledge Modeling</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Prof. Dr. Ivan Dokmanić<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
