@@ -308,7 +308,7 @@ im = ax.imshow(w.reshape(28, 28), cmap='winter')
 _ = fig.colorbar(im, ax=ax, shrink=0.6)
 ```
 
-# A different classifier: counting neighbor labels
+## A different classifier: counting neighbor labels
 
 We have successfully constructed our first pattern classification system. The idea was perhaps a bit abstract and probably different from how you would go about classifying patterns by hand. 
 
@@ -346,9 +346,9 @@ This is pretty slow but in the end we get quite a decent result. The right thing
 
 ## Which $k$ works best? 
 
-In the above example we chose the number of neighbors as $k = 31$ for no particular reason. Intutively, this value should have a marked effect on the behavior of our classifier. Let us try an ad hoc strategy to choose it
+In the above example we chose the number of neighbors as $k = 31$ for no particular reason. Intutively, this value should have a marked effect on the behavior of our classifier. Let us test many different values of $k$ to figure out which one is the best. Before we do that... we need to do something with the code above which is far too slow to run over and over for different $k$. The idea is to leverage fast mathematical primitives used by `numpy`, in particular matrix multiplication. To understand what the formula in the below code does, check out this [paper about Euclidean distance matrices](https://infoscience.epfl.ch/record/221380/files/EDM%283%29.pdf).
 
-```{code-cell} ipython3
+```{code-cell}
 
 ec = []
 G = X @ X.T # ref: EDMs -> hw
@@ -366,15 +366,14 @@ plt.xlabel('$k$')
 plt.ylabel('Misclassified points');
 ```
 
-It seems that both $k$ too small and $k$ too large are bad
+It seems that both $k$ too small and $k$ too large are bad. Can you guess why?
 
-Can we visualize what is going on? We need to use a low-dimensional example
+It would be great to get some visual intution about what is going on, but we cannot easily do that for the $28 \times 28$ digits: we would have to find a way to visualize 784-dimensional space. Luckily there are many datasets with a small number of features which make more sense.
 
 
 ## The Iris flower datset
 
-- Yet another legendary dataset used by every data science course on the planet
-- Ronald Fisher, probably the most important statistician of all time (and a complicated person)
+Another legendary dataset used by almost every data science course on the planet is the Iris flower dataset compiled by Ronald Fisher, probably the most important statistician of all time (and a complicated person privately and publicly).
 
 ```{code-cell} ipython3
 ---
@@ -403,7 +402,7 @@ _ = plt.ylim(y_min, y_max)
 ```
 
 
-We again focus on two classes
+We again focus on two classes:
 
 ```{code-cell} ipython3
 excluded_class = 2
@@ -518,7 +517,7 @@ align: left
 - For $k$NN it's even a bit silly (consider the iris example)
 
 
-# This course
+## This course
 
 - "Pattern recognition" very close to "machine learning"
 - Focus in PR is on "supervised learning"
