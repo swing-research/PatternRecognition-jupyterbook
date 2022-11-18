@@ -231,6 +231,7 @@ $$
 Zero padding is part of the broader theme of properly handling boundary conditions in convolution.
 
 
+
 [^1]: This is even true for infinite-support discrete time/space signals. Since they are indexed by integers $\mathbb{Z}$ or pairs of integers $\mathbb{Z}^2$, they are countable, and thus spanned by bases with much fewer elements than the interval $[-\pi, \pi)$ which has as many elements as the real line.
 
 [^2]: Here, _linear_ is not meant in the sense of a linear system, but in the sense of not being circular. Both "linear" and circular convolution with some filter $h$ and linear operators.

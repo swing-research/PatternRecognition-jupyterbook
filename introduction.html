@@ -50,7 +50,7 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script>window.MathJax = {"tex": {"macros": {"vect": ["\\boldsymbol{#1}", 1], "mat": ["\\boldsymbol{#1}", 1], "rvar": ["\\mathsf{#1}", 1], "rvect": ["\\mathsf{\\boldsymbol{#1}}", 1], "rmat": ["\\mathsf{\\boldsymbol{#1}}", 1], "vx": ["\\vect{x}"], "vy": ["\\vect{y}"], "vz": ["\\vect{z}"], "vv": ["\\vect{v}"], "vw": ["\\vect{w}"], "va": ["\\vect{a}"], "vb": ["\\vect{b}"], "vc": ["\\vect{c}"], "vd": ["\\vect{d}"], "ve": ["\\vect{e}"], "vf": ["\\vect{f}"], "vg": ["\\vect{g}"], "vh": ["\\vect{h}"], "vk": ["\\vect{k}"], "vp": ["\\vect{p}"], "vn": ["\\vect{n}"], "vell": ["\\vect{\\ell}"], "vmu": ["\\vect{\\mu}"], "mX": ["\\mat{X}"], "mY": ["\\mat{Y}"], "mZ": ["\\mat{Z}"], "mV": ["\\mat{V}"], "mW": ["\\mat{W}"], "mA": ["\\mat{A}"], "mB": ["\\mat{B}"], "mC": ["\\mat{C}"], "mD": ["\\mat{D}"], "mE": ["\\mat{E}"], "mF": ["\\mat{F}"], "mG": ["\\mat{G}"], "mH": ["\\mat{H}"], "mK": ["\\mat{K}"], "mP": ["\\mat{P}"], "mSigma": ["\\mat{\\Sigma}"], "mI": ["\\mat{I}"], "rx": ["\\rvar{x}"], "ry": ["\\rvar{y}"], "rz": ["\\rvar{z}"], "rv": ["\\rvar{v}"], "rw": ["\\rvar{w}"], "ra": ["\\rvar{a}"], "rb": ["\\rvar{b}"], "rc": ["\\rvar{c}"], "rd": ["\\rvar{d}"], "re": ["\\rvar{e}"], "rf": ["\\rvar{f}"], "rg": ["\\rvar{g}"], "rh": ["\\rvar{h}"], "rk": ["\\rvar{k}"], "rp": ["\\rvar{p}"], "rX": ["\\rvar{X}"], "rH": ["\\rvar{H}"], "rY": ["\\rvar{Y}"], "rvx": ["\\rvect{x}"], "rvy": ["\\rvect{y}"], "rvz": ["\\rvect{z}"], "rvv": ["\\rvect{v}"], "rvw": ["\\rvect{w}"], "rva": ["\\rvect{a}"], "rvb": ["\\rvect{b}"], "rvc": ["\\rvect{c}"], "rvd": ["\\rvect{d}"], "rve": ["\\rvect{e}"], "rvf": ["\\rvect{f}"], "rvg": ["\\rvect{g}"], "rvh": ["\\rvect{h}"], "rvk": ["\\rvect{k}"], "rvp": ["\\rvect{p}"], "rmX": ["\\rmat{X}"], "rmY": ["\\rmat{Y}"], "rmZ": ["\\rmat{Z}"], "rmV": ["\\rmat{V}"], "rmW": ["\\rmat{W}"], "rmA": ["\\rmat{A}"], "rmB": ["\\rmat{B}"], "rmC": ["\\rmat{C}"], "rmD": ["\\rmat{D}"], "rmE": ["\\rmat{E}"], "rmF": ["\\rmat{F}"], "rmG": ["\\rmat{G}"], "rmH": ["\\rmat{H}"], "rmK": ["\\rmat{K}"], "rmP": ["\\rmat{P}"], "EE": ["\\mathbb{E}"], "RR": ["\\mathbb{R}"], "CC": ["\\mathbb{C}"], "ZZ": ["\\mathbb{Z}"], "SS": ["\\mathbb{S}"], "norm": ["\\|#1\\|", 1]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -132,8 +132,8 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="linear-methods.html">
-   Linear Regression
+  <a class="reference internal" href="denoise-deblur.html">
+   Denoising and deblurring
   </a>
  </li>
 </ul>
@@ -787,7 +787,7 @@ While we are designing our pattern recognition system we can do whatever we want
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1914 out of 5000 patterns correctly classified (38.28%)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2828 out of 5000 patterns correctly classified (56.56%)
 </pre></div>
 </div>
 </div>
@@ -868,7 +868,7 @@ While we are designing our pattern recognition system we can do whatever we want
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The smallest absolute dot product is 2.73e+00
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The smallest absolute dot product is 2.07e+00
 </pre></div>
 </div>
 </div>
@@ -890,7 +890,7 @@ While we are designing our pattern recognition system we can do whatever we want
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Correct before: 1914/5000, correct after: 1914/5000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Correct before: 2828/5000, correct after: 2829/5000
 </pre></div>
 </div>
 </div>
@@ -932,7 +932,7 @@ While we are designing our pattern recognition system we can do whatever we want
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>16 out of 5000 patterns are misclassified
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>13 out of 5000 patterns are misclassified
 </pre></div>
 </div>
 </div>
@@ -1010,7 +1010,7 @@ While we are designing our pattern recognition system we can do whatever we want
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The number of misclassified points is:  46
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The number of misclassified points is:  37
 </pre></div>
 </div>
 </div>

@@ -1,0 +1,827 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Denoising and deblurring &#8212; Pattern Recognition</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"vect": ["\\boldsymbol{#1}", 1], "mat": ["\\boldsymbol{#1}", 1], "rvar": ["\\mathsf{#1}", 1], "rvect": ["\\mathsf{\\boldsymbol{#1}}", 1], "rmat": ["\\mathsf{\\boldsymbol{#1}}", 1], "vx": ["\\vect{x}"], "vy": ["\\vect{y}"], "vz": ["\\vect{z}"], "vv": ["\\vect{v}"], "vw": ["\\vect{w}"], "va": ["\\vect{a}"], "vb": ["\\vect{b}"], "vc": ["\\vect{c}"], "vd": ["\\vect{d}"], "ve": ["\\vect{e}"], "vf": ["\\vect{f}"], "vg": ["\\vect{g}"], "vh": ["\\vect{h}"], "vk": ["\\vect{k}"], "vp": ["\\vect{p}"], "vn": ["\\vect{n}"], "vell": ["\\vect{\\ell}"], "vmu": ["\\vect{\\mu}"], "mX": ["\\mat{X}"], "mY": ["\\mat{Y}"], "mZ": ["\\mat{Z}"], "mV": ["\\mat{V}"], "mW": ["\\mat{W}"], "mA": ["\\mat{A}"], "mB": ["\\mat{B}"], "mC": ["\\mat{C}"], "mD": ["\\mat{D}"], "mE": ["\\mat{E}"], "mF": ["\\mat{F}"], "mG": ["\\mat{G}"], "mH": ["\\mat{H}"], "mK": ["\\mat{K}"], "mP": ["\\mat{P}"], "mSigma": ["\\mat{\\Sigma}"], "mI": ["\\mat{I}"], "rx": ["\\rvar{x}"], "ry": ["\\rvar{y}"], "rz": ["\\rvar{z}"], "rv": ["\\rvar{v}"], "rw": ["\\rvar{w}"], "ra": ["\\rvar{a}"], "rb": ["\\rvar{b}"], "rc": ["\\rvar{c}"], "rd": ["\\rvar{d}"], "re": ["\\rvar{e}"], "rf": ["\\rvar{f}"], "rg": ["\\rvar{g}"], "rh": ["\\rvar{h}"], "rk": ["\\rvar{k}"], "rp": ["\\rvar{p}"], "rX": ["\\rvar{X}"], "rH": ["\\rvar{H}"], "rY": ["\\rvar{Y}"], "rvx": ["\\rvect{x}"], "rvy": ["\\rvect{y}"], "rvz": ["\\rvect{z}"], "rvv": ["\\rvect{v}"], "rvw": ["\\rvect{w}"], "rva": ["\\rvect{a}"], "rvb": ["\\rvect{b}"], "rvc": ["\\rvect{c}"], "rvd": ["\\rvect{d}"], "rve": ["\\rvect{e}"], "rvf": ["\\rvect{f}"], "rvg": ["\\rvect{g}"], "rvh": ["\\rvect{h}"], "rvk": ["\\rvect{k}"], "rvp": ["\\rvect{p}"], "rmX": ["\\rmat{X}"], "rmY": ["\\rmat{Y}"], "rmZ": ["\\rmat{Z}"], "rmV": ["\\rmat{V}"], "rmW": ["\\rmat{W}"], "rmA": ["\\rmat{A}"], "rmB": ["\\rmat{B}"], "rmC": ["\\rmat{C}"], "rmD": ["\\rmat{D}"], "rmE": ["\\rmat{E}"], "rmF": ["\\rmat{F}"], "rmG": ["\\rmat{G}"], "rmH": ["\\rmat{H}"], "rmK": ["\\rmat{K}"], "rmP": ["\\rmat{P}"], "EE": ["\\mathbb{E}"], "RR": ["\\mathbb{R}"], "CC": ["\\mathbb{C}"], "ZZ": ["\\mathbb{Z}"], "SS": ["\\mathbb{S}"], "norm": ["\\|#1\\|", 1]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Filtering" href="filtering.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo_sada-lab_black.svg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Pattern Recognition</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="introduction.html">
+   Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="modeling-knowledge.html">
+   Modeling Knowledge
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="filtering.html">
+   Filtering
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Denoising and deblurring
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/docs/denoise-deblur.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/executablebooks/jupyter-book"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fdenoise-deblur.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/denoise-deblur.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download notebook file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="_sources/denoise-deblur.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#denoising">
+   Denoising
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lmmse-estimation">
+     LMMSE Estimation
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#wiener-filter">
+   Wiener filter
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#deblurring">
+   Deblurring
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#effects-of-circular-convolution">
+   Effects of circular convolution
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#notes">
+   Notes
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Denoising and deblurring</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#denoising">
+   Denoising
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lmmse-estimation">
+     LMMSE Estimation
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#wiener-filter">
+   Wiener filter
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#deblurring">
+   Deblurring
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#effects-of-circular-convolution">
+   Effects of circular convolution
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#notes">
+   Notes
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="denoising-and-deblurring">
+<h1>Denoising and deblurring<a class="headerlink" href="#denoising-and-deblurring" title="Permalink to this headline">#</a></h1>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.spines.top&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.spines.right&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.spines.left&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.spines.bottom&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this chapter we will apply the things we learned about filtering to denoising and deblurring. We will take a statistical perspective. The resulting algorithms will thus be an application of linear regression to these important problems. We will explore properties and limitations of linear algorithms.</p>
+<section id="denoising">
+<h2>Denoising<a class="headerlink" href="#denoising" title="Permalink to this headline">#</a></h2>
+<table class="colwidths-auto table" id="notation-table">
+<caption><span class="caption-number">Table 1 </span><span class="caption-text">Notation.</span><a class="headerlink" href="#notation-table" title="Permalink to this table">#</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Objects</p></th>
+<th class="head"><p>Notation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Deterministic scalars</p></td>
+<td><p><span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span>, <span class="math notranslate nohighlight">\(\alpha\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Random scalars</p></td>
+<td><p><span class="math notranslate nohighlight">\(\rx\)</span>, <span class="math notranslate nohighlight">\(\ry\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Deterministic vectors</p></td>
+<td><p><span class="math notranslate nohighlight">\(\vx\)</span>, <span class="math notranslate nohighlight">\(\vy\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Random vectors</p></td>
+<td><p><span class="math notranslate nohighlight">\(\rvx\)</span>, <span class="math notranslate nohighlight">\(\rvy\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Deterministic matrices</p></td>
+<td><p><span class="math notranslate nohighlight">\(\mA\)</span>, <span class="math notranslate nohighlight">\(\mB\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Random matrices</p></td>
+<td><p><span class="math notranslate nohighlight">\(\rmA\)</span>, <span class="math notranslate nohighlight">\(\rmB\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p>Image denoising is a fundamental image restoration method. Even though it is an old problem, there is a steady stream of creative new approaches, in particular based on deep learning. Denoising is also a basic building block in more complicated systems, for example diffusion–based generative models for images. NB: you could show this? Next year?
+Denoising algorithms are used in digital cameras in low light conditions.</p>
+<p>Let’s first load an image and add noise to it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">io</span>
+<span class="kn">from</span> <span class="nn">scipy.fftpack</span> <span class="kn">import</span> <span class="n">fft2</span><span class="p">,</span> <span class="n">ifft2</span><span class="p">,</span> <span class="n">fftshift</span>
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">color</span>
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;./images/behringer.png&quot;</span><span class="p">)</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;/Users/dokman0000/Downloads/BSR500/BSDS500/data/images/train/65010.jpg&quot;</span><span class="p">)</span>
+<span class="n">img_bw</span> <span class="o">=</span> <span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">img</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">])</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">F_img_bw</span> <span class="o">=</span> <span class="n">fftshift</span><span class="p">(</span><span class="n">fft2</span><span class="p">(</span><span class="n">img_bw</span><span class="p">))</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_bw</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">F_img_bw</span><span class="p">)),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axs</span><span class="p">:</span> <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/denoise-deblur_3_0.png" src="_images/denoise-deblur_3_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">img_bw</span> <span class="o">/=</span> <span class="n">img_bw</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">img_bw</span> <span class="o">-=</span> <span class="n">img_bw</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="mf">0.3</span>
+<span class="n">img_noise</span> <span class="o">=</span> <span class="n">img_bw</span> <span class="o">+</span> <span class="n">sigma</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="o">*</span><span class="n">img_bw</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_noise</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="c1"># axs[1].imshow(img_noise[500:875, 1000:1500], cmap=&#39;gray&#39;);</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_noise</span><span class="p">[</span><span class="mi">100</span><span class="p">:</span><span class="mi">170</span><span class="p">,</span> <span class="mi">200</span><span class="p">:</span><span class="mi">300</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/denoise-deblur_4_0.png" src="_images/denoise-deblur_4_0.png" />
+</div>
+</div>
+<p>Our task will be to denoise the noisy image. A quick-and-dirty strategy we’ve already seen at work for boundary detection is to apply a bit of Gaussian blur.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">gaussian</span><span class="p">,</span> <span class="n">convolve2d</span>
+<span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">fftconvolve</span>
+
+<span class="n">kernel_size</span> <span class="o">=</span> <span class="mi">7</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">gaussian</span><span class="p">(</span><span class="n">kernel_size</span><span class="p">,</span> <span class="n">kernel_size</span> <span class="o">/</span> <span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">kernel_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">h</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+<span class="n">h</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+    
+<span class="n">x_hat</span> <span class="o">=</span> <span class="n">fftconvolve</span><span class="p">(</span><span class="n">img_noise</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">x_hat</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">x_hat</span><span class="p">[</span><span class="mi">100</span><span class="p">:</span><span class="mi">170</span><span class="p">,</span> <span class="mi">200</span><span class="p">:</span><span class="mi">300</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/denoise-deblur_6_0.png" src="_images/denoise-deblur_6_0.png" />
+</div>
+</div>
+<p>This seems to indeed remove some noise (as well as signal), but is it the best we can do? As we’ve already seen a couple of times, answering this question will force us to define what we mean by <em>best</em>.</p>
+<p>We model the clean image, the noise, and the noisy image as <span class="math notranslate nohighlight">\(d\)</span>-dimensional random vectors <span class="math notranslate nohighlight">\(\rvx\)</span>, <span class="math notranslate nohighlight">\(\rvw\)</span>, <span class="math notranslate nohighlight">\(\rvy\)</span> and write</p>
+<div class="math notranslate nohighlight">
+\[
+  \rvy = \rvx + \rvw.
+\]</div>
+<p>Note that we are using our notation for a random vector rather than a random matrix. The reason for this is that we think of matrices as operators that are being applied to a vector. On the other hand we never want to “apply an image to a vector”. It is more useful to conserve the semantics of operators and vectors than the fact that images are 2D arrays of numbers.</p>
+<p>Another thing to note is that we model the uncorrupted images <span class="math notranslate nohighlight">\(\rvx\)</span> as a random vector. This will be useful.</p>
+<p>At this point the efforts we invested into understanding (Bayesian) linear regression will pay of a handsome dividend. We want to build an estimator <span class="math notranslate nohighlight">\(\hat{\rvx} = \hat{\rvx}(\rvy)\)</span> of the underlying clean image <span class="math notranslate nohighlight">\(\rvx\)</span>. We want this estimator to be optimal in some sense, so we have to choose a quality metric. It is common to choose the mean-squared error (MSE) which is given for any estimator as</p>
+<div class="math notranslate nohighlight">
+\[
+  \mathrm{MSE}(\hat{\rvx}) = \EE ~ \norm{\hat{\rvx} - \rvx}^2.
+\]</div>
+<p>We then want to find an estimator which achieves the smallest possible MSE. It is possible to show that this minimum-MSE (MMSE) estimator is given as the conditional expectation</p>
+<div class="math notranslate nohighlight">
+\[
+  \hat{\rvx} = \EE [\rvx \mid \rvy] = \int \vx p(\vx | \rvy) d \vx.
+\]</div>
+<p>Indeed, we can compute as follows (recall that the estimate <span class="math notranslate nohighlight">\(\hat{\rvx}\)</span> is <em>some</em> function of the “observation” <span class="math notranslate nohighlight">\(\rvy\)</span> so we write <span class="math notranslate nohighlight">\(\hat{\rvx} = g(\rvy)\)</span>),</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+  \EE ~ \norm{\hat{\rvx} - \rvx}^2 
+  &amp;= \EE ~ \norm{\hat{\rvx} - \rvx}^2 \\
+  &amp;= \EE\left\{ \EE \left[\norm{g(\rvy) - \rvx}^2 \mid \rvy \right]\right\},
+\end{aligned}
+\end{split}\]</div>
+<p>where we used the so-called tower property of conditional expectation, also known as the law of iterated expectation. A rigorous definition is quite technical, but we don’t have to worry about it here. What is says in a nutshell is that the unconditional expectation can be computed by first computing the conditional expectation and then averaging all together. It expresses the following formal calculation:</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{align}
+  \int f(\vx, \vy) p_{\rvx, \rvy}(\vx, \vy) d\vx d\vy
+\end{align}
+\]</div>
+<p>What this means effectively is that we can focus on the inner expectation and try to minimize it for each <span class="math notranslate nohighlight">\(\vy\)</span> independently (since that will guarantee that the outer expectation or the outer integral is also the smallest possible). So we’d like to solve</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{aligned}
+  \min_{g(\vy)} \EE \left[\norm{g(\vy) - \rvx}^2 \mid \rvy = \vy \right]
+\end{aligned}
+\]</div>
+<p>Taking the derivative (gradient) with respect to <span class="math notranslate nohighlight">\(g(\vy)\)</span> (note that this is just some fixed vector which we could call anything we like, for example <span class="math notranslate nohighlight">\(\vv\)</span>) and setting to zero yields</p>
+<div class="math notranslate nohighlight">
+\[
+  2 \EE [ (g(\vy) - \rvx) \mid \rvy = \vy] = 0
+  \Rightarrow
+  g(\vy) = \EE [\rvx \mid \rvy = \vy].
+\]</div>
+<p>Now we’ve got our function <span class="math notranslate nohighlight">\(g\)</span>. Here <span class="math notranslate nohighlight">\(g\)</span> is applied to a fixed vector <span class="math notranslate nohighlight">\(\vy\)</span>; in estimation we apply it to the random noisy observation <span class="math notranslate nohighlight">\(\rvy\)</span> so we write</p>
+<div class="math notranslate nohighlight">
+\[
+  \hat{\rvx} = g(\rvy) = \EE [\rvx \mid \rvy].
+\]</div>
+<p>This formula holds generally, for any jointly distributed random vectors <span class="math notranslate nohighlight">\(\rvx\)</span> and <span class="math notranslate nohighlight">\(\rvy\)</span>, not only for the additive noise model. It can be simplified in the latter case. This is quite fantastic, but in order to compute this optimal estimate it now turns out that we need to know the joint distribution of <span class="math notranslate nohighlight">\((\rvx, \rvy)\)</span>, or at least the distribution of <span class="math notranslate nohighlight">\(\rvx\)</span> conditioned on <span class="math notranslate nohighlight">\(\rvy\)</span>. In problems with real images this distribution is very complicated and we do not know it. It is also complicated to estimate from data.</p>
+<section id="lmmse-estimation">
+<h3>LMMSE Estimation<a class="headerlink" href="#lmmse-estimation" title="Permalink to this headline">#</a></h3>
+<p>One problem with the above scheme is that there were no constraints on the estimator function (algorithm) <span class="math notranslate nohighlight">\(g\)</span>. Since <span class="math notranslate nohighlight">\(g\)</span> can be very general, it can truly exploit the fine properties of the conditional probability distribution. We now try something different: we constrain <span class="math notranslate nohighlight">\(g\)</span> to be a linear (or more precisely, affine) function.</p>
+<p>Let <span class="math notranslate nohighlight">\(\vmu = \EE \rvx = \EE \rvy\)</span> (recall that we work with zero-mean noise). We will look for an estimate of <span class="math notranslate nohighlight">\(\rvx\)</span> of the form</p>
+<div class="math notranslate nohighlight">
+\[
+  \hat{\rvx} = \mH (\rvy - \vmu) + \vmu.
+\]</div>
+<p>(The reason to subtract the mean is to improve the conditioning of <span class="math notranslate nohighlight">\(\mH\)</span>. TODO: add a picture.) We want to find the matrix <span class="math notranslate nohighlight">\(\mH\)</span> which gives the best MSE:</p>
+<div class="math notranslate nohighlight">
+\[
+  \mathrm{minimize}_{\mH \in \RR^{d \times d}} \EE \| \mH(\rvy - \vmu) + \vmu - \rvx \|^2.
+\]</div>
+<p>By taking the gradient of the loss with respect to <span class="math notranslate nohighlight">\(\mH\)</span> and setting it to zero, we find that the optimal <span class="math notranslate nohighlight">\(\mH\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[
+  \mH = \mSigma_{\rvx\rvx} (\mSigma_{\rvx\rvx} + \sigma^2 \mI)^{-1},
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mSigma_{\rvx\rvx}\)</span> is the covariance matrix of the random vector <span class="math notranslate nohighlight">\(\rvx\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+  \mSigma_{\rvx\rvx} = \EE (\rvx - \vmu) (\rvx - \vmu)^T.
+\]</div>
+<p>The LMMSE estimator is thus given as</p>
+<div class="math notranslate nohighlight">
+\[
+  \hat{\rvx} = \mSigma_{\rvx\rvx} (\mSigma_{\rvx\rvx} + \sigma^2 \mI)^{-1} (\rvy - \vmu) + \vmu
+\]</div>
+<p>This is noteworthy: if we restrict the class of estimators <span class="math notranslate nohighlight">\(g\)</span> to only linear estimators, then we do not need to know the distribution of <span class="math notranslate nohighlight">\(\rvx\)</span> but only its mean and covariance matrix. Mean and covariance are in general much simpler to estimate than the full distribution.</p>
+<p>Instead of the additive Gaussian noise model, we could have simply started with some jointly distributed random vectors <span class="math notranslate nohighlight">\((\rvx, \rvy)\)</span>. The LMMSE estimator would then read</p>
+<div class="math notranslate nohighlight">
+\[
+  \hat{\rvx} = \mH (\rvy - \vmu_\rvy) + \vmu_\rvx,
+\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+  \mH &amp;= \mSigma_{\rvx \rvy} \mSigma_{\rvy \rvy}^{-1}\\
+  \mSigma_{\rvx \rvy} &amp;= \EE (\rvx - \vmu_\rvx)(\rvy - \vmu_\rvy)^T\\
+  \mSigma_{\rvy \rvy} &amp;= \EE (\rvy - \vmu_\rvy)(\rvy - \vmu_\rvy)^T.
+\end{align}
+\end{split}\]</div>
+<p>Check that this is indeed the case following the template we laid down earlier. You might need this someday! The previous result for additive white Gaussian noise follows immediately.</p>
+<p>It is also interesting to record the actual MSE achieved by the LMMSE estimator. It is given as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+  \mathrm{LMMSE} 
+  &amp;= \mathrm{Tr} (\mSigma_{\rvx\rvx} - \mSigma_{\hat{\rvx} \hat{\rvx}}) \\
+  &amp;= \sum_{i=1}^d \left[\mathrm{Var}(\rx_i) - \mathrm{Var}(\hat{\rx}_i)\right] \\
+  &amp;= \sum_{i=1}^d \left[\EE(\rx_i^2) - \EE(\hat{\rx}_i^2)\right].
+\end{aligned}
+\end{split}\]</div>
+<p>Do check that these equalities really hold!</p>
+<p>A final note about Gaussianity. We’ve seen that the LMMSE estimator only needs means and covariances. Gaussian distributions are completely determined by means and covariances. In fact, one can show that when <span class="math notranslate nohighlight">\(\rvx\)</span> and <span class="math notranslate nohighlight">\(\rvy\)</span> are jointly Gaussian random vectors, then the LMMSE estimator is in fact the MMSE estimator.</p>
+</section>
+</section>
+<section id="wiener-filter">
+<h2>Wiener filter<a class="headerlink" href="#wiener-filter" title="Permalink to this headline">#</a></h2>
+<p>The LMMSE estimator is sometimes called the Wiener filter, but the real Wiener filter usually implies a little bit more. To motivate this ``little bit more’’, let us consider how we could estimate the matrix <span class="math notranslate nohighlight">\(\mSigma_{\rvx\rvx}\)</span> (or any of the other involved covariance matrices). We would usually have a dataset of images <span class="math notranslate nohighlight">\(\{\vx_1, \ldots, \vx_n\}\)</span> that we believe are iid samples from the unknown underlying distribution of <span class="math notranslate nohighlight">\(\rvx\)</span>. We would then form an estimate of the covariance as</p>
+<div class="math notranslate nohighlight">
+\[
+  \hat{\mSigma}_{\rvx\rvx} = \frac{1}{n} \sum_{i=1}^n (\vx_i - \hat{\vmu}_\rvx)( \vx_i - \hat{\vmu}_\rvx)^T,
+\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[
+  \hat{\mu}_{\rvx} = \frac{1}{n} \sum_{i=1}^n \vx_i.
+\]</div>
+<p>Sometimes you will see the factor <span class="math notranslate nohighlight">\(\frac{1}{n}\)</span> replaced by <span class="math notranslate nohighlight">\(\frac{1}{n-1}\)</span> in the covariance estimate (but not the mean estimate). For our purpose that is irrelevant (it yields an ``unbiased’’ estimate).</p>
+<p>Now if we work with <span class="math notranslate nohighlight">\(256 \times 256\)</span> RGB images, the dimension of <span class="math notranslate nohighlight">\(\vx_i\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[ 
+  d = 256 \times 256 \times 3 = 196,608.
+\]</div>
+<p>The covariance matrix is thus of dimensions <span class="math notranslate nohighlight">\(d \times d = 196,608 \times 196,608\)</span> which is huge. There are about <span class="math notranslate nohighlight">\(38,654,705,664 / 2\)</span> entries to estimate (it’s a symmetric matrix), and this requires an enormous training set. Further, manipulating a matrix of this size (say, inverting it) is very very challenging on standard hardware.</p>
+<p>The saving grace comes from noting that a good denoising operator should perform a similar operation in every part of the image. If we additionally want it to be linear, then we can further constrain the class of admissible estimators to convolutional filters. In other words, we can further constrain the matrix (the linear operator) <span class="math notranslate nohighlight">\(\mH\)</span> to be a convolution matrix. (TODO: update the notation table.) Letting <span class="math notranslate nohighlight">\(h[\vn]\)</span> with <span class="math notranslate nohighlight">\(\vn = (n_1, n_2)\)</span> be the corresponding impulse response, and <span class="math notranslate nohighlight">\(\rx[\vn], \ry[\vn], \rw[\vn]\)</span> be the images corresponding to vectors <span class="math notranslate nohighlight">\(\rvx, \rvy, \rvw\)</span>, we then have</p>
+<div class="math notranslate nohighlight">
+\[
+  \hat{\rx}[\vn] = (\ry \circledast \rh)[\vn].
+\]</div>
+<p>Ultimately we want to use linear convolution, but let us for the moment pretend that circular convolution is fine since it will simplify the derivations. (TODO: use <span class="math notranslate nohighlight">\(2N\)</span> below.) Applying the discrete Fourier transform on both sides we get</p>
+<div class="math notranslate nohighlight" id="equation-dft-wiener">
+<span class="eqno">(1)<a class="headerlink" href="#equation-dft-wiener" title="Permalink to this equation">#</a></span>\[
+  \hat{\rX}[\vk] = \rY[\vk] \cdot H[\vk]
+\]</div>
+<p>where we use the upper case to denote the corresponding DFTs. The key benefit of passing to the (discrete) frequency domain is that the frequency-domain filter coefficient become independent of one another. In other words, in the equation <a class="reference internal" href="#equation-dft-wiener">(1)</a> we can choose each of the <span class="math notranslate nohighlight">\(\rH[\vk]\)</span> independently of all others, and it will only depend on <span class="math notranslate nohighlight">\(\rX[\vk]\)</span> and <span class="math notranslate nohighlight">\(\rY[\vk]\)</span> for that particular <span class="math notranslate nohighlight">\(\vk\)</span>. To see this we use the Parseval equality. Indeed, since</p>
+<div class="math notranslate nohighlight">
+\[
+  \EE \sum_{\vn \in \ZZ_d^2} (\rx[\vn] - \hat{\rx}[\vn])^2
+  =
+  \frac{1}{d^2} \EE \sum_{\vk \in \ZZ_d^2} (\rX[\vk] - \hat{\rX}[\vk])^2  
+\]</div>
+<p>(<span class="math notranslate nohighlight">\(\sum_{\vn \in \ZZ_d^2}\)</span> is just fancy notation for <span class="math notranslate nohighlight">\(\sum_{n_1=0}^{d-1} \sum_{n_2=0}^{d-1}\)</span>), we can do our minimization in the frequency domain where it now simply reads</p>
+<div class="math notranslate nohighlight">
+\[
+  \min_{H} \EE \sum_{\vk \in \ZZ_d^2} (H[\vk] \rY[\vk] - \rX[\vk])^2
+  =
+  \min_{H} \sum_{\vk \in \ZZ_d^2} \EE |H[\vk] \rY[\vk] - \rX[\vk]|^2
+\]</div>
+<p>which can indeed be solved for each <span class="math notranslate nohighlight">\(\vk\)</span> independently. Note that we have to put <span class="math notranslate nohighlight">\(\| \cdot \|\)</span> around the terms in the frequency domain since they are in general complex. Taking the derivative with respect to the real and imaginary parts of <span class="math notranslate nohighlight">\(H[\vell]\)</span> and setting them to zero yields (do check this!)</p>
+<div class="math notranslate nohighlight">
+\[
+  \EE (H[\vell] Y[\vell] - X[\vell]) Y^*[\vell] = 0,
+\]</div>
+<p>so that</p>
+<div class="math notranslate nohighlight">
+\[
+  H[\vell] = \frac{S_{XY}[\vell]}{S_{YY}[\vell]},
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(S_{XY}[\vell] = \EE ~ X[\vell] Y^*[\vell]\)</span> and <span class="math notranslate nohighlight">\(S_{YY}[\vell] = \EE ~ Y[\vell] Y^*[\vell]\)</span>.</p>
+<p>For additive white Gaussian noise we have that (do check the following as well!)</p>
+<div class="math notranslate nohighlight">
+\[
+  S_{XY}[\vell] = S_{XX}[\vell] = \EE ~ X[\vell] Y^*[\vell]
+\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[
+  S_{YY}[\vell] = S_{XX}[\vell] + S_{WW}[\vell] =  S_{XX}[\vell] + d^2 \sigma^2
+\]</div>
+<p>so that</p>
+<div class="math notranslate nohighlight">
+\[
+  H[\vell] = \frac{S_{XX}[\vell]}{S_{XX}[\vell] + d^2 \sigma^2}
+\]</div>
+<p>We can now identify an implicit assumption, or an alternative route that would’ve yielded a convolutional filter model</p>
+</section>
+<section id="deblurring">
+<h2>Deblurring<a class="headerlink" href="#deblurring" title="Permalink to this headline">#</a></h2>
+</section>
+<section id="effects-of-circular-convolution">
+<h2>Effects of circular convolution<a class="headerlink" href="#effects-of-circular-convolution" title="Permalink to this headline">#</a></h2>
+</section>
+<section id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>There is a more pleasing derivation of the MMSE estimator without differentiation. Do it for the non-conditional expectation. (Optimizing over constant functions.)</p></li>
+<li><p>Add the regression function / conditional expectation in the lecture on regression.</p></li>
+<li><p>Comment on data efficiency for full vs</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="filtering.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Filtering</p>
+        </div>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Ivan Dokmanić<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

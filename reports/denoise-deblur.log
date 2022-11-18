@@ -1,0 +1,45 @@
+Traceback (most recent call last):
+  File "/opt/anaconda3/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/opt/anaconda3/lib/python3.9/site-packages/nbclient/client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/opt/anaconda3/lib/python3.9/site-packages/nbclient/util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/opt/anaconda3/lib/python3.9/site-packages/nbclient/util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "/opt/anaconda3/lib/python3.9/asyncio/base_events.py", line 647, in run_until_complete
+    return future.result()
+  File "/opt/anaconda3/lib/python3.9/site-packages/nbclient/client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "/opt/anaconda3/lib/python3.9/site-packages/nbclient/client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/anaconda3/lib/python3.9/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+from scipy.signal import gaussian, convolve2d
+from scipy.signal import fftconvolve
+
+kernel_size = 15
+h = gaussian(kernel_size, kernel_size / 5).reshape(kernel_size, 1)
+h = np.dot(h, h.T)
+h /= np.sum(h)
+    
+x_hat = fftconvolve(img_noise, h, mode='same')
+
+fig, axs = plt.subplots(1, 2, figsize=(15, 10))
+axs[0].imshow(img_est, cmap='gray')
+axs[1].imshow(img_est[100:200, 200:300], cmap='gray');
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mNameError[0m                                 Traceback (most recent call last)
+[0;32m/var/folders/m5/k86qfx9j4sg7txgrjmpz2m3r0000gq/T/ipykernel_65129/3377107442.py[0m in [0;36m<cell line: 12>[0;34m()[0m
+[1;32m     10[0m [0;34m[0m[0m
+[1;32m     11[0m [0mfig[0m[0;34m,[0m [0maxs[0m [0;34m=[0m [0mplt[0m[0;34m.[0m[0msubplots[0m[0;34m([0m[0;36m1[0m[0;34m,[0m [0;36m2[0m[0;34m,[0m [0mfigsize[0m[0;34m=[0m[0;34m([0m[0;36m15[0m[0;34m,[0m [0;36m10[0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0;32m---> 12[0;31m [0maxs[0m[0;34m[[0m[0;36m0[0m[0;34m][0m[0;34m.[0m[0mimshow[0m[0;34m([0m[0mimg_est[0m[0;34m,[0m [0mcmap[0m[0;34m=[0m[0;34m'gray'[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m     13[0m [0maxs[0m[0;34m[[0m[0;36m1[0m[0;34m][0m[0;34m.[0m[0mimshow[0m[0;34m([0m[0mimg_est[0m[0;34m[[0m[0;36m100[0m[0;34m:[0m[0;36m200[0m[0;34m,[0m [0;36m200[0m[0;34m:[0m[0;36m300[0m[0;34m][0m[0;34m,[0m [0mcmap[0m[0;34m=[0m[0;34m'gray'[0m[0;34m)[0m[0;34m;[0m[0;34m[0m[0;34m[0m[0m
+
+[0;31mNameError[0m: name 'img_est' is not defined
+NameError: name 'img_est' is not defined
+
