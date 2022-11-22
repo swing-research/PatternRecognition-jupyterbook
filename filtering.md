@@ -32,7 +32,7 @@ mpl.rcParams.update({'font.size': 12})
 
 ## Discrete Fourier Transform
 
-We have seen that the discrete-time Fourier transform (or discrete-space Fourier transform) is a great tool to understand linear shift-invariant filtering of discrete signal and imaging. On the other hand, it is clear that in a computer we will only ever deal with finite-length signals, and in the case of images, often standardized dimensions. It is natural to ask whether there exists a tool similar to DTFT that is tailor-made for finite-length (finite-support) signals. This is also related to the fact that the frequency $\omega$ in DTFT is continuous: there are uncountably many possible values that it can take between $-\pi$ and $\pi$. But if our images are of size $64 \times 64 = 4096$ then we know that we can choose a 4096-dimensional basis to represent any image as a superposition of elements in that basis. It thus seems wasteful to use superpositions of an uncountable infinity complex exponentials with different frequency to represent such images.[^1]
+We have seen that the discrete-time Fourier transform (or discrete-space Fourier transform) is a great tool to understand linear shift-invariant filtering of discrete signal and imaging. On the other hand, it is clear that in a computer we will only ever deal with finite-length signals, and in the case of images, often standardized dimensions. It is natural to ask whether there exists a tool similar to DTFT that is tailor-made for finite-length (finite-support) signals. This is also related to the fact that the frequency $\omega$ in DTFT is continuous: there are uncountably many possible values that it can take between $-\pi$ and $\pi$. But if our images are of size $64 \times 64 = 4096$ then we know that we can choose a 4096-dimensional basis to represent any image as a superposition of elements in that basis. It thus seems wasteful to use superpositions of an uncountable infinite number of complex exponentials with different frequency to represent such images.[^1]
 
 
 We'd like to have a Fourier transform for finite-length signals (say of length $N$), which requires only $N$ basis functions, or $N$ frequencies. A natural way to do that is to subdivide $[-\pi, \pi)$ into $N$ intervals of equal length, that is to say, choose the sinusoids with discretized frequencies
@@ -74,7 +74,7 @@ $$
   &= \sum_{n = 0}^{N - 1} \nu_k[n] \nu_\ell[n] \\
   &= \sum_{n = 0}^{N - 1} e^{i \omega_k n} e^{-i \omega_\ell n} \\
   &= \sum_{n = 0}^{N - 1} e^{i \frac{2\pi n}{N} (k - \ell) } \\
-  &= (\ast)
+  &= (\ast).
 \end{aligned}
 $$
 If $k = \ell$ the exponent is zero and the result is simply $N$. To make progress for $k \neq \ell$ we recall the formula for partial sums of a geometric series,
@@ -87,7 +87,7 @@ Applying the formula with $a = e^{i \frac{2 \pi (k - \ell)}{N}}$ we get that
 
 $$
   (\ast) 
-  = \frac{1 - (e^{i \frac{2 \pi (k - \ell)}{N}})^N} {1 - e^{i \frac{2 \pi (k - \ell)}{N}}}
+  = \frac{1 - (e^{i \frac{2 \pi (k - \ell)}{N}})^N} {1 - e^{i \frac{2 \pi (k - \ell)}{N}}}.
 $$
 
 Now since $(e^{i \frac{2 \pi (k - \ell)}{N}})^N = e^{i 2 \pi (k - \ell)} = 1$ (recall that the complex exponential is $2\pi$-periodic, we see that
