@@ -81,24 +81,48 @@ Email is another option for submitting your work. We assess it after that and le
 
 
 ### Pull request Example
+Here, we'll take a look at an example pull request for editing [Installation](./installation.md) to change a phrase. You should first create a local branch in your machine. This can be done by running the command:
+```
+git checkout -b <local branch name>
+```
+This can records each update you make. By initially uploading your branch using the command listed below, you can save it in the server.
+```
+git push origin <local branch name>
+```
 
-Here, we'll take a look at an example pull request for editing [Installation](./installation.md) to change a phrase. You should first launch your browser and access the [github repo](https://github.com/swing-research/prbook). For you to contribute your changes, a github account is required. You must fork the repository once you are on the prbook gihtub page (click the ```Fork``` button in the top right corner). The repository is duplicated in your account as a result. You must clone your copy of the reposity onto your local machine after it has been forked. The syntax for the clone command is:
+The ``` swing-research/prbook``` github website now shows your branch. You can switch to your branch in your machine by typing the command ```git checkout <local branch name> ```. Make sure to update your local branch with the modifications. Once your local branch has been chosen, open ```installation.md``` and navigate to line 86. Replace  '\<local branch name\>' with '\<branch name\>' or alter it to your any name of your choice. After making modifications, you must upload them to the github server. To push the modifications, enter the following command.
+
+```
+git add ./instruction.md 
+git commit -m 'changing the branch in line 86' 
+git push
+```
+
+If you see the error 'The current branch \<local branch name\> has no upstream branch' for the first time, you must use the command ```git push --set-upstream origin <local branch name>``` instead of git push. You may just use the standard push command to make additional changes.
+
+Your entire history of changes will be kept in github as a distinct branch. Click the ```Compare & pull request``` button on the repo website to finally upload your modifications to the main branch. This prompts you to provide a title and remarks about your changes; once you've added all the necessary details, click the ```create pull request``` to submit your pull request.
+
+
+Alternatively, you can create a Pull request by first Forking the repository into your account.  You should first launch your browser and access the [github repo](https://github.com/swing-research/prbook). For you to contribute your changes, a github account is required. You must fork the repository once you are on the prbook github page (click the ```Fork``` button in the top right corner). The repository is duplicated in your account as a result. You must clone your copy of the reposity onto your local machine after it has been forked. The syntax for the clone command is:
+
 ```
 git clone git@github.com:< your github username >/prbook.git
 ```
-You will have the personal copy of ```prbook``` downloaded in your local machine.  Open the file ```./prbook/installation.md``` and go to line '86' and change the text from '\<your github username\>' to '\<username\>' or you can change it your github user name as well. Once changed, you need push the local changes to the github server. You can run the following command to push the changes. 
+You will have the personal copy of ```prbook``` downloaded in your local machine.  Open the file ```./prbook/installation.md``` and go to line '109' and change the text from '\<your github username\>' to '\<username\>' or you can change it your github user name as well. Once changed, you need push the local changes to the github server. You can run the following command to push the changes. 
 
 
 ```
 git add ./instruction.md 
-git commit -m 'changing the user name in line 89' 
+git commit -m 'changing the user name in line 109' 
 git push
 ```
 
 **NOTE:**
 Be specific in your commit messages, this helps in debugging if there are any errors.
 
-The above command uploads the local changes to your copy of prbook in the github server. You must now access your copy of the prbook on your github page. Your copy's hyperlink should read ```https://github.com/<username>/prbook```.  The modifications are also visible in the browser. Now you are ready to push the changes to the main jupyter-book. There is a button labeled ```contribute``` on the browser. This button provides you the choice to start a pull request when you click it. You are taken to the 'Open a pull request' page when you click this.  You get an option to add title and to comment on your changes. Once done, click on the ```Create pull request``` button.  Now your pull request is submmitted.  You can check the comments regarding your updates in the [pull request tab](https://github.com/swing-research/prbook/pulls) after a reviewer has been assigned to it. 
+The above command uploads the local changes to your copy of prbook in the github server. You must now access your copy of the prbook on your github page. Your copy's hyperlink should read ```https://github.com/<username>/prbook```.  The modifications are also visible in the browser. Now you are ready to push the changes to the main jupyter-book. There is a button labeled ```contribute``` on the browser. This button provides you the choice to start a pull request when you click it. You are taken to the 'Open a pull request' page when you click this.  You get an option to add title and to comment on your changes. Once done, click on the ```Create pull request``` button.  Now your pull request is submmitted.  
+
+You can check the comments regarding your updates in the [pull request tab](https://github.com/swing-research/prbook/pulls) after a reviewer has been assigned to it. 
 
 
 
