@@ -1,19 +1,19 @@
 Traceback (most recent call last):
-  File "/opt/anaconda3/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+  File "/home/kishor0000/anaconda3/envs/autograde/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
     executenb(
-  File "/opt/anaconda3/lib/python3.9/site-packages/nbclient/client.py", line 1204, in execute
+  File "/home/kishor0000/anaconda3/envs/autograde/lib/python3.10/site-packages/nbclient/client.py", line 1204, in execute
     return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
-  File "/opt/anaconda3/lib/python3.9/site-packages/nbclient/util.py", line 84, in wrapped
+  File "/home/kishor0000/anaconda3/envs/autograde/lib/python3.10/site-packages/nbclient/util.py", line 84, in wrapped
     return just_run(coro(*args, **kwargs))
-  File "/opt/anaconda3/lib/python3.9/site-packages/nbclient/util.py", line 62, in just_run
+  File "/home/kishor0000/anaconda3/envs/autograde/lib/python3.10/site-packages/nbclient/util.py", line 62, in just_run
     return loop.run_until_complete(coro)
-  File "/opt/anaconda3/lib/python3.9/asyncio/base_events.py", line 647, in run_until_complete
+  File "/home/kishor0000/anaconda3/envs/autograde/lib/python3.10/asyncio/base_events.py", line 646, in run_until_complete
     return future.result()
-  File "/opt/anaconda3/lib/python3.9/site-packages/nbclient/client.py", line 663, in async_execute
+  File "/home/kishor0000/anaconda3/envs/autograde/lib/python3.10/site-packages/nbclient/client.py", line 663, in async_execute
     await self.async_execute_cell(
-  File "/opt/anaconda3/lib/python3.9/site-packages/nbclient/client.py", line 965, in async_execute_cell
+  File "/home/kishor0000/anaconda3/envs/autograde/lib/python3.10/site-packages/nbclient/client.py", line 965, in async_execute_cell
     await self._check_raise_for_error(cell, cell_index, exec_reply)
-  File "/opt/anaconda3/lib/python3.9/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+  File "/home/kishor0000/anaconda3/envs/autograde/lib/python3.10/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
@@ -52,12 +52,12 @@ for i in range(n_train, n_train + n_test):
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mIndexError[0m                                Traceback (most recent call last)
-[0;32m/var/folders/m5/k86qfx9j4sg7txgrjmpz2m3r0000gq/T/ipykernel_77621/1601703186.py[0m in [0;36m<cell line: 23>[0;34m()[0m
-[1;32m     22[0m [0mshuffle_idx[0m [0;34m=[0m [0mnp[0m[0;34m.[0m[0mrandom[0m[0;34m.[0m[0mpermutation[0m[0;34m([0m[0mn_train[0m [0;34m+[0m [0mn_test[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
-[1;32m     23[0m [0;32mfor[0m [0mi[0m [0;32min[0m [0mrange[0m[0;34m([0m[0mn_train[0m[0;34m)[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
-[0;32m---> 24[0;31m     [0mimages[0m[0;34m[[0m[0mi[0m[0;34m][0m [0;34m=[0m [0mplt[0m[0;34m.[0m[0mimread[0m[0;34m([0m[0mresult[0m[0;34m[[0m[0mshuffle_idx[0m[0;34m[[0m[0mi[0m[0;34m][0m[0;34m][0m[0;34m)[0m[0;34m.[0m[0mmean[0m[0;34m([0m[0maxis[0m[0;34m=[0m[0;36m2[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
-[0m[1;32m     25[0m     [0mlabels[0m[0;34m[[0m[0mi[0m[0;34m][0m [0;34m=[0m [0mnp[0m[0;34m.[0m[0mround[0m[0;34m([0m[0mnp[0m[0;34m.[0m[0mrandom[0m[0;34m.[0m[0mrand[0m[0;34m([0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
-[1;32m     26[0m     [0mimages[0m[0;34m[[0m[0mi[0m[0;34m][0m [0;34m+=[0m [0mnoise[0m[0;34m[[0m[0mlabels[0m[0;34m[[0m[0mi[0m[0;34m][0m[0;34m][0m[0;34m[0m[0;34m[0m[0m
+Cell [0;32mIn[2], line 24[0m
+[1;32m     22[0m shuffle_idx [38;5;241m=[39m np[38;5;241m.[39mrandom[38;5;241m.[39mpermutation(n_train [38;5;241m+[39m n_test)
+[1;32m     23[0m [38;5;28;01mfor[39;00m i [38;5;129;01min[39;00m [38;5;28mrange[39m(n_train):
+[0;32m---> 24[0m     images[i] [38;5;241m=[39m plt[38;5;241m.[39mimread([43mresult[49m[43m[[49m[43mshuffle_idx[49m[43m[[49m[43mi[49m[43m][49m[43m][49m)[38;5;241m.[39mmean(axis[38;5;241m=[39m[38;5;241m2[39m)
+[1;32m     25[0m     labels[i] [38;5;241m=[39m np[38;5;241m.[39mround(np[38;5;241m.[39mrandom[38;5;241m.[39mrand())
+[1;32m     26[0m     images[i] [38;5;241m+[39m[38;5;241m=[39m noise[labels[i]]
 
 [0;31mIndexError[0m: list index out of range
 IndexError: list index out of range

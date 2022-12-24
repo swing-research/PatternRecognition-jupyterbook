@@ -1,45 +1,95 @@
 Traceback (most recent call last):
-  File "/opt/anaconda3/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+  File "/home/kishor0000/anaconda3/envs/autograde/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
     executenb(
-  File "/opt/anaconda3/lib/python3.9/site-packages/nbclient/client.py", line 1204, in execute
+  File "/home/kishor0000/anaconda3/envs/autograde/lib/python3.10/site-packages/nbclient/client.py", line 1204, in execute
     return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
-  File "/opt/anaconda3/lib/python3.9/site-packages/nbclient/util.py", line 84, in wrapped
+  File "/home/kishor0000/anaconda3/envs/autograde/lib/python3.10/site-packages/nbclient/util.py", line 84, in wrapped
     return just_run(coro(*args, **kwargs))
-  File "/opt/anaconda3/lib/python3.9/site-packages/nbclient/util.py", line 62, in just_run
+  File "/home/kishor0000/anaconda3/envs/autograde/lib/python3.10/site-packages/nbclient/util.py", line 62, in just_run
     return loop.run_until_complete(coro)
-  File "/opt/anaconda3/lib/python3.9/asyncio/base_events.py", line 647, in run_until_complete
+  File "/home/kishor0000/anaconda3/envs/autograde/lib/python3.10/asyncio/base_events.py", line 646, in run_until_complete
     return future.result()
-  File "/opt/anaconda3/lib/python3.9/site-packages/nbclient/client.py", line 663, in async_execute
+  File "/home/kishor0000/anaconda3/envs/autograde/lib/python3.10/site-packages/nbclient/client.py", line 663, in async_execute
     await self.async_execute_cell(
-  File "/opt/anaconda3/lib/python3.9/site-packages/nbclient/client.py", line 965, in async_execute_cell
+  File "/home/kishor0000/anaconda3/envs/autograde/lib/python3.10/site-packages/nbclient/client.py", line 965, in async_execute_cell
     await self._check_raise_for_error(cell, cell_index, exec_reply)
-  File "/opt/anaconda3/lib/python3.9/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+  File "/home/kishor0000/anaconda3/envs/autograde/lib/python3.10/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-from scipy.signal import gaussian, convolve2d
-from scipy.signal import fftconvolve
+from skimage import io
+from scipy.fftpack import fft2, ifft2, fftshift
+from skimage import color
 
-kernel_size = 15
-h = gaussian(kernel_size, kernel_size / 5).reshape(kernel_size, 1)
-h = np.dot(h, h.T)
-h /= np.sum(h)
-    
-x_hat = fftconvolve(img_noise, h, mode='same')
+img = io.imread("./images/behringer.png")
+img = io.imread("/Users/dokman0000/Downloads/BSR500/BSDS500/data/images/train/65010.jpg")
+img_bw = color.rgb2gray(img[:, :, :3])
 
-fig, axs = plt.subplots(1, 2, figsize=(15, 10))
-axs[0].imshow(img_est, cmap='gray')
-axs[1].imshow(img_est[100:200, 200:300], cmap='gray');
+fig, axs = plt.subplots(1, 2, figsize=(15, 6))
+F_img_bw = fftshift(fft2(img_bw))
+axs[0].imshow(img_bw, cmap='gray')
+axs[1].imshow(np.log(np.abs(F_img_bw)), cmap='gray')
+for ax in axs: ax.axis('off')
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mNameError[0m                                 Traceback (most recent call last)
-[0;32m/var/folders/m5/k86qfx9j4sg7txgrjmpz2m3r0000gq/T/ipykernel_65129/3377107442.py[0m in [0;36m<cell line: 12>[0;34m()[0m
-[1;32m     10[0m [0;34m[0m[0m
-[1;32m     11[0m [0mfig[0m[0;34m,[0m [0maxs[0m [0;34m=[0m [0mplt[0m[0;34m.[0m[0msubplots[0m[0;34m([0m[0;36m1[0m[0;34m,[0m [0;36m2[0m[0;34m,[0m [0mfigsize[0m[0;34m=[0m[0;34m([0m[0;36m15[0m[0;34m,[0m [0;36m10[0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
-[0;32m---> 12[0;31m [0maxs[0m[0;34m[[0m[0;36m0[0m[0;34m][0m[0;34m.[0m[0mimshow[0m[0;34m([0m[0mimg_est[0m[0;34m,[0m [0mcmap[0m[0;34m=[0m[0;34m'gray'[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
-[0m[1;32m     13[0m [0maxs[0m[0;34m[[0m[0;36m1[0m[0;34m][0m[0;34m.[0m[0mimshow[0m[0;34m([0m[0mimg_est[0m[0;34m[[0m[0;36m100[0m[0;34m:[0m[0;36m200[0m[0;34m,[0m [0;36m200[0m[0;34m:[0m[0;36m300[0m[0;34m][0m[0;34m,[0m [0mcmap[0m[0;34m=[0m[0;34m'gray'[0m[0;34m)[0m[0;34m;[0m[0;34m[0m[0;34m[0m[0m
+[0;31mFileNotFoundError[0m                         Traceback (most recent call last)
+Cell [0;32mIn[2], line 6[0m
+[1;32m      3[0m [38;5;28;01mfrom[39;00m [38;5;21;01mskimage[39;00m [38;5;28;01mimport[39;00m color
+[1;32m      5[0m img [38;5;241m=[39m io[38;5;241m.[39mimread([38;5;124m"[39m[38;5;124m./images/behringer.png[39m[38;5;124m"[39m)
+[0;32m----> 6[0m img [38;5;241m=[39m [43mio[49m[38;5;241;43m.[39;49m[43mimread[49m[43m([49m[38;5;124;43m"[39;49m[38;5;124;43m/Users/dokman0000/Downloads/BSR500/BSDS500/data/images/train/65010.jpg[39;49m[38;5;124;43m"[39;49m[43m)[49m
+[1;32m      7[0m img_bw [38;5;241m=[39m color[38;5;241m.[39mrgb2gray(img[:, :, :[38;5;241m3[39m])
+[1;32m      9[0m fig, axs [38;5;241m=[39m plt[38;5;241m.[39msubplots([38;5;241m1[39m, [38;5;241m2[39m, figsize[38;5;241m=[39m([38;5;241m15[39m, [38;5;241m6[39m))
 
-[0;31mNameError[0m: name 'img_est' is not defined
-NameError: name 'img_est' is not defined
+File [0;32m~/anaconda3/envs/autograde/lib/python3.10/site-packages/skimage/io/_io.py:53[0m, in [0;36mimread[0;34m(fname, as_gray, plugin, **plugin_args)[0m
+[1;32m     50[0m         plugin [38;5;241m=[39m [38;5;124m'[39m[38;5;124mtifffile[39m[38;5;124m'[39m
+[1;32m     52[0m [38;5;28;01mwith[39;00m file_or_url_context(fname) [38;5;28;01mas[39;00m fname:
+[0;32m---> 53[0m     img [38;5;241m=[39m [43mcall_plugin[49m[43m([49m[38;5;124;43m'[39;49m[38;5;124;43mimread[39;49m[38;5;124;43m'[39;49m[43m,[49m[43m [49m[43mfname[49m[43m,[49m[43m [49m[43mplugin[49m[38;5;241;43m=[39;49m[43mplugin[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mplugin_args[49m[43m)[49m
+[1;32m     55[0m [38;5;28;01mif[39;00m [38;5;129;01mnot[39;00m [38;5;28mhasattr[39m(img, [38;5;124m'[39m[38;5;124mndim[39m[38;5;124m'[39m):
+[1;32m     56[0m     [38;5;28;01mreturn[39;00m img
+
+File [0;32m~/anaconda3/envs/autograde/lib/python3.10/site-packages/skimage/io/manage_plugins.py:207[0m, in [0;36mcall_plugin[0;34m(kind, *args, **kwargs)[0m
+[1;32m    203[0m     [38;5;28;01mexcept[39;00m [38;5;167;01mIndexError[39;00m:
+[1;32m    204[0m         [38;5;28;01mraise[39;00m [38;5;167;01mRuntimeError[39;00m([38;5;124m'[39m[38;5;124mCould not find the plugin [39m[38;5;124m"[39m[38;5;132;01m%s[39;00m[38;5;124m"[39m[38;5;124m for [39m[38;5;132;01m%s[39;00m[38;5;124m.[39m[38;5;124m'[39m [38;5;241m%[39m
+[1;32m    205[0m                            (plugin, kind))
+[0;32m--> 207[0m [38;5;28;01mreturn[39;00m [43mfunc[49m[43m([49m[38;5;241;43m*[39;49m[43margs[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m[43m)[49m
+
+File [0;32m~/anaconda3/envs/autograde/lib/python3.10/site-packages/skimage/io/_plugins/imageio_plugin.py:15[0m, in [0;36mimread[0;34m(*args, **kwargs)[0m
+[1;32m     13[0m [38;5;129m@wraps[39m(imageio_imread)
+[1;32m     14[0m [38;5;28;01mdef[39;00m [38;5;21mimread[39m([38;5;241m*[39margs, [38;5;241m*[39m[38;5;241m*[39mkwargs):
+[0;32m---> 15[0m     [38;5;28;01mreturn[39;00m np[38;5;241m.[39masarray([43mimageio_imread[49m[43m([49m[38;5;241;43m*[39;49m[43margs[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m[43m)[49m)
+
+File [0;32m~/anaconda3/envs/autograde/lib/python3.10/site-packages/imageio/v2.py:226[0m, in [0;36mimread[0;34m(uri, format, **kwargs)[0m
+[1;32m    223[0m imopen_args [38;5;241m=[39m decypher_format_arg([38;5;28mformat[39m)
+[1;32m    224[0m imopen_args[[38;5;124m"[39m[38;5;124mlegacy_mode[39m[38;5;124m"[39m] [38;5;241m=[39m [38;5;28;01mTrue[39;00m
+[0;32m--> 226[0m [38;5;28;01mwith[39;00m [43mimopen[49m[43m([49m[43muri[49m[43m,[49m[43m [49m[38;5;124;43m"[39;49m[38;5;124;43mri[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mimopen_args[49m[43m)[49m [38;5;28;01mas[39;00m file:
+[1;32m    227[0m     result [38;5;241m=[39m file[38;5;241m.[39mread(index[38;5;241m=[39m[38;5;241m0[39m, [38;5;241m*[39m[38;5;241m*[39mkwargs)
+[1;32m    229[0m [38;5;28;01mreturn[39;00m result
+
+File [0;32m~/anaconda3/envs/autograde/lib/python3.10/site-packages/imageio/core/imopen.py:118[0m, in [0;36mimopen[0;34m(uri, io_mode, plugin, extension, format_hint, legacy_mode, **kwargs)[0m
+[1;32m    116[0m     request[38;5;241m.[39mformat_hint [38;5;241m=[39m format_hint
+[1;32m    117[0m [38;5;28;01melse[39;00m:
+[0;32m--> 118[0m     request [38;5;241m=[39m [43mRequest[49m[43m([49m[43muri[49m[43m,[49m[43m [49m[43mio_mode[49m[43m,[49m[43m [49m[43mformat_hint[49m[38;5;241;43m=[39;49m[43mformat_hint[49m[43m,[49m[43m [49m[43mextension[49m[38;5;241;43m=[39;49m[43mextension[49m[43m)[49m
+[1;32m    120[0m source [38;5;241m=[39m [38;5;124m"[39m[38;5;124m<bytes>[39m[38;5;124m"[39m [38;5;28;01mif[39;00m [38;5;28misinstance[39m(uri, [38;5;28mbytes[39m) [38;5;28;01melse[39;00m uri
+[1;32m    122[0m [38;5;66;03m# fast-path based on plugin[39;00m
+[1;32m    123[0m [38;5;66;03m# (except in legacy mode)[39;00m
+
+File [0;32m~/anaconda3/envs/autograde/lib/python3.10/site-packages/imageio/core/request.py:248[0m, in [0;36mRequest.__init__[0;34m(self, uri, mode, extension, format_hint, **kwargs)[0m
+[1;32m    245[0m     [38;5;28;01mraise[39;00m [38;5;167;01mValueError[39;00m([38;5;124mf[39m[38;5;124m"[39m[38;5;124mInvalid Request.Mode: [39m[38;5;132;01m{[39;00mmode[38;5;132;01m}[39;00m[38;5;124m"[39m)
+[1;32m    247[0m [38;5;66;03m# Parse what was given[39;00m
+[0;32m--> 248[0m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_parse_uri[49m[43m([49m[43muri[49m[43m)[49m
+[1;32m    250[0m [38;5;66;03m# Set extension[39;00m
+[1;32m    251[0m [38;5;28;01mif[39;00m extension [38;5;129;01mis[39;00m [38;5;129;01mnot[39;00m [38;5;28;01mNone[39;00m:
+
+File [0;32m~/anaconda3/envs/autograde/lib/python3.10/site-packages/imageio/core/request.py:407[0m, in [0;36mRequest._parse_uri[0;34m(self, uri)[0m
+[1;32m    404[0m [38;5;28;01mif[39;00m is_read_request:
+[1;32m    405[0m     [38;5;66;03m# Reading: check that the file exists (but is allowed a dir)[39;00m
+[1;32m    406[0m     [38;5;28;01mif[39;00m [38;5;129;01mnot[39;00m os[38;5;241m.[39mpath[38;5;241m.[39mexists(fn):
+[0;32m--> 407[0m         [38;5;28;01mraise[39;00m [38;5;167;01mFileNotFoundError[39;00m([38;5;124m"[39m[38;5;124mNo such file: [39m[38;5;124m'[39m[38;5;132;01m%s[39;00m[38;5;124m'[39m[38;5;124m"[39m [38;5;241m%[39m fn)
+[1;32m    408[0m [38;5;28;01melse[39;00m:
+[1;32m    409[0m     [38;5;66;03m# Writing: check that the directory to write to does exist[39;00m
+[1;32m    410[0m     dn [38;5;241m=[39m os[38;5;241m.[39mpath[38;5;241m.[39mdirname(fn)
+
+[0;31mFileNotFoundError[0m: No such file: '/Users/dokman0000/Downloads/BSR500/BSDS500/data/images/train/65010.jpg'
+FileNotFoundError: No such file: '/Users/dokman0000/Downloads/BSR500/BSDS500/data/images/train/65010.jpg'
 
