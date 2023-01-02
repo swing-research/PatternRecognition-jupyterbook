@@ -4,6 +4,7 @@
 format: jb-book
 root: intro
 chapters:
+- file: installation.md
 - file: introduction
 - file: modeling-knowledge
 - file: filtering

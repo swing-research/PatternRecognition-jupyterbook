@@ -58,7 +58,7 @@ from scipy.fftpack import fft2, ifft2, fftshift
 from skimage import color
 
 img = io.imread("./images/behringer.png")
-img = io.imread("/Users/dokman0000/Downloads/BSR500/BSDS500/data/images/train/65010.jpg")
+img = io.imread("./images/65010.jpg")
 img_bw = color.rgb2gray(img[:, :, :3])
 
 fig, axs = plt.subplots(1, 2, figsize=(15, 6))
