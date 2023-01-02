@@ -314,13 +314,66 @@ $$
   H[\vell] = \frac{S_{XX}[\vell]}{S_{XX}[\vell] + d^2 \sigma^2}
 $$
 
-We can now identify an implicit assumption, or an alternative route that would've yielded a convolutional filter model
+We can now identify an implicit assumption, or an alternative route that would've yielded a convolutional filter model. The DFT of the impulse response of the optimal filter is obtained for each $\vell$ individually. The expression is completely parallel to the matrix expression we derived earlier for general LMMSE estimators, but unlike in that general case, the $\vell$-th output now depends only on the variance of the $\vell$-th spectral bin, but not on the other ones. We can thus still write a matrix version of the above expression but that matrix version will be quite special:
+
+$$
+\begin{aligned}
+  \begin{bmatrix} 
+    H[0] & &  \\
+    &  \ddots &   \\
+     &  & H[d - 1]
+  \end{bmatrix}
+  & =
+  \begin{bmatrix} 
+    S_{XX}[0] & &  \\
+    &  \ddots &   \\
+     &  & S_{XX}[d - 1]
+  \end{bmatrix}\\
+  &\times\left(
+  \begin{bmatrix}
+        S_{XX}[0] & &  \\
+    &  \ddots &   \\
+     &  & S_{XX}[d - 1]  
+  \end{bmatrix}\\
+  +
+  \sigma^2 d^2
+  \begin{bmatrix}
+        1 & &  \\
+    &  \ddots &   \\
+     &  & 1 
+  \end{bmatrix}
+  \right)^{-1}
+\end{aligned}
+$$
+(All matrices are diagonal.) We did something seemingly crazy: we took a perfectly nice _scalar_ expression and we rewrote with matrices. But the reason to do this is that it is now clear that this expression has precisely the form
+
+$$
+  \mH = \mSigma_{\rX \rX} ( \mSigma_{\rX \rX} + \sigma^2 \mI)^{-1}
+$$
+
+which we encountered earlier, but with all covariance matrices (which are now between the different discrete frequencies) being diagonal. For two frequencies $\ell \neq k$ it holds that 
+
+$$
+  \EE ~ \rX[\ell] \rX[k] = 0,
+$$
+
+hence the zero off-diagonal elements. This means that our tacit assumption in using a convolutional filter is that the different frequencies are _uncorrelated_ (or even, in the Gaussian case, _independent_!). Looking back at the derivations, this makes intuitive sense since convolutional filters cannot create new frequencies, and by the convolution–multiplication rule the output at a given frequency is only affected by the input at that frequency.
+
+Another equivalent perspective (which is important but we will not explore it in depth here) is via the notion of stationarity, and in particular _wide-sense stationarity_. A random signal $\rx[n]$ is wide-sense stationarity if its mean $\EE ~ \rx[n]$ is constant in $n$ and its autocorrelation function $\EE ~ \rx[n] \rx[m]$ only depends on the distance $m - n$. In other words the function 
+
+$$
+  a_{\rx \rx}[t] = \EE ~ \rx[n] \rx[n + t] 
+$$
+
+does not depend on $n$. It is easy to check that the above $S_{\rX \rX}$ is the Fourier transform of $a_{\rx \rx}$. (Check if this needs a zero mean assumption.)
 
 
 
 ## Deblurring
 
+Another common image degradation mechanism is blurring (due to out of focus imaging, atmospheric or other point-spread functions, lens blur, motion blur, ...). In a typical degradation pipeline an image is first blurred and then corrupted by noise.
 
+How can we derive an optimal (L)MMSE estimator for deblurring, or joint deblurring and denoising? Or perhaps a Wiener filter? 
 
 ## Effects of circular convolution
 
