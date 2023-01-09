@@ -375,7 +375,279 @@ Another common image degradation mechanism is blurring (due to out of focus imag
 
 How can we derive an optimal (L)MMSE estimator for deblurring, or joint deblurring and denoising? Or perhaps a Wiener filter? 
 
+
+First, lets see how the blurring effects an image.
+
+```{code-cell}
+from scipy.signal import gaussian, convolve2d
+from scipy.signal import fftconvolve
+
+kernel_size = 15
+h_gauss = gaussian(kernel_size, kernel_size / 5).reshape(kernel_size, 1)
+h_gauss = np.dot(h_gauss, h_gauss.transpose())
+h_gauss /= np.sum(h_gauss)
+
+# circular convolution for simplicity
+x_blur = ifft2(fft2(h_gauss, img_bw.shape) * fft2(img_bw)).real
+
+H_brutal = np.zeros(img_bw.shape)
+
+
+x_blur = ifft2(fft2(h_gauss, img_bw.shape) * fft2(img_bw)).real
+
+fig, axs = plt.subplots(1, 2, figsize=(15, 10))
+axs[0].imshow(x_blur, cmap='gray')
+axs[1].imshow(x_blur[100:170, 200:300], cmap='gray');
+```
+A simple way of looking at blurring is that we are averaging a pixel location using the value of it neighbours. Thus blurring is a linear operation. For an image $\vx$, let us assume that $\mB$ is a blurring matrix. Then the blurred image is obtained as 
+
+$$
+ \vy = \mB \vx
+$$
+
+In practice, this blurring can be represented by a convolutional filter. Thus if we know the filter coefficients, the fourier representation of the blurred image is 
+
+$$
+Y[\vk] = B[\vk]X[\vk]
+$$
+Where $\vk = [k_1, k_2]$ are the 2-D Fourier indeces. From the above equation we can see that if we know the blur filter, we can obtain the image by just dividing the blurred image with the filter coefficient in the Fourier Domain. We use this simple deblurring strategy on the above image.
+
+
+```{code-cell}
+ # simple deblurring (deconvolution)
+
+x_deblurred = ifft2(fft2(x_blur) / fft2(h_gauss, img_bw.shape)).real
+fig, axs = plt.subplots(1, 2, figsize=(15, 10))
+axs[0].imshow(x_deblurred, cmap='gray')
+axs[1].imshow(x_deblurred[100:170, 200:300], cmap='gray');
+```
+
+In practice, we have some noise on the  observed image along with it being blurred. We can represent this as:
+
+$$
+ \vy = \mB\vx + \vw
+$$
+
+Where $\vw$ is the noise of known variance $\sigma^2$.The above eqaution in Fourier domain can be represented as:
+$$
+Y[\vk] = B[\vk]X[\vk] + W[\vk]
+$$
+
+Lets, try the previous procedure  of deblurring and see how it works:
+
+```{code-cell}
+ sig = 0.1
+x_blur_n = x_blur + sig*np.random.randn(*x_blur.shape)
+x_deblurred_n = ifft2(fft2(x_blur_n) / fft2(h_gauss, img_bw.shape)).real
+
+fig, axs = plt.subplots(1, 2, figsize=(15, 10))
+axs[0].imshow(x_blur_n, cmap='gray')
+axs[0].title.set_text('Noisy Blurred Image')
+axs[1].imshow(x_deblurred_n, cmap='gray');
+axs[1].title.set_text('Deblurred by dividing')
+```
+Thus, dividing by the fourier coefficient yields an estimate that differs greatly from the original image. This is due to the fact that we do not account for noise, and these noisy coefficients can be amplified simply by dividing them. As a result, while performing the deblurring operation, we must consider the noise. In the following section, we derive the Wiener filter coefficient for deblurring using the blurring filter and statistical properties of the noise.
+
+### Deblurring using Wiener filter
+For simplicity, we assume  are operating on 1-D signals. This can be easily extended to images or any higher-dimensional signals as well. Let $x[n],y[n]$ be the image and the blurred image, let $b[n]$ be the impulse reponse of the blurring fitler. For simplicity we assume circular convolution for blurring. Thus we observe:
+
+$$
+y[n] = (x \circledast b)[n] + w[n] 
+$$
+
+Thus to obtain the original signal $x[n]$, we apply a filter $h[n]$ on the obervation $y[n]$. Applying the Discrete fourier Transform, we obtain the estimated signal $\tilde{x}[n]$ as:
+$$
+  \tilde{X}[k] = H[k]Y[k]
+$$
+
+Where $\tilde{X}[k], Y[k]$ and $H[k]$ are Discrete Fourier transforms of the signal $\tilde{x}[n], y[n]$ and $h[n]$ respectively. As we obtained the filter for denoising, we perform the same operation to obtain the filter coefficients for deblurring. Thus we obtain the Wiener filter as:
+
+$$
+H[\ell] = \frac{S_{XY}[\ell]}{S_{YY}[\ell]}
+$$
+where $S_{XY}[\ell] = \EE ~ X[\ell] Y^*[\ell]$ and $S_{YY}[\ell] = \EE ~ Y[\ell] Y^*[\ell]$.
+
+For additive white Gaussian noise  and the Blurr filter $B$, we have (do check this!):
+
+$$
+\begin{aligned}
+S_{XY}[\ell] &= \EE ~ X[\ell] Y^*[\ell] = \EE ~ X[\ell] (H^*[\ell]X^*[\ell] + W[\ell] ) \\
+&= H^*[\ell] \EE ~ [X[\ell] X^*[\ell] ] \\
+&= H^*[\ell] S_{XX}[\ell]
+\end{aligned}
+$$
+
+and 
+
+$$
+S_{YY}[\ell] = |H[\ell]|^2 S_{XX}[\ell] + d\sigma^2
+$$
+
+so that: 
+
+$$
+  H[\ell] = \frac{H^*[\ell]S_{XX}[\ell]}{ |H[\ell]|^2 S_{XX}[\ell] + d \sigma^2}
+$$
+
+Using the above experssion for deblurring filter, we experiment on the noisy image used previously:
+
+```{code-cell}
+
+ def wf(y, SXX, sigma, ker=np.ones((1, 1))):
+    F_y = fft2(y)
+    F_ker = fft2(ker, shape=y.shape)
+    F_wiener = np.conj(F_ker)*SXX / ( SXX*np.abs(F_ker)**2 + np.prod(y.shape) * sigma**2)
+    F_x_hat = F_y * F_wiener
+    x_hat = np.real(ifft2(F_x_hat))
+    return x_hat, np.real(ifft2(F_wiener))
+
+
+x_wiener, filt2 = wf(x_blur_n, SXX, sig, ker=h_gauss)
+
+fig, axs = plt.subplots(1, 2, figsize=(15, 10))
+axs[0].imshow(x_wiener, cmap='gray')
+axs[1].imshow(x_wiener[100:170, 200:300], cmap='gray');
+```
+
+
+
+## Wiener Filtering for Audio Signals
+Now, we look at an application of Wiener filtering for  removing high frequency noise from audio signals. We first load the audio.
+
+```{code-cell}
+from scipy.io import wavfile
+from IPython.lib.display import Audio
+
+fs, x = wavfile.read('./audio/german-anechoic.wav')
+x = x[:, 0]
+Audio(x, rate=fs, autoplay=False)
+```
+
+Next, we add a high-frequency noise to the audio.  
+
+```{code-cell}
+from scipy.signal import gaussian, butter, sosfilt
+
+x = x / np.abs(x).max()
+sigma = 3
+
+noise = sigma*np.random.randn(*x.shape)
+cutoff_freq = 200
+sos = butter(30, cutoff_freq, 'hp', fs=fs, output='sos')
+noise = sosfilt(sos, noise)
+
+y = x + noise
+
+Audio(y, rate=fs, autoplay=False) 
+```
+
+We now apply the Wiener filter to the noisy signal. We first compute the power spectral density of the signal and the noise.  We use $L$ length filter to remove the noise.  Thus we need  power spectral density (PSD) estimated for length $L$. For a length $L$ estimate of a filter the parameters we need are $\EE ~ y[n]y[n-l]$ and $\EE ~ x[n]y[n-l]$ for $l = 0,1,\dots, L$. Using the stationarity assumptions of the signal, we can estimate $\EE ~ y[n]y[n-l]$ as:
+
+$$
+\begin{aligned}
+\EE ~ y[n]y[n-l] \approx \frac{1}{N-L} \sum_{n=L}^{N} y[n]y[n-l] \\
+\end{aligned}
+$$
+
+Where $N$ is the length of the signal. We can estimate the $\EE ~ x[n]y[n-l]$ as:
+
+$$
+
+\EE ~ x[n]y[n-l] \approx \frac{1}{N-L} \sum_{n=0}^{N-L} x[n]y[n-l] 
+
+$$
+
+Using the estimates we can obtain the Wiener filter. We then apply the filter to the noisy signal and listen to the result.
+
+```{code-cell}
+from tqdm import tqdm
+from scipy.linalg import toeplitz
+
+L = 1000
+N = len(x)
+
+# this can be done fast with stride tricks but it's more didactic here
+# also: we're doing a bit of a cheat assuming that we have oracle access to the clean signal...
+
+r_yy = np.zeros((L + 1,))
+r_xy = np.zeros((L + 1,))
+for i in range(N - L):
+    frame_x = np.flip(x[i:i + L + 1])
+    frame_y = np.flip(y[i:i + L + 1])
+    r_yy += frame_y[0] * frame_y
+    r_xy += frame_x[0] * frame_y
+r_yy /= (N - L)
+r_xy /= (N - L)
+
+R_yy = toeplitz(r_yy)
+h = np.linalg.solve(R_yy, r_xy) 
+```
+
+Alternatively, we can use FFT's to speed up the computation. We first compute the $N$ length signal corresponding to the autocorrelation of the signal $y[n]$ and the cross-correlation of the signal $x[n]$ and $y[n]$. We then keep only the first $L$ components of the signal as we are only interested in the autocorrelation of the signal $y[n]$ and the cross-correlation of the signal $x[n]$ and $y[n]$ for $l = 0,1,\dots, L$. We then use the Toeplitz matrix structure of the autocorrelation and cross-correlation to compute the Wiener filter. We then apply the filter to the noisy signal and listen to the result. 
+
+```{code-cell}
+from scipy.fftpack import fft, ifft
+from scipy.signal import fftconvolve
+
+
+Y = fft(y, 2*N);
+X = fft(x, 2*N);
+ 
+R = np.real(ifft(Y * np.conj(Y)))[:L + 1]
+Ryy = toeplitz(R)
+r = np.real(ifft(X * np.conj(Y)))
+r = r[:L + 1]
+
+h_opt = np.linalg.solve(Ryy, r)
+
+
+x_hat = fftconvolve(y, h_opt, 'same')
+Audio(x_hat, rate=fs, autoplay=False)
+
+# Plot comparing the two filters
+fig, axs = plt.subplots(1, 2, figsize=(15, 10))
+axs[0].stem(h)
+axs[0].set_title('Filter obtained using Toeplitz matrix')
+axs[1].stem(h_opt)
+axs[1].set_title('Filter obtained using FFT')
+plt.show()
+```
+
 ## Effects of circular convolution
+Circular convolution is a special case of convolution where the signal is assumed to be periodic. Lets consider a signal $x[n]$ with period $N$. The periodicity of the signal implies that $x[n] = x[n+N]$. We consider another signal $h[n]$ (Impulse signal), with support $[0, N-1]$. This implies that $h[n] = 0$ for $n < 0$ and $n > N-1$. The convolution of the two signals is given by:
+
+$$
+y[n] = \sum_{m=0}^{N-1} h[m] x[n-m] \tag*{(Finite support of $h[n]$)}
+$$
+
+You can observe that as $x[n]$ is peridoic, the convolved signal $y[n]$ is also periodic with period $N$.
+
+
+
+$$
+  \begin{aligned}
+  y[n+N]  &= \sum_{m=0}^{N-1} h[m] x[n-m+N] \\
+  &= \sum_{m=0}^{N-1} h[m] x[n-m]  && \text{($x$ being periodic)} \\ 
+  &= y[n] 
+  \end{aligned}
+$$
+
+Now, lets consider a periodic extension of the signal $h[n]$. This can be done by repeating the signal, $\tilde{h}[n] = h[n \mod N]$. Using this periodic extension, we define the circular convolution as follows:
+
+$$
+\begin{aligned}
+(x \ast h)[n] &= \sum_{m = -\infty}^{\infty} h[m] x[n-m]  \\
+&= \sum_{l = -\infty}^{\infty} \sum_{m = lN}^{(l+1)N-1} h[m] x[n-m]   && \text{(Splitting the sum to periods)}\\
+&= \sum_{l = -\infty}^{\infty} h[m'+lN]x[n - m' - lN] &&\text{(Substitute: } m' = m + lN)    \\
+&= \sum_{m'= 0}^{N-1 } \sum_{l = -\infty}^{\infty}h[m'+lN] x[n - m'] && \text{($x[n]$ is periodic)} \\
+&= \sum_{m'= 0}^{N-1 } \tilde{h}[m'] x[n - m'] && \text{($h[n \mod N] = \sum_{l = -\infty}^{\infty}h[n+lN]$ )} \\
+&= (\tilde{h} \circledast x)[n]
+\end{aligned} 
+$$
+
+The above derivation shows that the circular convolution is equivalent to the convolution of the periodic extension of the signal $h[n]$ with the signal $x[n]$. Thus the circular convolution is a special case of convolution. As the signals are periodic, to compute circular convolution we only need to look at elements of the signal and the impulse reponse within  a single Period. Thus circular convolution can be seen as a convolution where indeces are from a finite field $\ZZ_N$.
+
+In practice, we only work with finite length signals. Thus when we compute the circular convolution we assume that the signal is periodic with period equal to the length of the signal. Thus for a finite length signal $x[n]$ circularly convolving with a an impulse response, with small support can introduce edge effects. That is, value at the beginning of the signal is affected by the values at the end of the signal and vice versa. Circula comvolution can be computed efficiently using the Fast Fourier Transform (FFT), the reason being that FFTs implicitly assume periodicity of the signal. Thus the FFT of the signal is computed and then the FFT of the impulse response is multiplied with the FFT of the signal. The inverse FFT of the product gives the circular convolution of the signal with the impulse response. Computational complexity of a Circular convolution using FFT is  $O(N \log N)$, where $N$ is the length of the signal. This is much faster than the naive implementation of the circular convolution which takes $O(N^2)$ operations.
 
 
 
