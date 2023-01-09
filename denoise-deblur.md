@@ -256,62 +256,62 @@ $$
 
 The covariance matrix is thus of dimensions $d \times d = 196,608 \times 196,608$ which is huge. There are about $38,654,705,664 / 2$ entries to estimate (it's a symmetric matrix), and this requires an enormous training set. Further, manipulating a matrix of this size (say, inverting it) is very very challenging on standard hardware.
 
-The saving grace comes from noting that a good denoising operator should perform a similar operation in every part of the image. If we additionally want it to be linear, then we can further constrain the class of admissible estimators to convolutional filters. In other words, we can further constrain the matrix (the linear operator) $\mH$ to be a convolution matrix. (TODO: update the notation table.) Letting $h[\vn]$ with $\vn = (n_1, n_2)$ be the corresponding impulse response, and $\rx[\vn], \ry[\vn], \rw[\vn]$ be the images corresponding to vectors $\rvx, \rvy, \rvw$, we then have
+The saving grace comes from noting that a good denoising operator should perform a similar operation in every part of the vector. If we additionally want it to be linear, then we can further constrain the class of admissible estimators to convolutional filters. In other words, we can further constrain the matrix (the linear operator) $\mH$ to be a convolution matrix. (TODO: update the notation table.) Letting $h[n]$ be the corresponding impulse response, and $\rx[n], \ry[n], \rw[n]$ be the $n^{th}$ components of  vectors $\rvx, \rvy, \rvw$, we then have
 
 $$
-  \hat{\rx}[\vn] = (\ry \circledast \rh)[\vn].
+  \hat{\rx}[n] = (\ry \circledast \rh)[n].
 $$
 
 Ultimately we want to use linear convolution, but let us for the moment pretend that circular convolution is fine since it will simplify the derivations. (TODO: use $2N$ below.) Applying the discrete Fourier transform on both sides we get
 
 $$
-  \hat{\rX}[\vk] = \rY[\vk] \cdot H[\vk]
+  \hat{\rX}[k] = \rY[k] \cdot H[k]
 $$ (dft-wiener)
 
-where we use the upper case to denote the corresponding DFTs. The key benefit of passing to the (discrete) frequency domain is that the frequency-domain filter coefficient become independent of one another. In other words, in the equation {eq}`dft-wiener` we can choose each of the $\rH[\vk]$ independently of all others, and it will only depend on $\rX[\vk]$ and $\rY[\vk]$ for that particular $\vk$. To see this we use the Parseval equality. Indeed, since
+where we use the upper case to denote the corresponding DFTs. The key benefit of passing to the (discrete) frequency domain is that the frequency-domain filter coefficient become independent of one another. In other words, in the equation {eq}`dft-wiener` we can choose each of the $\rH[k]$ independently of all others, and it will only depend on $\rX[k]$ and $\rY[k]$ for that particular $k$. To see this we use the Parseval equality. Indeed, since
 
 $$
-  \EE \sum_{\vn \in \ZZ_d^2} (\rx[\vn] - \hat{\rx}[\vn])^2
+  \EE \sum_{n \in \ZZ_d} (\rx[n] - \hat{\rx}[n])^2
   =
-  \frac{1}{d^2} \EE \sum_{\vk \in \ZZ_d^2} (\rX[\vk] - \hat{\rX}[\vk])^2  
+  \frac{1}{d} \EE \sum_{k \in \ZZ_d} (\rX[k] - \hat{\rX}[k])^2  
 $$
-($\sum_{\vn \in \ZZ_d^2}$ is just fancy notation for $\sum_{n_1=0}^{d-1} \sum_{n_2=0}^{d-1}$), we can do our minimization in the frequency domain where it now simply reads
+we can do our minimization in the frequency domain where it now simply reads
 
 $$
-  \min_{H} \EE \sum_{\vk \in \ZZ_d^2} (H[\vk] \rY[\vk] - \rX[\vk])^2
+  \min_{H} \EE \sum_{k \in \ZZ_d} (H[k] \rY[k] - \rX[k])^2
   =
-  \min_{H} \sum_{\vk \in \ZZ_d^2} \EE |H[\vk] \rY[\vk] - \rX[\vk]|^2
+  \min_{H} \sum_{k \in \ZZ_d} \EE |H[k] \rY[k] - \rX[k]|^2
 $$
 
-which can indeed be solved for each $\vk$ independently. Note that we have to put $\| \cdot \|$ around the terms in the frequency domain since they are in general complex. Taking the derivative with respect to the real and imaginary parts of $H[\vell]$ and setting them to zero yields (do check this!)
+which can indeed be solved for each $k$ independently. Note that we have to put $\| \cdot \|$ around the terms in the frequency domain since they are in general complex. Taking the derivative with respect to the real and imaginary parts of $H[\ell]$ and setting them to zero yields (do check this!)
 
 $$
-  \EE (H[\vell] Y[\vell] - X[\vell]) Y^*[\vell] = 0,
+  \EE (H[\ell] Y[\ell] - X[\ell]) Y^*[\ell] = 0,
 $$
 
 so that
 
 $$
-  H[\vell] = \frac{S_{XY}[\vell]}{S_{YY}[\vell]},
+  H[\ell] = \frac{S_{XY}[\ell]}{S_{YY}[\ell]},
 $$
-where $S_{XY}[\vell] = \EE ~ X[\vell] Y^*[\vell]$ and $S_{YY}[\vell] = \EE ~ Y[\vell] Y^*[\vell]$.
+where $S_{XY}[\ell] = \EE ~ X[\ell] Y^*[\ell]$ and $S_{YY}[\ell] = \EE ~ Y[\ell] Y^*[\ell]$.
 
 For additive white Gaussian noise we have that (do check the following as well!)
 
 $$
-  S_{XY}[\vell] = S_{XX}[\vell] = \EE ~ X[\vell] Y^*[\vell]
+  S_{XY}[\ell] = S_{XX}[\ell] = \EE ~ X[\ell] Y^*[\ell]
 $$
 
 and
 
 $$
-  S_{YY}[\vell] = S_{XX}[\vell] + S_{WW}[\vell] =  S_{XX}[\vell] + d^2 \sigma^2
+  S_{YY}[\ell] = S_{XX}[\ell] + S_{WW}[\ell] =  S_{XX}[\ell] + d \sigma^2
 $$
 
 so that
 
 $$
-  H[\vell] = \frac{S_{XX}[\vell]}{S_{XX}[\vell] + d^2 \sigma^2}
+  H[\ell] = \frac{S_{XX}[\ell]}{S_{XX}[\ell] + d \sigma^2}
 $$
 
 We can now identify an implicit assumption, or an alternative route that would've yielded a convolutional filter model. The DFT of the impulse response of the optimal filter is obtained for each $\vell$ individually. The expression is completely parallel to the matrix expression we derived earlier for general LMMSE estimators, but unlike in that general case, the $\vell$-th output now depends only on the variance of the $\vell$-th spectral bin, but not on the other ones. We can thus still write a matrix version of the above expression but that matrix version will be quite special:
@@ -366,6 +366,45 @@ $$
 $$
 
 does not depend on $n$. It is easy to check that the above $S_{\rX \rX}$ is the Fourier transform of $a_{\rx \rx}$. (Check if this needs a zero mean assumption.)
+
+**Note:** The above derivation can be extended to 2D signals (images) without much difficulty.
+
+ Now, lets use the Wiener filter approach to denoise the noisy image which we used earlier and campare it with the use of Gaussian filtering.  We use the Fourier version of the Wiener filter to denoise the image. For simplicity we assume that we know the power spectrum of the image, there are multiple methods of estimating this power spectrum, which we donot delve into here.
+
+
+ ```{code-cell}
+from scipy.fftpack import fft2, ifft2, fftshift
+
+
+def wf(y, SXX, sigma):
+    F_y = fft2(y)
+    F_wiener = SXX / (SXX + np.prod(y.shape) * sigma**2)
+    F_x_hat = F_y * F_wiener
+    x_hat = np.real(ifft2(F_x_hat))
+    return x_hat, np.real(ifft2(F_wiener, y.shape))
+
+
+
+ ##Assume the power spectrum is given 
+
+ SXX = np.abs(fft2(img_bw))**2
+
+img_est, filt = wf(img_noise, SXX, sigma=sigma)
+
+fig, axs = plt.subplots(1, 2, figsize=(15, 10))
+axs[0].imshow(img_est, cmap='gray')
+axs[1].imshow(img_est[100:170, 200:300], cmap='gray');   
+ ```
+
+Image's estimated using a Guassian Blur and Wiener filter looks slightly different from the original image. So, to compare them quantitatively, we compute the $\ell_2$ norm of the distance between them. 
+
+
+```{code-cell}
+print('Wiener Filter: ',np.linalg.norm(img_est - img_bw))
+print('Gaussian Blurring:',np.linalg.norm(x_hat - img_bw))
+print('Noisy Image:',np.linalg.norm(img_noise - img_bw))
+```
+We can clearly observe that image estimated using the wiener filter is much closer compare to that of the Guassian blur.
 
 
 
@@ -650,6 +689,9 @@ The above derivation shows that the circular convolution is equivalent to the co
 In practice, we only work with finite length signals. Thus when we compute the circular convolution we assume that the signal is periodic with period equal to the length of the signal. Thus for a finite length signal $x[n]$ circularly convolving with a an impulse response, with small support can introduce edge effects. That is, value at the beginning of the signal is affected by the values at the end of the signal and vice versa. Circula comvolution can be computed efficiently using the Fast Fourier Transform (FFT), the reason being that FFTs implicitly assume periodicity of the signal. Thus the FFT of the signal is computed and then the FFT of the impulse response is multiplied with the FFT of the signal. The inverse FFT of the product gives the circular convolution of the signal with the impulse response. Computational complexity of a Circular convolution using FFT is  $O(N \log N)$, where $N$ is the length of the signal. This is much faster than the naive implementation of the circular convolution which takes $O(N^2)$ operations.
 
 
+
+## Impulse Response
+In this, chapter we used the impulse response, to derive several Wiener filter results. Now, we look at the definition of impulse reponse and 
 
 ## Notes
 
