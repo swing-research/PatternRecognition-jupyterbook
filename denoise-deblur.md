@@ -691,7 +691,114 @@ In practice, we only work with finite length signals. Thus when we compute the c
 
 
 ## Impulse Response
-In this, chapter we used the impulse response, to derive several Wiener filter results. Now, we look at the definition of impulse reponse and 
+In this, chapter we used the impulse response, to derive several Wiener filter results. Now, we look at the definition of impulse reponse. 
+
+Impulse response is defined as the response of the system when we apply a delta function as input to it. We will consider only discrete time systems. The delta function is defined as:
+
+$$
+\delta[n] = \begin{cases}
+    1,& \text{if } n= 0\\
+    0,              & \text{otherwise}
+\end{cases}
+$$
+
+
+For a system $S$, the impulse response is defined as:
+
+$$
+  h[n] = S(\delta)[n]
+$$
+
+
+```{code-cell}
+#Impulse response of the system
+N = 11
+delta =np.zeros(N)
+delta[N//2] = 1
+h = np.cos(np.linspace(-np.pi/2,np.pi/2,7))
+y = np.convolve(delta,h) # output of the system
+
+from matplotlib import patches, pyplot as plt
+plt.rcParams['text.usetex'] = True
+fig = plt.figure(figsize=(10,5))
+
+# First subplot
+ax1 = fig.add_subplot(121)
+plt.stem(delta,linefmt='black',markerfmt='ko')
+ax1.axis('off')
+#ax1.set_title(r'$\delta[n]$',y=-0.1)
+
+
+# Second subplot
+ax2 = fig.add_subplot(122)
+plt.stem(y,linefmt='black',markerfmt='ko')
+ax2.axis('off')
+#ax2.set_title(r'$h[n]$',y=-0.1)
+# Add line from one subplot to the other
+xyA = [9, 0.5]
+#ax1.plot(*xyA, "o")
+xyB = [1, 0.5]
+#ax2.plot(*xyB, "o")
+transFigure = fig.transFigure.inverted()
+coord1 = transFigure.transform(ax1.transData.transform(xyA))
+coord2 = transFigure.transform(ax2.transData.transform(xyB))
+arrow = patches.FancyArrowPatch(
+    coord1,  # posA
+    coord2,  # posB
+    shrinkA=0,  # so tail is exactly on posA (default shrink is 2)
+    shrinkB=0,  # so head is exactly on posB (default shrink is 2)
+    transform=fig.transFigure,
+    color="black",
+    arrowstyle="-|>",  # "normal" arrow
+    mutation_scale=30,  # controls arrow head size
+    linewidth=3,
+    label=r'$S(\delta)[n]$',
+)
+fig.patches.append(arrow)
+fig.tight_layout(pad=10)
+leg = plt.legend(handles = [arrow], fontsize=16, frameon=False, loc=(-0.7, 0.5)) # Locations Manually adjusted
+for item in leg.legendHandles:
+    item.set_visible(False)
+
+
+
+```
+
+There exists a broad class of  systems called the linear time invariant (LTI) systems. These systems are characterized by the following properties:
+
+- Linearity: For input signals $x_1[n]$, and $x_2[n]$ and scalars $a,b$, we have:  $S(a x_1 + b x_2)[n] = a S(x_1)[n] + b S(x_2)[n]$
+- Time Invariance: For any input signal $x[n]$, if the output is $y[n] = S(x)[n]$, then the output of the system for the delayed signal $\tilde{x}[n] = x[n - k]$ is 
+
+$$\tilde{y}[n] = S(\tilde{x})[n] = S(x)[n-k] = y[n-k]$$
+
+
+For such systems, the  impulse response completely characterizes it. That is, we can predict the output of the system for any input $x[n]$, using its impulse resonse $h[n]$.  Thus the impulse response is the most important property of an LTI system. 
+
+Lets, see how this is true for the for an LTI system $S(\cdot)$. The impulse reponse is $h[n] = S(\delta)[n]$. For any input signal $x[n]$, we can write it interms of the delta function as:
+
+$$
+x[n] = \sum_{k= -\infty}^{\infty} x_k \delta[n-k] = \sum_{k= -\infty}^{\infty} x_k \delta_k[n]=\bigg(\sum_{k= -\infty}^{\infty} x_k \delta_k\bigg)[n]
+$$
+Where $x_k$ is a scalar qauntity such that $x_k = x[k]$ and $\delta_k[n] = \delta[n-k]$. If $y[n]$ is the output of the system for the input $x[n]$, then we have:
+
+$$
+\begin{aligned}
+y[n] &= S(x)[n] \\
+&= S \bigg(\sum_{k= -\infty}^{\infty} x_k \delta_k\bigg)[n] \\
+&= \sum_{k= -\infty}^{\infty} x_k S(\delta_k)[n] && (\text{Using Linearity}) \\
+&= \sum_{k= -\infty}^{\infty} x_k h[n-k] && (\text{Using Time Invariance}) \\
+&= \sum_{k= -\infty}^{\infty} x[k] h[n-k]  \\
+\end{aligned}
+$$ 
+
+Thus with just the impulse response of the system, we can predict the output of the system for any input signal. The last equation is the definition of the convolution. This can be used for any two signals, they do not have to be the input and output of a system, provided that the sum converges. Thus convolution between signals $x_1[n]$ and $x_2[n]$ is defined as:
+
+$$
+ (x_1 \ast x_2)[n] := \sum_{k= -\infty}^{\infty} x_1[k] x_2[n-k]
+$$
+
+**Note**: Convolution is also commutative, that is, $x_1 \ast x_2 = x_2 \ast x_1$. (check this)
+
 
 ## Notes
 
