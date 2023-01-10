@@ -194,6 +194,9 @@ $$
 softmax(y)_i = \frac{e^{y_i}}{\sum_{c'=1}^{C}e^{y_{c'}}} \quad \textit{where} \quad y = [y_1,...,y_C]^T
 $$
 
+We can visualize the softmax function for 2 dimensions, and will see that its marginal distributions
+do in fact resemble the sigmoid function!
+
 ```{code-cell} ipython3 
 :tags: [hide-input]        
 from matplotlib import cm
@@ -214,19 +217,21 @@ ax.view_init(-140, 60);
 ```
 
 In both cases, the effect on the data is its projection to the probability range [0,1] and its normalization 
-such that, in the case of the vectorized version with softmax, the values of an output vector sum up to 1.
+such that, in the case of the vectorized version with softmax, the values of an output vector sum up to 1. In the
+previous graphic, each surface represents the probability of one of two classes at a given coordinate. The probability that either one or the other is our label should be their sum, given that they are independent, and 
+we can be sure this is also guaranteed. Sadly we are troubled picturing higher dimensions, but be assured the assumption
+holds.
 
 ## Finding a Suitable Loss 
 
-### Posterior Values As Conditional Probability
+### Posterior Values
 
-Now that we have normalized our prediction with the $softmax$-function we can use these posterior values to
+Now that we have normalized our prediction with the $softmax$-function we can use the posterior values to
 derive a new loss function, which is more suitable than the least squares method.
 
 Since we have modeled our predictions as well-defined probabilities we can ask ourselves,
 given data $x$ and its corresponding class-weights $w_c$, what is the probability of a certain class $c$?
-The answer should be our prediction, or more exactly, the $softmax$ of our prediction. Pay particular attention
-to distinguishing predictions $w_c^Tx_i$, for classes $c$ and labels $y_i$.
+The answer *should* be our prediction.
 
 $$
 p( y = c | x; \mathbf{w}) = \frac{e^{w^T_cx}}{\sum_{c=1}^{C}e^{w^T_cx}}
@@ -234,35 +239,49 @@ $$
 
 ### Preparing our Model for Training
 
-The optimal weights can be found by training our model. Given some dataset 
-$\mathcal{D} = \{\ (x_i, y_i)\ |\ i \in \{1,...,k\}$, where our data is independent and identically 
-distributed, we know from previous chapters that we maximize the likelihood of the data in order
+Alas, the optimal weights will only be found by training our model! Given some dataset 
+$\mathcal{D} = \{\ (x_i, y_i)\ |\ i \in \{1,...,k\}\}$, where our data is independent and identically 
+distributed, we know from previous chapters that we **maximize the likelihood** of the data in order
 to obtain the optimal parameters. In this case we utilize the log-likelihood function $l$.
 
 $$
-l(\mathbf{w}) = ln(L(x;\mathbf{w})) = ln(\prod_{i=1}^k p( y = y_i | x_i; \mathbf{w})) = \sum_{i=1}^k ln(p( y = y_i | x_i; \mathbf{w}))
+    l(\mathbf{w}) = ln(L(x;\mathbf{w})) = ln\left(\prod_{i=1}^k p( y = y_i | x_i; \mathbf{w})\right) = \sum_{i=1}^k ln(p( y = y_i | x_i; \mathbf{w}))
 $$
 
 And if we substitute with our softmax function:
 
 $$
-\sum_{i=1}^k ln(p( y = y_i | x_i; \mathbf{w}) = \sum_{i=1}^k ln(\frac{e^{w^T_{y_i}x}}{\sum_{c=1}^{C}e^{w^T_cx}}))
+  \sum_{i=1}^k ln(p( y = y_i | x_i; \mathbf{w})) = \sum_{i=1}^k ln\left(\frac{e^{w^T_{y_i}x}}{\sum_{c=1}^{C}e^{w^T_cx}}\right)
 $$
+
+If we double down on and work to simplify this expression we can establish a relationship to another concept in information theory.
 
 ### Cross-Entropy
 
-Let us further define some more notation to simplify this equation. We will write...
+Think of two images, one is white noise and one is of a banana. Which of these pictures carries more information? You might think
+the banana, since we recognize it, and it conjures up relations in our minds. White noise on the other hand is meaningless to us.
+
+![](./images/white-noise.png)
+
+Say you want to send this data to a friend. Can you compress one more than the other? There is no way to relate any pixel value
+to another in a random image, so you indeed have to send all the data if your friend should receive it without loss. The noise is
+a state of maximum information or *maximum entropy*.
+
+When we speak of the **cross-entropy** between two probability distributions over the same set of events we are talking about
+the average number of information bits we need to classify one of the events. The lower the cross-entropy, the better the model.
+
+Let us get back to the equation and also define some more notation to simplify it! We will use a mathematical slight-of-hand.
 
 $$
-\frac{e^{w^T_{y_i}x}}{\sum_{c=1}^{C}e^{w^T_cx}} \quad \textit{as} \quad \prod_{c=1}^C \mu^{y_{ic}}_{ic}
+\frac{e^{w^T_{y_i}x}}{\sum_{c=1}^{C}e^{w^T_cx}} = \prod_{c=1}^C \mu^{y_{ic}}_{ic}
 $$
 
 ...where $\mu_{ic} = [softmax(w^T_1x_i,..., w^T_Cx_i)]_c$ and $y_{ic} = \textbf{1}(y_i = c)$. The right hand
 side of this simplification [can be read](https://en.wikipedia.org/wiki/Cross_entropy#Relation_to_maximum_likelihood) as the product of the estimated probabilities for classes $c$ to the
-power of their occurrences in in the predictions, which is to say their actual probability. And if we substitute these definitions in the previous equations we get:
+power of their occurrences in the predictions, which is to say their actual probability. And if we substitute these definitions in the previous equations we get a more familiar equation.
     
 $$                                                              
-\sum_{i=1}^k ln(\prod_{c=1}^C \mu^{y_{ic}}_{ic})) = \sum_{i=1}^k \sum_{c=1}^C ln(\mu^{y_{ic}}_{ic}) = \sum_{i=1}^k \sum_{c=1}^C y_{ic} ln(\mu_{ic})
+\sum_{i=1}^k ln\left(\prod_{c=1}^C \mu^{y_{ic}}_{ic}\right) = \sum_{i=1}^k \sum_{c=1}^C ln(\mu^{y_{ic}}_{ic}) = \sum_{i=1}^k \sum_{c=1}^C y_{ic} ln(\mu_{ic})
 $$
 
 The term $-\sum_{c=1}^C y_{ic} ln(\mu_{ic})$ is also defined as **cross-entropy**. This means that
@@ -291,7 +310,7 @@ $$
 For our two classes, we know $p(y_i = -1) = 1 - p(y_i = 1)$ and this simplifies to:
 
 $$
-NNL(\mathbf{w}) = -\sum_{i=1}^k (y_{i1} ln(\mu_{i1}) + y_{i2} ln(\mu_{i2})) =  -\sum_{i=1}^k (y_i ln(\mu_i) + (1-y_i) ln(1-\mu_i))
+NNL(\mathbf{w}) = -\sum_{i=1}^k \left(y_{i1} ln(\mu_{i1}) + y_{i2} ln(\mu_{i2})\right) =  -\sum_{i=1}^k \left( y_i ln(\mu_i) + (1-y_i) ln(1-\mu_i)\right)
 $$
 
 Another way of picturing this equation is as measuring the cross-entropy between two probability distributions
@@ -312,10 +331,10 @@ Note that this is exactly the sigmoid function $S(x) = \frac{1}{1+e^{-x}}$ which
 Substituting this in $NLL(W)$ as well as considering simple logarithm rules $log(\frac{a}{b}) = log(a) - log(b)$ and $log(1) = 0$ we get:
 
 $$
-NLL(\mathbf{w}) = -\sum_{i=1}^k (y_i ln(\frac{1}{1 + e^{w^Tx}}) + (1-y_i) ln(\frac{1}{1 + e^{-w^Tx}})) 
+NLL(\mathbf{w}) = -\sum_{i=1}^k \left(y_i ln\left(\frac{1}{1 + e^{w^Tx}}\right) + (1-y_i) ln\left(\frac{1}{1 + e^{-w^Tx}}\right)\right)
 $$
 $$
-= \sum_{i=1}^k (y_i ln(1 + e^{w^Tx}) + (1-y_i) ln(1 + e^{-w^Tx}))  
+= \sum_{i=1}^k \left(y_i ln(1 + e^{w^Tx}) + (1-y_i) ln(1 + e^{-w^Tx})\right)
 $$
 
 If we further consider the function for binary cases \{-1, 1\}, then we can simply write: 
