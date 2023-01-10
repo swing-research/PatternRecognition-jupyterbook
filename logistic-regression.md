@@ -410,6 +410,8 @@ find a closed form expression for logistic regression like we did when deriving 
 
 ### Gradient (Steepest) Descend
 
+---
+
 *[ChatGPT](https://chat.openai.com/chat), can you give us a two sentence introduction to steepest gradient descend?*
 
 ``
@@ -422,6 +424,18 @@ satisfactory solution.
 
 Good Bot! That is what we will do. For some initial guess of our weights $\mathbf{w}$, a step size $\eta$ and
 a number of iterations $t_{max}$, in general steepest gradient descend we will execute the following algorithm:
+
+---
+*Alternative:*
+
+Using gradient descend we can approximate local minima or maxima of functions in any number of dimensions. We iteratively
+approach the extrema by moving along the direction of the gradient of a function. You know the derivative of a function gives us
+a value for its steepness at every point in space. In gradient (steepest) descend, we find the **direction**, you 
+guessed it, of the **steepest descend** and move a distance with a certain factor, the **step size**. 
+If we start with some initial guess and repeat this process a certain number of times, where we end up must be close
+to a **local minimum**. We can formulate this in an algorithm as follows:
+
+---
 
 $\textit{for} \quad t \in \{1, ..., t_{max}\} \quad \textit{do}:$
 
