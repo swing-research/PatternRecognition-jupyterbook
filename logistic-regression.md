@@ -228,7 +228,7 @@ XX, YY = numpy.meshgrid(x, y)
 
 Z = softmax(numpy.dstack((XX, YY)))
 
-fig, ax = plt.subplots(subplot_kw={"projection": "3d"}, figsize=(10,10))
+fig, ax = plt.subplots(subplot_kw={"projection": "3d"}, figsize=(7,7))
 
 surf1 = ax.plot_surface(XX, YY, Z.T[0].T, cmap=cm.coolwarm, alpha=0.8)
 surf2 = ax.plot_surface(XX, YY, Z.T[1].T, cmap=cm.coolwarm, alpha=0.8)
@@ -481,7 +481,7 @@ y_ = numpy.linspace(-0.5, 3, 200)
 xx, yy = numpy.meshgrid(x_, y_)
 zz = 0.5*(xx**2 - yy)**2 + 0.5*(xx - 1)**2
 
-fig = plt.figure(figsize=(10,10))
+fig = plt.figure(figsize=(7,7))
 ax = plt.axes(projection='3d')
 ax.plot_surface(xx, yy, zz, cmap=cm.coolwarm,  rcount=100, ccount=100);
 ```
