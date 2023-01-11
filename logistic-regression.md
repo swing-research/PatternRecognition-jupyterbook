@@ -733,7 +733,8 @@ Instead, we showed that we can use **gradient steepest descend** to iteratively 
 We also explained how the parameters of this optimization algorithm, such as the initial guess and **learning rate** $\eta$ govern
 the speed and the accuracy of the model.
 
-
+*In conclusion, if you come across classification problems in pattern recognition, you should definately
+use logistic regression!*
 
 
 
