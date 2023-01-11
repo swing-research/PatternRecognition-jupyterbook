@@ -24,25 +24,89 @@ from sklearn.linear_model import LinearRegression
 
 # Logistic Regression
 
-## Recap
+## Recap: Three Ways to Derive Optimal Linear Regressors
 
-*(WIP)*
+Let there be a dataset $\mathcal{D} = \{ (\mathbf{x}_i, y_i) \}_{i = 1}^n$ and a loss function as follows.
 
-### Recap: Ways to Derive Optimal Linear Regressors
+$$
+    \sum_{i=1}^{n}(y_i - \tilde{\mathbf{x}}_i^T\mathbf{w})^2 = ||\mathbf{y}-\mathbf{X}\mathbf{w}||^2
+$$
 
-*(WIP)*
+We have seen that there are multiple ways to obtain the optimal weights for linear regression in the previous chapter
+*Perspectives on Linear Regression*, so let us go over them again in a quick recap.
 
-### Recap: Algebra
+### Algebra
 
-*(WIP)*
+First, we already found weights by finding the first order derivative and setting the expression to zero.
+In our example we would thus solve the following equation.
 
-### Recap: Geometry
+$$
+    \nabla_{\mathbf{w}}||\mathbf{y}-\mathbf{X}\mathbf{w}||^2
+$$
+$$
+    -2\mathbf{X}^T(\mathbf{y}-\mathbf{X}\mathbf{w})
+$$
+$$
+    -2(\mathbf{X}^T\mathbf{y}-\mathbf{X}^T\mathbf{X}\mathbf{w}^*)=0
+$$
+$$
+    \mathbf{X}^T\mathbf{y}=\mathbf{X}^T\mathbf{X}\mathbf{w}^*
+$$
+$$
+    \frac{\mathbf{X}^T\mathbf{y}}{\mathbf{X}^T\mathbf{X}}=\mathbf{w}^*
+$$
 
-*(WIP)*
+### Geometry
 
-### Recap: Probability
+From a geometric point of view we can derive the same solution. We do this by substituting $v = \mathbf{X}\mathbf{w}$ in
+our original problem. The vector $v$ can then be expressed as some linear combination in the columnspace of $\mathbf{X}$.
 
-*(WIP)*
+$$
+    \min\{||\mathbf{y}-\mathbf{X}\mathbf{w}||^2\ |\ \mathbf{w} \in \mathbb{R}^d\} = \min\{||\mathbf{y}-v||^2\ |\ v \in span\{x^{(1)},x^{(2)},...,x^{(3)}\}\}
+$$
+
+We saw that the shortest residual $\hat{y} - y$ for an arbitrary dimensions is perpendicular to every column vector of $\mathbf{X}$,
+which can be expressed by their dot product resulting in 0.
+
+$$
+    (x^{(j)})^T(\mathbf{X}\mathbf{w}^*-\mathbf{y}) = 0\ \textit{for}\ j \in \{1, 2, ..., d+1\} 
+$$
+
+Expanding this to include all column vectors we find that $(x^{(j)}_{j \in \{1, 2, ..., d+1\}})^T = \mathbf{X}^T$ and can 
+simplify the expression the exact same way as we did in the algebraic approach.
+
+$$
+    \frac{\mathbf{X}^T\mathbf{y}}{\mathbf{X}^T\mathbf{X}}=\mathbf{w}^*
+$$
+
+### Probability
+
+Finally, in a probabilistic approach to linear regression we assume that the response $Y$ is obtained by a linear combination
+of our explanatory variables $x_1,...,x_n$ and a constant noise or error $\epsilon$ which is usually assumed to be normally 
+distributed. 
+
+$$
+    Y = \mathbf{w}^T\mathbf{X} + \epsilon
+$$
+
+The probability of a response $y$ given variables $\mathbf{x}$ and parameters $\theta$ can then be writen as follows:
+
+$$
+    p(y | \mathbf{x}; \theta) = \mathcal{N}(y|\mathbf{w}^T\mathbf{x}, \sigma^2)\quad\textit{where}\quad \theta = (\mathbf{w}, \sigma)
+$$
+
+We then find our optimal parameters $\theta^*$ by maximizing the likelihood of observing our training set $\mathcal{D}$ and our parameters $\theta$.
+$p(\mathcal{D};\theta)$. If the events $(y_i, x_i)$ are assumed to be $iid.$ their joint probability is a product.
+
+$$
+    \hat{\theta} = arg\max_\theta p(\mathcal{D};\theta) = arg\max_\theta \prod_{i=1}^{n}p(y_i|x_i;\theta)
+$$
+
+Then we can maximize the log-likelihood, which is a function of our parameters $\theta$.
+
+$$
+    \ell(\theta) := \log p(\mathcal{D}; \theta) = \sum_{i = 1}^n \log p(y_i | \mathbf{x}_i ; \theta)
+$$
 
 ## Issues with Linear Regression for Classification Problems
 
@@ -183,7 +247,7 @@ There are many normalization functions that can be chosen, with the criteria bei
 expressivity. Let's have a look at the standard logistics function, which is the sigmoid function $S$:
 
 $$
-S(y) = \frac{1}{1 + e^{-y}}
+    S(y) = \frac{1}{1 + e^{-y}}
 $$
 
 ```{code-cell} ipython3
@@ -211,7 +275,7 @@ In the case where we want to handle multiple classes $c \in \{c_1,...,c_C\}$ we 
 more dimensions called $softmax$.
 
 $$
-softmax(y)_i = \frac{e^{y_i}}{\sum_{c'=1}^{C}e^{y_{c'}}} \quad \textit{where} \quad y = [y_1,...,y_C]^T
+    softmax(y)_i = \frac{e^{y_i}}{\sum_{c'=1}^{C}e^{y_{c'}}} \quad \textit{where} \quad y = [y_1,...,y_C]^T
 $$
 
 We can visualize the softmax function for 2 dimensions, and will see that its marginal distributions
@@ -254,7 +318,7 @@ given data $x$ and its corresponding class-weights $w_c$, what is the probabilit
 The answer *should* be our prediction.
 
 $$
-p( y = c | x; \mathbf{w}) = \frac{e^{w^T_cx}}{\sum_{c=1}^{C}e^{w^T_cx}}
+    p( y = c | x; \mathbf{w}) = \frac{e^{w^T_cx}}{\sum_{c=1}^{C}e^{w^T_cx}}
 $$
 
 ### Preparing our Model for Training
@@ -262,16 +326,16 @@ $$
 Alas, the optimal weights will only be found by training our model! Given some dataset 
 $\mathcal{D} = \{\ (x_i, y_i)\ |\ i \in \{1,...,k\}\}$, where our data is independent and identically 
 distributed, we know from previous chapters that we **maximize the likelihood** of the data in order
-to obtain the optimal parameters. In this case we utilize the log-likelihood function $l$.
+to obtain the optimal parameters. In this case we utilize the log-likelihood function $\ell$.
 
 $$
-    l(\mathbf{w}) = ln(L(x;\mathbf{w})) = ln\left(\prod_{i=1}^k p( y = y_i | x_i; \mathbf{w})\right) = \sum_{i=1}^k ln(p( y = y_i | x_i; \mathbf{w}))
+    \ell(\mathbf{w}) = ln(L(x;\mathbf{w})) = ln\left(\prod_{i=1}^k p( y = y_i | x_i; \mathbf{w})\right) = \sum_{i=1}^k ln(p( y = y_i | x_i; \mathbf{w}))
 $$
 
 And if we substitute with our softmax function:
 
 $$
-  \sum_{i=1}^k ln(p( y = y_i | x_i; \mathbf{w})) = \sum_{i=1}^k ln\left(\frac{e^{w^T_{y_i}x}}{\sum_{c=1}^{C}e^{w^T_cx}}\right)
+    \sum_{i=1}^k ln(p( y = y_i | x_i; \mathbf{w})) = \sum_{i=1}^k ln\left(\frac{e^{w^T_{y_i}x}}{\sum_{c=1}^{C}e^{w^T_cx}}\right)
 $$
 
 If we double down on and work to simplify this expression we can establish a relationship to another concept in information theory.
@@ -293,7 +357,7 @@ the average number of information bits we need to classify one of the events. Th
 Let us get back to the equation and also define some more notation to simplify it! We will use a mathematical slight-of-hand.
 
 $$
-\frac{e^{w^T_{y_i}x}}{\sum_{c=1}^{C}e^{w^T_cx}} = \prod_{c=1}^C \mu^{y_{ic}}_{ic}
+    \frac{e^{w^T_{y_i}x}}{\sum_{c=1}^{C}e^{w^T_cx}} = \prod_{c=1}^C \mu^{y_{ic}}_{ic}
 $$
 
 ...where $\mu_{ic} = [softmax(w^T_1x_i,..., w^T_Cx_i)]_c$ and $y_{ic} = \textbf{1}(y_i = c)$. The right hand
@@ -301,7 +365,7 @@ side of this simplification [can be read](https://en.wikipedia.org/wiki/Cross_en
 power of their occurrences in the predictions, which is to say their actual probability. And if we substitute these definitions in the previous equations we get a more familiar equation.
     
 $$                                                              
-\sum_{i=1}^k ln\left(\prod_{c=1}^C \mu^{y_{ic}}_{ic}\right) = \sum_{i=1}^k \sum_{c=1}^C ln(\mu^{y_{ic}}_{ic}) = \sum_{i=1}^k \sum_{c=1}^C y_{ic} ln(\mu_{ic})
+    \sum_{i=1}^k ln\left(\prod_{c=1}^C \mu^{y_{ic}}_{ic}\right) = \sum_{i=1}^k \sum_{c=1}^C ln(\mu^{y_{ic}}_{ic}) = \sum_{i=1}^k \sum_{c=1}^C y_{ic} ln(\mu_{ic})
 $$
 
 The term $-\sum_{c=1}^C y_{ic} ln(\mu_{ic})$ is also defined as **cross-entropy**. This means that
@@ -310,7 +374,7 @@ $(x_i, y_i) \in \mathcal{D}$, the variables $(y_{i1},...,y_{iC})$ and $(\mu_{i1}
 distributions over the C classes. We will continue to use this notation in this chapter. **To summarize**, the log-likelihood function to maximize in order to find the optimal parameters $\mathbf{w}$ can be writen as:
 
 $$
-l(\mathbf{w}) = \sum_{i=1}^k \sum_{c=1}^C y_{ic} ln(\mu_{ic})                        
+    \ell(\mathbf{w}) = \sum_{i=1}^k \sum_{c=1}^C y_{ic} ln(\mu_{ic})                        
 $$
 
 In our case, since it makes more sense colloquially to minimize an error, we will minimize the negative version of it. Which is
@@ -324,13 +388,13 @@ Let us consider now an example for binary classification, which could be again o
 to predict their success in exams, letting our classes be $c \in \{-1, 1\}$. We will consider the negative loss-likelihood:
 
 $$
-NNL(\mathbf{w}) = -\sum_{i=1}^k \sum_{c=1}^C y_{ic} ln(\mu_{ic})  
+    NNL(\mathbf{w}) = -\sum_{i=1}^k \sum_{c=1}^C y_{ic} ln(\mu_{ic})  
 $$
 
 For our two classes, we know $p(y_i = -1) = 1 - p(y_i = 1)$ and this simplifies to:
 
 $$
-NNL(\mathbf{w}) = -\sum_{i=1}^k \left(y_{i1} ln(\mu_{i1}) + y_{i2} ln(\mu_{i2})\right) =  -\sum_{i=1}^k \left( y_i ln(\mu_i) + (1-y_i) ln(1-\mu_i)\right)
+    NNL(\mathbf{w}) = -\sum_{i=1}^k \left(y_{i1} ln(\mu_{i1}) + y_{i2} ln(\mu_{i2})\right) =  -\sum_{i=1}^k \left( y_i ln(\mu_i) + (1-y_i) ln(1-\mu_i)\right)
 $$
 
 Another way of picturing this equation is as measuring the cross-entropy between two probability distributions
@@ -338,29 +402,29 @@ $(y_i, (1-y_i))$ and $(\mu_i, (1-\mu_i))$, as in how close the distribution of t
 the desired, actual distribution of the data. If we examine $\mu_i$ and $(1 - \mu_i)$ we find that they simplify considerably:
 
 $$
-\mu_i = \frac{e^{w^T_{c_1}x}}{\sum_{c=1}^{2}e^{w^T_cx}} = \frac{e^{w^T_{c_1}x}}{e^{w^T_{c_1}x}+e^{w^T_{c_2}x}} = \frac{e^{w^T_{c_1}x}}{e^{w^T_{c_1}x}+e^{w^T_{c_2}x}} * \frac{e^{-w^T_{c_1}x}}{e^{-w^T_{c_1}x}}
+    \mu_i = \frac{e^{w^T_{c_1}x}}{\sum_{c=1}^{2}e^{w^T_cx}} = \frac{e^{w^T_{c_1}x}}{e^{w^T_{c_1}x}+e^{w^T_{c_2}x}} = \frac{e^{w^T_{c_1}x}}{e^{w^T_{c_1}x}+e^{w^T_{c_2}x}} * \frac{e^{-w^T_{c_1}x}}{e^{-w^T_{c_1}x}}
 $$
 $$
-= \frac{1}{1 + e^{(w_{c_2} - w_{c_1})^Tx}} = \frac{1}{1 + e^{w^Tx}}
+    = \frac{1}{1 + e^{(w_{c_2} - w_{c_1})^Tx}} = \frac{1}{1 + e^{w^Tx}}
 $$
 $$
-(1-\mu_i) = 1 - \frac{1}{1 + e^{w^Tx}} = \frac{1 + e^{w^Tx} - 1}{1 + e^{w^Tx}} * \frac{e^{-w^Tx}}{e^{-w^Tx}} = \frac{1}{e^{-w^Tx} + 1} 
+    (1-\mu_i) = 1 - \frac{1}{1 + e^{w^Tx}} = \frac{1 + e^{w^Tx} - 1}{1 + e^{w^Tx}} * \frac{e^{-w^Tx}}{e^{-w^Tx}} = \frac{1}{e^{-w^Tx} + 1} 
 $$
 
 Note that this is exactly the sigmoid function $S(x) = \frac{1}{1+e^{-x}}$ which we have seen earlier.
 Substituting this in $NLL(W)$ as well as considering simple logarithm rules $log(\frac{a}{b}) = log(a) - log(b)$ and $log(1) = 0$ we get:
 
 $$
-NLL(\mathbf{w}) = -\sum_{i=1}^k \left(y_i ln\left(\frac{1}{1 + e^{w^Tx}}\right) + (1-y_i) ln\left(\frac{1}{1 + e^{-w^Tx}}\right)\right)
+    NLL(\mathbf{w}) = -\sum_{i=1}^k \left(y_i ln\left(\frac{1}{1 + e^{w^Tx}}\right) + (1-y_i) ln\left(\frac{1}{1 + e^{-w^Tx}}\right)\right)
 $$
 $$
-= \sum_{i=1}^k \left(y_i ln(1 + e^{w^Tx}) + (1-y_i) ln(1 + e^{-w^Tx})\right)
+    = \sum_{i=1}^k \left(y_i ln(1 + e^{w^Tx}) + (1-y_i) ln(1 + e^{-w^Tx})\right)
 $$
 
 If we further consider the function for binary cases \{-1, 1\}, then we can simply write: 
 
 $$
-NLL(\mathbf{w}) = \sum_{i=1}^k ln(1 + e^{-y_iw^Tx_i}) \quad y_i \in \{-1, 1\}
+    NLL(\mathbf{w}) = \sum_{i=1}^k ln(1 + e^{-y_iw^Tx_i}) \quad y_i \in \{-1, 1\}
 $$
 
 ### Comparison with LSE
@@ -370,13 +434,13 @@ prediction is exceedingly positive but the true outcome is negative, the loss ri
 hand the true outcome is positive the loss function goes to zero.
 
 $$
-\lim_{\hat{y} \rightarrow +\infty} ln(1 + e^{-y\hat{y}}) = \begin{cases} +\infty &\quad y = -1 \\ 0 &\quad y = 1 \end{cases}
+    \lim_{\hat{y} \rightarrow +\infty} ln(1 + e^{-y\hat{y}}) = \begin{cases} +\infty &\quad y = -1 \\ 0 &\quad y = 1 \end{cases}
 $$
 
 The same applies to the other direction, the loss goes to zero if the prediction matches the outcome, otherwise it grows to infinity.
 
 $$
-\lim_{\hat{y} \rightarrow -\infty} ln(1 + e^{-y\hat{y}}) = \begin{cases} 0 &\quad y = -1 \\ +\infty &\quad y = 1 \end{cases}
+    \lim_{\hat{y} \rightarrow -\infty} ln(1 + e^{-y\hat{y}}) = \begin{cases} 0 &\quad y = -1 \\ +\infty &\quad y = 1 \end{cases}
 $$
 
 If you can still remember, we derived this loss to get rid of the least squares loss, which we
@@ -384,7 +448,7 @@ deemed inadequate for classification problems. Let us quickly have a look at the
 for comparison:
 
 $$                                                                   
-NLL_{\mathcal{l}2}(\mathbf{w}) = \frac{1}{n}\sum_{i=1}^k (1 - y_i\hat{y}_i)^2 = \frac{1}{n}\sum_{i=1}^k (1 - y_iw^Tx_i)^2
+    NLL_{\mathcal{l}2}(\mathbf{w}) = \frac{1}{n}\sum_{i=1}^k (1 - y_i\hat{y}_i)^2 = \frac{1}{n}\sum_{i=1}^k (1 - y_iw^Tx_i)^2
 $$
 
 We can plot all three losses, again with our prediction always being $1$ to illustrate the difference.
@@ -418,10 +482,10 @@ We now have an adequate regression with a suitable loss function, so we *should*
 the partial derivatives to zero and obtain our optimal weights $\mathbf{w}$.
 
 $$
-\nabla_{\mathbf{w}}NLL(\mathbf{w}) = \nabla_{\mathbf{w}}\sum_{i = 1}^{n}(\mu_i-y_i)x_i = \nabla_{\mathbf{w}}\mathbf{X}^T(\mu-y)
+    \nabla_{\mathbf{w}}NLL(\mathbf{w}) = \nabla_{\mathbf{w}}\sum_{i = 1}^{n}(\mu_i-y_i)x_i = \nabla_{\mathbf{w}}\mathbf{X}^T(\mu-y)
 $$
 $$
-= \mathbf{X}^T(\nabla_{\mathbf{w}}\frac{e^{w^T_cx}}{\sum_{c=1}^{C}e^{w^T_cx}}) 
+    = \mathbf{X}^T(\nabla_{\mathbf{w}}\frac{e^{w^T_cx}}{\sum_{c=1}^{C}e^{w^T_cx}}) 
 $$
 
 Now there are some good news and bad news. The good news is, we won't have to calculate this derivative and set it to
@@ -430,32 +494,12 @@ find a closed form expression for logistic regression like we did when deriving 
 
 ### Gradient (Steepest) Descend
 
----
-
-*[ChatGPT](https://chat.openai.com/chat), can you give us a two sentence introduction to steepest gradient descend?*
-
-``
-Steepest gradient descent is an optimization algorithm that is used to find the local minimum of a 
-differentiable function by iteratively taking steps in the direction of the negative gradient of the 
-function. It is an iterative method that starts with an initial guess for the solution, and then improves 
-the guess by taking a step in the direction that reduces the function the most, until it reaches a 
-satisfactory solution.
-``
-
-Good Bot! That is what we will do. For some initial guess of our weights $\mathbf{w}$, a step size $\eta$ and
-a number of iterations $t_{max}$, in general steepest gradient descend we will execute the following algorithm:
-
----
-*Alternative:*
-
 Using gradient descend we can approximate local minima or maxima of functions in any number of dimensions. We iteratively
 approach the extrema by moving along the direction of the gradient of a function. You know the derivative of a function gives us
 a value for its steepness at every point in space. In gradient (steepest) descend, we find the **direction**, you 
 guessed it, of the **steepest descend** and move a distance with a certain factor, the **step size**. 
 If we start with some initial guess and repeat this process a certain number of times, where we end up must be close
 to a **local minimum**. We can formulate this in an algorithm as follows:
-
----
 
 $\textit{for} \quad t \in \{1, ..., t_{max}\} \quad \textit{do}:$
 
@@ -471,7 +515,7 @@ slope towards a local minimum.
 We will use the Aoki Function as a surface to visualize the algorithm.
 
 $$
-F(x, y) = 0.5(x^2 - y)^2 + 0.5(x - 1)^2
+    F(x, y) = 0.5(x^2 - y)^2 + 0.5(x - 1)^2
 $$
 
 ```{code-cell} ipython3 
