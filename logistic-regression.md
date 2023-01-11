@@ -24,7 +24,7 @@ from sklearn.linear_model import LinearRegression
 
 # Logistic Regression
 
-## Recap: Three Ways to Derive Optimal Linear Regressors
+## 3 Ways to Derive Optimal Linear Regressors
 
 Let there be a dataset $\mathcal{D} = \{ (\mathbf{x}_i, y_i) \}_{i = 1}^n$ and a loss function as follows.
 
@@ -108,14 +108,13 @@ $$
     \ell(\theta) := \log p(\mathcal{D}; \theta) = \sum_{i = 1}^n \log p(y_i | \mathbf{x}_i ; \theta)
 $$
 
-## Issues with Linear Regression for Classification Problems
+## Linear Regression & Classification Problems
 
-### Simple Linear Regression
+### Passing Exams
 
 Imagine we have a simple binary classification problem with labels $\{-1, 1\}$, for
 example, let their be data about the outcome of students exams, which are either passed
 or failed, and for each student a record of how much hours have been put into studying.
-
 
 We will first try to model this example with *simple linear regression*. 
 
