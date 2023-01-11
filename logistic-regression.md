@@ -188,7 +188,7 @@ fig.tight_layout(pad=1.0);
 ### Shifting Prediction Threshold 
 
 If we add datapoints, our predictions shift. Our threshold value for classifying
-an amount of studying as passing ($x=0$) shifts as well, which it should not in this case, as we will make more errors
+an amount of studying as passing ($x \quad \textit{where} \quad y = 0$) shifts as well, which it should not in this case, as we will make more errors
 as to predictions for the non-outlier students.
 
 Suffice it to say, this model is **highly affected by outliers** and not suited for the task of classification for these events.
@@ -311,7 +311,7 @@ ax.grid(True);
 ### Softmax
 
 In the case where we want to handle multiple classes $c \in \{c_1,...,c_C\}$ we use a generalization of the logistics function for
-more dimensions called $softmax$.
+higher dimensions called $softmax$.
 
 $$
     softmax(y)_i = \frac{e^{y_i}}{\sum_{c'=1}^{C}e^{y_{c'}}} \quad \textit{where} \quad y = [y_1,...,y_C]^T
@@ -342,7 +342,7 @@ ax.view_init(-140, 60);
 In both cases, the effect on the data is its projection to the probability range [0,1] and its normalization 
 such that, in the case of the vectorized version with softmax, the values of an output vector sum up to 1. In the
 previous graphic, each surface represents the probability of one of two classes at a given coordinate. The probability that either one or the other is our label should be their sum, given that they are independent, and 
-we can be sure this is also guaranteed. Sadly we are troubled picturing higher dimensions, but be assured the assumption
+here we can be sure that this is the case. Sadly we are troubled picturing higher dimensions, but be assured the assumption
 holds.
 
 ## Finding a Suitable Loss 
