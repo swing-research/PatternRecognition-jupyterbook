@@ -345,7 +345,7 @@ If we double down on and work to simplify this expression we can establish a rel
 Think of two images, one is white noise and one is of a banana. Which of these pictures carries more information? You might think
 the banana, since we recognize it, and it conjures up relations in our minds. White noise on the other hand is meaningless to us.
 
-![](./images/white-noise.png)
+![alt](./images/white-noise.png) ![alt](./images/Banana-Single-2.jpg)
 
 Say you want to send this data to a friend. Can you compress one more than the other? There is no way to relate any pixel value
 to another in a random image, so you indeed have to send all the data if your friend should receive it without loss. The noise is
