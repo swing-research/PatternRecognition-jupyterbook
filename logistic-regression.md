@@ -238,11 +238,11 @@ much sense in a discrete setting.
 
 With the One-Hot-Encoding technique we already saw how we can prepare data such that a classifier achieves
 better accuracy. Nonetheless, linear least squares regression did not give us suitable probabilities in $[0, 1]$.
-
+Let us again have a look at the results.
 
 ```{code-cell} ipython3
 :tags: [hide-input]
-
+import mlxtend
 from mlxtend.data import loadlocal_mnist
 
 X_train, y_train = loadlocal_mnist(
@@ -254,28 +254,28 @@ d = 28**2
 n = 50000
 
 # sample n digits from the big training set
-shuffle_idx = np.random.choice(X_train.shape[0], n)
+shuffle_idx = numpy.random.choice(X_train.shape[0], n)
 X_train = X_train[shuffle_idx]
 y_train = y_train[shuffle_idx]
 
 # remove pixels that are always zero
-nz_mask = np.any(X_train > 0, axis=0)
+nz_mask = numpy.any(X_train > 0, axis=0)
 X_mask = X_train[:, nz_mask] / 255.0
 d_mask = nz_mask.sum()
 
-X_b = np.hstack((np.ones((n, 1)), X_mask))
+X_b = numpy.hstack((numpy.ones((n, 1)), X_mask))
 
 lam = 0.1
-y_onehot = np.zeros((n, 10))
+y_onehot = numpy.zeros((n, 10))
 for i in range(n):
     y_onehot[i, int(y_train[i])] = 1
 
-W_mask = np.linalg.inv(X_b.T @ X_b + lam * np.eye(d_mask + 1)) @ X_b.T @ y_onehot
+W_mask = numpy.linalg.inv(X_b.T @ X_b + lam * numpy.eye(d_mask + 1)) @ X_b.T @ y_onehot
 
-with np.printoptions(formatter={'float': '{: 0.3f}'.format}):
+with numpy.printoptions(formatter={'float': '{: 0.3f}'.format}):
     print((X_b @ W_mask)[5])
     print(y_onehot[5])
-    print(np.max(X_b @ W_mask))
+    print(numpy.max(X_b @ W_mask))
 ```
 
 Given our data $x$ and corresponding weights $w_c$, we want to normalize our prediction $w^T_cx$ with a function $f: \mathbb{R} \rightarrow [0, 1]$.
