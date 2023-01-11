@@ -231,13 +231,52 @@ ax.grid(True);
 ```
 
 In the previous plot, one can see that the $l_{2}, l_{01}$ loss functions do not align, particularly
-where the values are exceedingly negative or positive. Using the Least Squares Method does not make
+where the values are exceedingly positive. Using the Least Squares Method does not make
 much sense in a discrete setting.
 
 ## Normalizing our Data
 
 With the One-Hot-Encoding technique we already saw how we can prepare data such that a classifier achieves
 better accuracy. Nonetheless, linear least squares regression did not give us suitable probabilities in $[0, 1]$.
+
+
+```{code-cell} ipython3
+:tags: [hide-input]
+
+from mlxtend.data import loadlocal_mnist
+
+X_train, y_train = loadlocal_mnist(
+        images_path='./book_data/train-images-idx3-ubyte', 
+        labels_path='./book_data/train-labels-idx1-ubyte'
+        )
+
+d = 28**2
+n = 50000
+
+# sample n digits from the big training set
+shuffle_idx = np.random.choice(X_train.shape[0], n)
+X_train = X_train[shuffle_idx]
+y_train = y_train[shuffle_idx]
+
+# remove pixels that are always zero
+nz_mask = np.any(X_train > 0, axis=0)
+X_mask = X_train[:, nz_mask] / 255.0
+d_mask = nz_mask.sum()
+
+X_b = np.hstack((np.ones((n, 1)), X_mask))
+
+lam = 0.1
+y_onehot = np.zeros((n, 10))
+for i in range(n):
+    y_onehot[i, int(y_train[i])] = 1
+
+W_mask = np.linalg.inv(X_b.T @ X_b + lam * np.eye(d_mask + 1)) @ X_b.T @ y_onehot
+
+with np.printoptions(formatter={'float': '{: 0.3f}'.format}):
+    print((X_b @ W_mask)[5])
+    print(y_onehot[5])
+    print(np.max(X_b @ W_mask))
+```
 
 Given our data $x$ and corresponding weights $w_c$, we want to normalize our prediction $w^T_cx$ with a function $f: \mathbb{R} \rightarrow [0, 1]$.
 
@@ -651,7 +690,7 @@ to low, we might need a *large* number of iterations to find it.
 
 ## Summary
 
-We have seen that linear regression causes issues for classification problems and explained
+We have seen that **linear regression** causes issues for classification problems and explained
 why this is the case. For classification, the linear least squares approach is highly affected
 by outliers, causing the prediction threshold to shift suboptimally. Furthermore, the loss
 function that constitutes least-squares loss does not map well onto the $\ell_{01}$ loss. And finally, the resulting
@@ -668,9 +707,9 @@ $$
     p( y = c | x; \mathbf{w}) = \frac{e^{w^T_cx}}{\sum_{c=1}^{C}e^{w^T_cx}}
 $$
 
-To derive a suitable loss we simplified the log-likelihood function of our equation and established 
+To derive a suitable loss we simplified the **log-likelihood** function of our equation and established 
 a connection to cross-entropy. Maximizing the log-likelihood is equivalent to minimizing the negative 
-log likelihood, which in turn is equivalent to minimizing cross-entropy.
+log likelihood, which in turn is equivalent to minimizing **cross-entropy**.
 
 $$
     NNL(\mathbf{w}) = -\sum_{i=1}^k \sum_{c=1}^C y_{ic} ln(\mu_{ic}) \quad \textit{where} \quad -\sum_{c=1}^C y_{ic} ln(\mu_{ic}) \quad \textit{is the cross-entropy.}                    
@@ -690,8 +729,8 @@ $$
 \mathbf{X}^T(\nabla_{\mathbf{w}}\frac{e^{w^T_cx}}{\sum_{c=1}^{C}e^{w^T_cx}}) 
 $$
 
-Instead, we showed that we can use gradient steepest descend to iteratively approach an optimal solution. 
-We also explained how the parameters of this optimization algorithm, such as the initial guess and learning rate $\eta$ govern
+Instead, we showed that we can use **gradient steepest descend** to iteratively approach an optimal solution. 
+We also explained how the parameters of this optimization algorithm, such as the initial guess and **learning rate** $\eta$ govern
 the speed and the accuracy of the model.
 
 
