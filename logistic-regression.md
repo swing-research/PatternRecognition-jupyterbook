@@ -604,7 +604,16 @@ If gradient descend is used as an optimization technique for a model, then the s
 **learning rate**. If we set it too high, we might overshoot, oscillate or even diverge with our weights. If we set it
 to low, we might need a *large* number of iterations to find it.
 
+## Summary
 
+*(WIP)*
+
+* Why is linear regression inadequate for classification problems.
+* How does logistic regression fix the issues wrt. classification problems.
+* Softmax Function
+* Cross Entropy
+* NNL
+* Gradient Steepest Descend
 
 
 
