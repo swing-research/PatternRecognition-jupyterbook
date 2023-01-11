@@ -24,6 +24,26 @@ from sklearn.linear_model import LinearRegression
 
 # Logistic Regression
 
+## Recap
+
+*(WIP)*
+
+### Recap: Ways to Derive Optimal Linear Regressors
+
+*(WIP)*
+
+### Recap: Algebra
+
+*(WIP)*
+
+### Recap: Geometry
+
+*(WIP)*
+
+### Recap: Probability
+
+*(WIP)*
+
 ## Issues with Linear Regression for Classification Problems
 
 ### Simple Linear Regression
