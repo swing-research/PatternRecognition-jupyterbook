@@ -352,7 +352,8 @@ to another in a random image, so you indeed have to send all the data if your fr
 a state of maximum information or *maximum entropy*.
 
 When we speak of the **cross-entropy** between two probability distributions over the same set of events we are talking about
-the average number of information bits we need to classify one of the events. The lower the cross-entropy, the better the model.
+the average number of information bits we need to classify one of the events. Generally, the lower the cross-entropy in our dataset, the better our
+model performs.
 
 Let us get back to the equation and also define some more notation to simplify it! We will use a mathematical slight-of-hand.
 
@@ -369,7 +370,7 @@ $$
 $$
 
 The term $-\sum_{c=1}^C y_{ic} ln(\mu_{ic})$ is also defined as **cross-entropy**. This means that
-maximizing the likelihood $l(w)$ is equivalent to minimizing the negative cross-entropy, or to spare the headache *minimizing the negative loss-likelihood.*. Additionally for each 
+maximizing the likelihood $l(w)$ is equivalent to minimizing the cross-entropy, or to spare the headache *minimizing the negative loss-likelihood.*. Additionally for each 
 $(x_i, y_i) \in \mathcal{D}$, the variables $(y_{i1},...,y_{iC})$ and $(\mu_{i1},...,\mu_{iC})$ are well defined probability
 distributions over the C classes. We will continue to use this notation in this chapter. **To summarize**, the log-likelihood function to maximize in order to find the optimal parameters $\mathbf{w}$ can be writen as:
 
@@ -485,7 +486,7 @@ $$
     \nabla_{\mathbf{w}}NLL(\mathbf{w}) = \nabla_{\mathbf{w}}\sum_{i = 1}^{n}(\mu_i-y_i)x_i = \nabla_{\mathbf{w}}\mathbf{X}^T(\mu-y)
 $$
 $$
-    = \mathbf{X}^T(\nabla_{\mathbf{w}}\frac{e^{w^T_cx}}{\sum_{c=1}^{C}e^{w^T_cx}}) 
+    = \mathbf{X}^T\left(\nabla_{\mathbf{w}}\frac{e^{w^T_cx}}{\sum_{c=1}^{C}e^{w^T_cx}}\right) 
 $$
 
 Now there are some good news and bad news. The good news is, we won't have to calculate this derivative and set it to
@@ -650,14 +651,48 @@ to low, we might need a *large* number of iterations to find it.
 
 ## Summary
 
-*(WIP)*
+We have seen that linear regression causes issues for classification problems and explained
+why this is the case. For classification, the linear least squares approach is highly affected
+by outliers, causing the prediction threshold to shift suboptimally. Furthermore, the loss
+function that constitutes least-squares loss does not map well onto the $\ell_{01}$ loss. And finally, the resulting
+prediction is *not* a well-defined probability distribution.
 
-* Why is linear regression inadequate for classification problems.
-* How does logistic regression fix the issues wrt. classification problems.
-* Softmax Function
-* Cross Entropy
-* NNL
-* Gradient Steepest Descend
+**Logistic regression** can fix this problem by transforming and normalizing our predictions with logistic
+functions. For the higher dimensional case the $softmax$-function provides the sought after utility.
+Our posterior values make up a well-defined probability distribution.
+
+$$
+    softmax(y)_i = \frac{e^{y_i}}{\sum_{c'=1}^{C}e^{y_{c'}}} \quad \textit{where} \quad y = [y_1,...,y_C]^T
+$$
+$$
+    p( y = c | x; \mathbf{w}) = \frac{e^{w^T_cx}}{\sum_{c=1}^{C}e^{w^T_cx}}
+$$
+
+To derive a suitable loss we simplified the log-likelihood function of our equation and established 
+a connection to cross-entropy. Maximizing the log-likelihood is equivalent to minimizing the negative 
+log likelihood, which in turn is equivalent to minimizing cross-entropy.
+
+$$
+    NNL(\mathbf{w}) = -\sum_{i=1}^k \sum_{c=1}^C y_{ic} ln(\mu_{ic}) \quad \textit{where} \quad -\sum_{c=1}^C y_{ic} ln(\mu_{ic}) \quad \textit{is the cross-entropy.}                    
+$$
+
+We arrived at a suitable loss function that better describes the loss for classification problems in contrast
+to least-squares loss. 
+
+$$                                                                   
+    NLL_{\mathcal{l}2}(\mathbf{w}) = \frac{1}{n}\sum_{i=1}^k (1 - y_iw^Tx_i)^2
+$$
+
+Finding the optimal parameters by taking the derivative is not possible since there does not exist a closed
+form expression for our problem.
+
+$$
+\mathbf{X}^T(\nabla_{\mathbf{w}}\frac{e^{w^T_cx}}{\sum_{c=1}^{C}e^{w^T_cx}}) 
+$$
+
+Instead, we showed that we can use gradient steepest descend to iteratively approach an optimal solution. 
+We also explained how the parameters of this optimization algorithm, such as the initial guess and learning rate $\eta$ govern
+the speed and the accuracy of the model.
 
 
 
