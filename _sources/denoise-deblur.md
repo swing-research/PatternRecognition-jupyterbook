@@ -256,74 +256,548 @@ $$
 
 The covariance matrix is thus of dimensions $d \times d = 196,608 \times 196,608$ which is huge. There are about $38,654,705,664 / 2$ entries to estimate (it's a symmetric matrix), and this requires an enormous training set. Further, manipulating a matrix of this size (say, inverting it) is very very challenging on standard hardware.
 
-The saving grace comes from noting that a good denoising operator should perform a similar operation in every part of the image. If we additionally want it to be linear, then we can further constrain the class of admissible estimators to convolutional filters. In other words, we can further constrain the matrix (the linear operator) $\mH$ to be a convolution matrix. (TODO: update the notation table.) Letting $h[\vn]$ with $\vn = (n_1, n_2)$ be the corresponding impulse response, and $\rx[\vn], \ry[\vn], \rw[\vn]$ be the images corresponding to vectors $\rvx, \rvy, \rvw$, we then have
+The saving grace comes from noting that a good denoising operator should perform a similar operation in every part of the vector. If we additionally want it to be linear, then we can further constrain the class of admissible estimators to convolutional filters. In other words, we can further constrain the matrix (the linear operator) $\mH$ to be a convolution matrix. (TODO: update the notation table.) Letting $h[n]$ be the corresponding impulse response, and $\rx[n], \ry[n], \rw[n]$ be the $n^{th}$ components of  vectors $\rvx, \rvy, \rvw$, we then have
 
 $$
-  \hat{\rx}[\vn] = (\ry \circledast \rh)[\vn].
+  \hat{\rx}[n] = (\ry \circledast \rh)[n].
 $$
 
 Ultimately we want to use linear convolution, but let us for the moment pretend that circular convolution is fine since it will simplify the derivations. (TODO: use $2N$ below.) Applying the discrete Fourier transform on both sides we get
 
 $$
-  \hat{\rX}[\vk] = \rY[\vk] \cdot H[\vk]
+  \hat{\rX}[k] = \rY[k] \cdot H[k]
 $$ (dft-wiener)
 
-where we use the upper case to denote the corresponding DFTs. The key benefit of passing to the (discrete) frequency domain is that the frequency-domain filter coefficient become independent of one another. In other words, in the equation {eq}`dft-wiener` we can choose each of the $\rH[\vk]$ independently of all others, and it will only depend on $\rX[\vk]$ and $\rY[\vk]$ for that particular $\vk$. To see this we use the Parseval equality. Indeed, since
+where we use the upper case to denote the corresponding DFTs. The key benefit of passing to the (discrete) frequency domain is that the frequency-domain filter coefficient become independent of one another. In other words, in the equation {eq}`dft-wiener` we can choose each of the $\rH[k]$ independently of all others, and it will only depend on $\rX[k]$ and $\rY[k]$ for that particular $k$. To see this we use the Parseval equality. Indeed, since
 
 $$
-  \EE \sum_{\vn \in \ZZ_d^2} (\rx[\vn] - \hat{\rx}[\vn])^2
+  \EE \sum_{n \in \ZZ_d} (\rx[n] - \hat{\rx}[n])^2
   =
-  \frac{1}{d^2} \EE \sum_{\vk \in \ZZ_d^2} (\rX[\vk] - \hat{\rX}[\vk])^2  
+  \frac{1}{d} \EE \sum_{k \in \ZZ_d} (\rX[k] - \hat{\rX}[k])^2  
 $$
-($\sum_{\vn \in \ZZ_d^2}$ is just fancy notation for $\sum_{n_1=0}^{d-1} \sum_{n_2=0}^{d-1}$), we can do our minimization in the frequency domain where it now simply reads
+we can do our minimization in the frequency domain where it now simply reads
 
 $$
-  \min_{H} \EE \sum_{\vk \in \ZZ_d^2} (H[\vk] \rY[\vk] - \rX[\vk])^2
+  \min_{H} \EE \sum_{k \in \ZZ_d} (H[k] \rY[k] - \rX[k])^2
   =
-  \min_{H} \sum_{\vk \in \ZZ_d^2} \EE |H[\vk] \rY[\vk] - \rX[\vk]|^2
+  \min_{H} \sum_{k \in \ZZ_d} \EE |H[k] \rY[k] - \rX[k]|^2
 $$
 
-which can indeed be solved for each $\vk$ independently. Note that we have to put $\| \cdot \|$ around the terms in the frequency domain since they are in general complex. Taking the derivative with respect to the real and imaginary parts of $H[\vell]$ and setting them to zero yields (do check this!)
+which can indeed be solved for each $k$ independently. Note that we have to put $\| \cdot \|$ around the terms in the frequency domain since they are in general complex. Taking the derivative with respect to the real and imaginary parts of $H[\ell]$ and setting them to zero yields (do check this!)
 
 $$
-  \EE (H[\vell] Y[\vell] - X[\vell]) Y^*[\vell] = 0,
+  \EE (H[\ell] Y[\ell] - X[\ell]) Y^*[\ell] = 0,
 $$
 
 so that
 
 $$
-  H[\vell] = \frac{S_{XY}[\vell]}{S_{YY}[\vell]},
+  H[\ell] = \frac{S_{XY}[\ell]}{S_{YY}[\ell]},
 $$
-where $S_{XY}[\vell] = \EE ~ X[\vell] Y^*[\vell]$ and $S_{YY}[\vell] = \EE ~ Y[\vell] Y^*[\vell]$.
+where $S_{XY}[\ell] = \EE ~ X[\ell] Y^*[\ell]$ and $S_{YY}[\ell] = \EE ~ Y[\ell] Y^*[\ell]$.
 
 For additive white Gaussian noise we have that (do check the following as well!)
 
 $$
-  S_{XY}[\vell] = S_{XX}[\vell] = \EE ~ X[\vell] Y^*[\vell]
+  S_{XY}[\ell] = S_{XX}[\ell] = \EE ~ X[\ell] Y^*[\ell]
 $$
 
 and
 
 $$
-  S_{YY}[\vell] = S_{XX}[\vell] + S_{WW}[\vell] =  S_{XX}[\vell] + d^2 \sigma^2
+  S_{YY}[\ell] = S_{XX}[\ell] + S_{WW}[\ell] =  S_{XX}[\ell] + d \sigma^2
 $$
 
 so that
 
 $$
-  H[\vell] = \frac{S_{XX}[\vell]}{S_{XX}[\vell] + d^2 \sigma^2}
+  H[\ell] = \frac{S_{XX}[\ell]}{S_{XX}[\ell] + d \sigma^2}
 $$
 
-We can now identify an implicit assumption, or an alternative route that would've yielded a convolutional filter model
+We can now identify an implicit assumption, or an alternative route that would've yielded a convolutional filter model. The DFT of the impulse response of the optimal filter is obtained for each $\vell$ individually. The expression is completely parallel to the matrix expression we derived earlier for general LMMSE estimators, but unlike in that general case, the $\vell$-th output now depends only on the variance of the $\vell$-th spectral bin, but not on the other ones. We can thus still write a matrix version of the above expression but that matrix version will be quite special:
+
+$$
+\begin{aligned}
+  \begin{bmatrix} 
+    H[0] & &  \\
+    &  \ddots &   \\
+     &  & H[d - 1]
+  \end{bmatrix}
+  & =
+  \begin{bmatrix} 
+    S_{XX}[0] & &  \\
+    &  \ddots &   \\
+     &  & S_{XX}[d - 1]
+  \end{bmatrix}\\
+  &\times\left(
+  \begin{bmatrix}
+        S_{XX}[0] & &  \\
+    &  \ddots &   \\
+     &  & S_{XX}[d - 1]  
+  \end{bmatrix}\\
+  +
+  \sigma^2 d^2
+  \begin{bmatrix}
+        1 & &  \\
+    &  \ddots &   \\
+     &  & 1 
+  \end{bmatrix}
+  \right)^{-1}
+\end{aligned}
+$$
+(All matrices are diagonal.) We did something seemingly crazy: we took a perfectly nice _scalar_ expression and we rewrote with matrices. But the reason to do this is that it is now clear that this expression has precisely the form
+
+$$
+  \mH = \mSigma_{\rX \rX} ( \mSigma_{\rX \rX} + \sigma^2 \mI)^{-1}
+$$
+
+which we encountered earlier, but with all covariance matrices (which are now between the different discrete frequencies) being diagonal. For two frequencies $\ell \neq k$ it holds that 
+
+$$
+  \EE ~ \rX[\ell] \rX[k] = 0,
+$$
+
+hence the zero off-diagonal elements. This means that our tacit assumption in using a convolutional filter is that the different frequencies are _uncorrelated_ (or even, in the Gaussian case, _independent_!). Looking back at the derivations, this makes intuitive sense since convolutional filters cannot create new frequencies, and by the convolution–multiplication rule the output at a given frequency is only affected by the input at that frequency.
+
+Another equivalent perspective (which is important but we will not explore it in depth here) is via the notion of stationarity, and in particular _wide-sense stationarity_. A random signal $\rx[n]$ is wide-sense stationarity if its mean $\EE ~ \rx[n]$ is constant in $n$ and its autocorrelation function $\EE ~ \rx[n] \rx[m]$ only depends on the distance $m - n$. In other words the function 
+
+$$
+  a_{\rx \rx}[t] = \EE ~ \rx[n] \rx[n + t] 
+$$
+
+does not depend on $n$. It is easy to check that the above $S_{\rX \rX}$ is the Fourier transform of $a_{\rx \rx}$. (Check if this needs a zero mean assumption.)
+
+**Note:** The above derivation can be extended to 2D signals (images) without much difficulty.
+
+ Now, lets use the Wiener filter approach to denoise the noisy image which we used earlier and campare it with the use of Gaussian filtering.  We use the Fourier version of the Wiener filter to denoise the image. For simplicity we assume that we know the power spectrum of the image, there are multiple methods of estimating this power spectrum, which we donot delve into here.
+
+
+ ```{code-cell}
+from scipy.fftpack import fft2, ifft2, fftshift
+
+
+def wf(y, SXX, sigma):
+    F_y = fft2(y)
+    F_wiener = SXX / (SXX + np.prod(y.shape) * sigma**2)
+    F_x_hat = F_y * F_wiener
+    x_hat = np.real(ifft2(F_x_hat))
+    return x_hat, np.real(ifft2(F_wiener, y.shape))
+
+
+
+ ##Assume the power spectrum is given 
+
+ SXX = np.abs(fft2(img_bw))**2
+
+img_est, filt = wf(img_noise, SXX, sigma=sigma)
+
+fig, axs = plt.subplots(1, 2, figsize=(15, 10))
+axs[0].imshow(img_est, cmap='gray')
+axs[1].imshow(img_est[100:170, 200:300], cmap='gray');   
+ ```
+
+Image's estimated using a Guassian Blur and Wiener filter looks slightly different from the original image. So, to compare them quantitatively, we compute the $\ell_2$ norm of the distance between them. 
+
+
+```{code-cell}
+print('Wiener Filter: ',np.linalg.norm(img_est - img_bw))
+print('Gaussian Blurring:',np.linalg.norm(x_hat - img_bw))
+print('Noisy Image:',np.linalg.norm(img_noise - img_bw))
+```
+We can clearly observe that image estimated using the wiener filter is much closer compare to that of the Guassian blur.
 
 
 
 ## Deblurring
 
+Another common image degradation mechanism is blurring (due to out of focus imaging, atmospheric or other point-spread functions, lens blur, motion blur, ...). In a typical degradation pipeline an image is first blurred and then corrupted by noise.
 
+How can we derive an optimal (L)MMSE estimator for deblurring, or joint deblurring and denoising? Or perhaps a Wiener filter? 
+
+
+First, lets see how the blurring effects an image.
+
+```{code-cell}
+from scipy.signal import gaussian, convolve2d
+from scipy.signal import fftconvolve
+
+kernel_size = 15
+h_gauss = gaussian(kernel_size, kernel_size / 5).reshape(kernel_size, 1)
+h_gauss = np.dot(h_gauss, h_gauss.transpose())
+h_gauss /= np.sum(h_gauss)
+
+# circular convolution for simplicity
+x_blur = ifft2(fft2(h_gauss, img_bw.shape) * fft2(img_bw)).real
+
+H_brutal = np.zeros(img_bw.shape)
+
+
+x_blur = ifft2(fft2(h_gauss, img_bw.shape) * fft2(img_bw)).real
+
+fig, axs = plt.subplots(1, 2, figsize=(15, 10))
+axs[0].imshow(x_blur, cmap='gray')
+axs[1].imshow(x_blur[100:170, 200:300], cmap='gray');
+```
+A simple way of looking at blurring is that we are averaging a pixel location using the value of it neighbours. Thus blurring is a linear operation. For an image $\vx$, let us assume that $\mB$ is a blurring matrix. Then the blurred image is obtained as 
+
+$$
+ \vy = \mB \vx
+$$
+
+In practice, this blurring can be represented by a convolutional filter. Thus if we know the filter coefficients, the fourier representation of the blurred image is 
+
+$$
+Y[\vk] = B[\vk]X[\vk]
+$$
+Where $\vk = [k_1, k_2]$ are the 2-D Fourier indeces. From the above equation we can see that if we know the blur filter, we can obtain the image by just dividing the blurred image with the filter coefficient in the Fourier Domain. We use this simple deblurring strategy on the above image.
+
+
+```{code-cell}
+ # simple deblurring (deconvolution)
+
+x_deblurred = ifft2(fft2(x_blur) / fft2(h_gauss, img_bw.shape)).real
+fig, axs = plt.subplots(1, 2, figsize=(15, 10))
+axs[0].imshow(x_deblurred, cmap='gray')
+axs[1].imshow(x_deblurred[100:170, 200:300], cmap='gray');
+```
+
+In practice, we have some noise on the  observed image along with it being blurred. We can represent this as:
+
+$$
+ \vy = \mB\vx + \vw
+$$
+
+Where $\vw$ is the noise of known variance $\sigma^2$.The above eqaution in Fourier domain can be represented as:
+$$
+Y[\vk] = B[\vk]X[\vk] + W[\vk]
+$$
+
+Lets, try the previous procedure  of deblurring and see how it works:
+
+```{code-cell}
+ sig = 0.1
+x_blur_n = x_blur + sig*np.random.randn(*x_blur.shape)
+x_deblurred_n = ifft2(fft2(x_blur_n) / fft2(h_gauss, img_bw.shape)).real
+
+fig, axs = plt.subplots(1, 2, figsize=(15, 10))
+axs[0].imshow(x_blur_n, cmap='gray')
+axs[0].title.set_text('Noisy Blurred Image')
+axs[1].imshow(x_deblurred_n, cmap='gray');
+axs[1].title.set_text('Deblurred by dividing')
+```
+Thus, dividing by the fourier coefficient yields an estimate that differs greatly from the original image. This is due to the fact that we do not account for noise, and these noisy coefficients can be amplified simply by dividing them. As a result, while performing the deblurring operation, we must consider the noise. In the following section, we derive the Wiener filter coefficient for deblurring using the blurring filter and statistical properties of the noise.
+
+### Deblurring using Wiener filter
+For simplicity, we assume  are operating on 1-D signals. This can be easily extended to images or any higher-dimensional signals as well. Let $x[n],y[n]$ be the image and the blurred image, let $b[n]$ be the impulse reponse of the blurring fitler. For simplicity we assume circular convolution for blurring. Thus we observe:
+
+$$
+y[n] = (x \circledast b)[n] + w[n] 
+$$
+
+Thus to obtain the original signal $x[n]$, we apply a filter $h[n]$ on the obervation $y[n]$. Applying the Discrete fourier Transform, we obtain the estimated signal $\tilde{x}[n]$ as:
+$$
+  \tilde{X}[k] = H[k]Y[k]
+$$
+
+Where $\tilde{X}[k], Y[k]$ and $H[k]$ are Discrete Fourier transforms of the signal $\tilde{x}[n], y[n]$ and $h[n]$ respectively. As we obtained the filter for denoising, we perform the same operation to obtain the filter coefficients for deblurring. Thus we obtain the Wiener filter as:
+
+$$
+H[\ell] = \frac{S_{XY}[\ell]}{S_{YY}[\ell]}
+$$
+where $S_{XY}[\ell] = \EE ~ X[\ell] Y^*[\ell]$ and $S_{YY}[\ell] = \EE ~ Y[\ell] Y^*[\ell]$.
+
+For additive white Gaussian noise  and the Blurr filter $B$, we have (do check this!):
+
+$$
+\begin{aligned}
+S_{XY}[\ell] &= \EE ~ X[\ell] Y^*[\ell] = \EE ~ X[\ell] (H^*[\ell]X^*[\ell] + W[\ell] ) \\
+&= H^*[\ell] \EE ~ [X[\ell] X^*[\ell] ] \\
+&= H^*[\ell] S_{XX}[\ell]
+\end{aligned}
+$$
+
+and 
+
+$$
+S_{YY}[\ell] = |H[\ell]|^2 S_{XX}[\ell] + d\sigma^2
+$$
+
+so that: 
+
+$$
+  H[\ell] = \frac{H^*[\ell]S_{XX}[\ell]}{ |H[\ell]|^2 S_{XX}[\ell] + d \sigma^2}
+$$
+
+Using the above experssion for deblurring filter, we experiment on the noisy image used previously:
+
+```{code-cell}
+
+ def wf(y, SXX, sigma, ker=np.ones((1, 1))):
+    F_y = fft2(y)
+    F_ker = fft2(ker, shape=y.shape)
+    F_wiener = np.conj(F_ker)*SXX / ( SXX*np.abs(F_ker)**2 + np.prod(y.shape) * sigma**2)
+    F_x_hat = F_y * F_wiener
+    x_hat = np.real(ifft2(F_x_hat))
+    return x_hat, np.real(ifft2(F_wiener))
+
+
+x_wiener, filt2 = wf(x_blur_n, SXX, sig, ker=h_gauss)
+
+fig, axs = plt.subplots(1, 2, figsize=(15, 10))
+axs[0].imshow(x_wiener, cmap='gray')
+axs[1].imshow(x_wiener[100:170, 200:300], cmap='gray');
+```
+
+
+
+## Wiener Filtering for Audio Signals
+Now, we look at an application of Wiener filtering for  removing high frequency noise from audio signals. We first load the audio.
+
+```{code-cell}
+from scipy.io import wavfile
+from IPython.lib.display import Audio
+
+fs, x = wavfile.read('./audio/german-anechoic.wav')
+x = x[:, 0]
+Audio(x, rate=fs, autoplay=False)
+```
+
+Next, we add a high-frequency noise to the audio.  
+
+```{code-cell}
+from scipy.signal import gaussian, butter, sosfilt
+
+x = x / np.abs(x).max()
+sigma = 3
+
+noise = sigma*np.random.randn(*x.shape)
+cutoff_freq = 200
+sos = butter(30, cutoff_freq, 'hp', fs=fs, output='sos')
+noise = sosfilt(sos, noise)
+
+y = x + noise
+
+Audio(y, rate=fs, autoplay=False) 
+```
+
+We now apply the Wiener filter to the noisy signal. We first compute the power spectral density of the signal and the noise.  We use $L$ length filter to remove the noise.  Thus we need  power spectral density (PSD) estimated for length $L$. For a length $L$ estimate of a filter the parameters we need are $\EE ~ y[n]y[n-l]$ and $\EE ~ x[n]y[n-l]$ for $l = 0,1,\dots, L$. Using the stationarity assumptions of the signal, we can estimate $\EE ~ y[n]y[n-l]$ as:
+
+$$
+\begin{aligned}
+\EE ~ y[n]y[n-l] \approx \frac{1}{N-L} \sum_{n=L}^{N} y[n]y[n-l] \\
+\end{aligned}
+$$
+
+Where $N$ is the length of the signal. We can estimate the $\EE ~ x[n]y[n-l]$ as:
+
+$$
+
+\EE ~ x[n]y[n-l] \approx \frac{1}{N-L} \sum_{n=0}^{N-L} x[n]y[n-l] 
+
+$$
+
+Using the estimates we can obtain the Wiener filter. We then apply the filter to the noisy signal and listen to the result.
+
+```{code-cell}
+from tqdm import tqdm
+from scipy.linalg import toeplitz
+
+L = 1000
+N = len(x)
+
+# this can be done fast with stride tricks but it's more didactic here
+# also: we're doing a bit of a cheat assuming that we have oracle access to the clean signal...
+
+r_yy = np.zeros((L + 1,))
+r_xy = np.zeros((L + 1,))
+for i in range(N - L):
+    frame_x = np.flip(x[i:i + L + 1])
+    frame_y = np.flip(y[i:i + L + 1])
+    r_yy += frame_y[0] * frame_y
+    r_xy += frame_x[0] * frame_y
+r_yy /= (N - L)
+r_xy /= (N - L)
+
+R_yy = toeplitz(r_yy)
+h = np.linalg.solve(R_yy, r_xy) 
+```
+
+Alternatively, we can use FFT's to speed up the computation. We first compute the $N$ length signal corresponding to the autocorrelation of the signal $y[n]$ and the cross-correlation of the signal $x[n]$ and $y[n]$. We then keep only the first $L$ components of the signal as we are only interested in the autocorrelation of the signal $y[n]$ and the cross-correlation of the signal $x[n]$ and $y[n]$ for $l = 0,1,\dots, L$. We then use the Toeplitz matrix structure of the autocorrelation and cross-correlation to compute the Wiener filter. We then apply the filter to the noisy signal and listen to the result. 
+
+```{code-cell}
+from scipy.fftpack import fft, ifft
+from scipy.signal import fftconvolve
+
+
+Y = fft(y, 2*N);
+X = fft(x, 2*N);
+ 
+R = np.real(ifft(Y * np.conj(Y)))[:L + 1]
+Ryy = toeplitz(R)
+r = np.real(ifft(X * np.conj(Y)))
+r = r[:L + 1]
+
+h_opt = np.linalg.solve(Ryy, r)
+
+
+x_hat = fftconvolve(y, h_opt, 'same')
+Audio(x_hat, rate=fs, autoplay=False)
+
+# Plot comparing the two filters
+fig, axs = plt.subplots(1, 2, figsize=(15, 10))
+axs[0].stem(h)
+axs[0].set_title('Filter obtained using Toeplitz matrix')
+axs[1].stem(h_opt)
+axs[1].set_title('Filter obtained using FFT')
+plt.show()
+```
 
 ## Effects of circular convolution
+Circular convolution is a special case of convolution where the signal is assumed to be periodic. Lets consider a signal $x[n]$ with period $N$. The periodicity of the signal implies that $x[n] = x[n+N]$. We consider another signal $h[n]$ (Impulse signal), with support $[0, N-1]$. This implies that $h[n] = 0$ for $n < 0$ and $n > N-1$. The convolution of the two signals is given by:
 
+$$
+y[n] = \sum_{m=0}^{N-1} h[m] x[n-m] \tag*{(Finite support of $h[n]$)}
+$$
+
+You can observe that as $x[n]$ is peridoic, the convolved signal $y[n]$ is also periodic with period $N$.
+
+
+
+$$
+  \begin{aligned}
+  y[n+N]  &= \sum_{m=0}^{N-1} h[m] x[n-m+N] \\
+  &= \sum_{m=0}^{N-1} h[m] x[n-m]  && \text{($x$ being periodic)} \\ 
+  &= y[n] 
+  \end{aligned}
+$$
+
+Now, lets consider a periodic extension of the signal $h[n]$. This can be done by repeating the signal, $\tilde{h}[n] = h[n \mod N]$. Using this periodic extension, we define the circular convolution as follows:
+
+$$
+\begin{aligned}
+(x \ast h)[n] &= \sum_{m = -\infty}^{\infty} h[m] x[n-m]  \\
+&= \sum_{l = -\infty}^{\infty} \sum_{m = lN}^{(l+1)N-1} h[m] x[n-m]   && \text{(Splitting the sum to periods)}\\
+&= \sum_{l = -\infty}^{\infty} h[m'+lN]x[n - m' - lN] &&\text{(Substitute: } m' = m + lN)    \\
+&= \sum_{m'= 0}^{N-1 } \sum_{l = -\infty}^{\infty}h[m'+lN] x[n - m'] && \text{($x[n]$ is periodic)} \\
+&= \sum_{m'= 0}^{N-1 } \tilde{h}[m'] x[n - m'] && \text{($h[n \mod N] = \sum_{l = -\infty}^{\infty}h[n+lN]$ )} \\
+&= (\tilde{h} \circledast x)[n]
+\end{aligned} 
+$$
+
+The above derivation shows that the circular convolution is equivalent to the convolution of the periodic extension of the signal $h[n]$ with the signal $x[n]$. Thus the circular convolution is a special case of convolution. As the signals are periodic, to compute circular convolution we only need to look at elements of the signal and the impulse reponse within  a single Period. Thus circular convolution can be seen as a convolution where indeces are from a finite field $\ZZ_N$.
+
+In practice, we only work with finite length signals. Thus when we compute the circular convolution we assume that the signal is periodic with period equal to the length of the signal. Thus for a finite length signal $x[n]$ circularly convolving with a an impulse response, with small support can introduce edge effects. That is, value at the beginning of the signal is affected by the values at the end of the signal and vice versa. Circula comvolution can be computed efficiently using the Fast Fourier Transform (FFT), the reason being that FFTs implicitly assume periodicity of the signal. Thus the FFT of the signal is computed and then the FFT of the impulse response is multiplied with the FFT of the signal. The inverse FFT of the product gives the circular convolution of the signal with the impulse response. Computational complexity of a Circular convolution using FFT is  $O(N \log N)$, where $N$ is the length of the signal. This is much faster than the naive implementation of the circular convolution which takes $O(N^2)$ operations.
+
+
+
+## Impulse Response
+In this, chapter we used the impulse response, to derive several Wiener filter results. Now, we look at the definition of impulse reponse. 
+
+Impulse response is defined as the response of the system when we apply a delta function as input to it. We will consider only discrete time systems. The delta function is defined as:
+
+$$
+\delta[n] = \begin{cases}
+    1,& \text{if } n= 0\\
+    0,              & \text{otherwise}
+\end{cases}
+$$
+
+
+For a system $S$, the impulse response is defined as:
+
+$$
+  h[n] = S(\delta)[n]
+$$
+
+
+```{code-cell}
+#Impulse response of the system
+N = 11
+delta =np.zeros(N)
+delta[N//2] = 1
+h = np.cos(np.linspace(-np.pi/2,np.pi/2,7))
+y = np.convolve(delta,h) # output of the system
+
+from matplotlib import patches, pyplot as plt
+plt.rcParams['text.usetex'] = True
+fig = plt.figure(figsize=(10,5))
+
+# First subplot
+ax1 = fig.add_subplot(121)
+plt.stem(delta,linefmt='black',markerfmt='ko')
+ax1.axis('off')
+#ax1.set_title(r'$\delta[n]$',y=-0.1)
+
+
+# Second subplot
+ax2 = fig.add_subplot(122)
+plt.stem(y,linefmt='black',markerfmt='ko')
+ax2.axis('off')
+#ax2.set_title(r'$h[n]$',y=-0.1)
+# Add line from one subplot to the other
+xyA = [9, 0.5]
+#ax1.plot(*xyA, "o")
+xyB = [1, 0.5]
+#ax2.plot(*xyB, "o")
+transFigure = fig.transFigure.inverted()
+coord1 = transFigure.transform(ax1.transData.transform(xyA))
+coord2 = transFigure.transform(ax2.transData.transform(xyB))
+arrow = patches.FancyArrowPatch(
+    coord1,  # posA
+    coord2,  # posB
+    shrinkA=0,  # so tail is exactly on posA (default shrink is 2)
+    shrinkB=0,  # so head is exactly on posB (default shrink is 2)
+    transform=fig.transFigure,
+    color="black",
+    arrowstyle="-|>",  # "normal" arrow
+    mutation_scale=30,  # controls arrow head size
+    linewidth=3,
+    label=r'$S(\delta)[n]$',
+)
+fig.patches.append(arrow)
+fig.tight_layout(pad=10)
+leg = plt.legend(handles = [arrow], fontsize=16, frameon=False, loc=(-0.7, 0.5)) # Locations Manually adjusted
+for item in leg.legendHandles:
+    item.set_visible(False)
+
+
+
+```
+
+There exists a broad class of  systems called the linear time invariant (LTI) systems. These systems are characterized by the following properties:
+
+- Linearity: For input signals $x_1[n]$, and $x_2[n]$ and scalars $a,b$, we have:  $S(a x_1 + b x_2)[n] = a S(x_1)[n] + b S(x_2)[n]$
+- Time Invariance: For any input signal $x[n]$, if the output is $y[n] = S(x)[n]$, then the output of the system for the delayed signal $\tilde{x}[n] = x[n - k]$ is 
+
+$$\tilde{y}[n] = S(\tilde{x})[n] = S(x)[n-k] = y[n-k]$$
+
+
+For such systems, the  impulse response completely characterizes it. That is, we can predict the output of the system for any input $x[n]$, using its impulse resonse $h[n]$.  Thus the impulse response is the most important property of an LTI system. 
+
+Lets, see how this is true for the for an LTI system $S(\cdot)$. The impulse reponse is $h[n] = S(\delta)[n]$. For any input signal $x[n]$, we can write it interms of the delta function as:
+
+$$
+x[n] = \sum_{k= -\infty}^{\infty} x_k \delta[n-k] = \sum_{k= -\infty}^{\infty} x_k \delta_k[n]=\bigg(\sum_{k= -\infty}^{\infty} x_k \delta_k\bigg)[n]
+$$
+Where $x_k$ is a scalar qauntity such that $x_k = x[k]$ and $\delta_k[n] = \delta[n-k]$. If $y[n]$ is the output of the system for the input $x[n]$, then we have:
+
+$$
+\begin{aligned}
+y[n] &= S(x)[n] \\
+&= S \bigg(\sum_{k= -\infty}^{\infty} x_k \delta_k\bigg)[n] \\
+&= \sum_{k= -\infty}^{\infty} x_k S(\delta_k)[n] && (\text{Using Linearity}) \\
+&= \sum_{k= -\infty}^{\infty} x_k h[n-k] && (\text{Using Time Invariance}) \\
+&= \sum_{k= -\infty}^{\infty} x[k] h[n-k]  \\
+\end{aligned}
+$$ 
+
+Thus with just the impulse response of the system, we can predict the output of the system for any input signal. The last equation is the definition of the convolution. This can be used for any two signals, they do not have to be the input and output of a system, provided that the sum converges. Thus convolution between signals $x_1[n]$ and $x_2[n]$ is defined as:
+
+$$
+ (x_1 \ast x_2)[n] := \sum_{k= -\infty}^{\infty} x_1[k] x_2[n-k]
+$$
+
+**Note**: Convolution is also commutative, that is, $x_1 \ast x_2 = x_2 \ast x_1$. (check this)
 
 
 ## Notes

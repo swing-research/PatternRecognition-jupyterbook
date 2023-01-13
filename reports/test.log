@@ -1,0 +1,64 @@
+Traceback (most recent call last):
+  File "/home/kishor0000/anaconda3/envs/autograde/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/home/kishor0000/anaconda3/envs/autograde/lib/python3.10/site-packages/nbclient/client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/home/kishor0000/anaconda3/envs/autograde/lib/python3.10/site-packages/nbclient/util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/home/kishor0000/anaconda3/envs/autograde/lib/python3.10/site-packages/nbclient/util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "/home/kishor0000/anaconda3/envs/autograde/lib/python3.10/asyncio/base_events.py", line 646, in run_until_complete
+    return future.result()
+  File "/home/kishor0000/anaconda3/envs/autograde/lib/python3.10/site-packages/nbclient/client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "/home/kishor0000/anaconda3/envs/autograde/lib/python3.10/site-packages/nbclient/client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/home/kishor0000/anaconda3/envs/autograde/lib/python3.10/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+image_size = (250, 250)
+scale = 0
+
+noise = np.zeros((2, *image_size))
+
+noise[0] = scale * np.random.randn(*image_size)
+noise[1] = scale * np.random.randn(*image_size)
+
+# noise[1] = -noise[0] # homework
+
+from pathlib import Path
+result = list(Path('./book_data/lfw/').rglob('*.jpg'))
+
+n_train = 1000
+n_test = 100
+images = np.zeros((n_train, 250, 250))
+labels = np.zeros((n_train,), dtype=np.int8)
+
+images_test = np.zeros((n_test, 250, 250))
+labels_test = np.zeros((n_test,), dtype=np.int8)
+
+shuffle_idx = np.random.permutation(n_train + n_test)
+for i in range(n_train):
+    images[i] = plt.imread(result[shuffle_idx[i]]).mean(axis=2)
+    labels[i] = np.round(np.random.rand())
+    images[i] += noise[labels[i]]
+
+for i in range(n_train, n_train + n_test):
+    images_test[i - n_train] = plt.imread(result[shuffle_idx[i]]).mean(axis=2)
+    labels_test[i - n_train] = np.round(np.random.rand())
+    # no noise in the test set!
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mIndexError[0m                                Traceback (most recent call last)
+Cell [0;32mIn[2], line 24[0m
+[1;32m     22[0m shuffle_idx [38;5;241m=[39m np[38;5;241m.[39mrandom[38;5;241m.[39mpermutation(n_train [38;5;241m+[39m n_test)
+[1;32m     23[0m [38;5;28;01mfor[39;00m i [38;5;129;01min[39;00m [38;5;28mrange[39m(n_train):
+[0;32m---> 24[0m     images[i] [38;5;241m=[39m plt[38;5;241m.[39mimread([43mresult[49m[43m[[49m[43mshuffle_idx[49m[43m[[49m[43mi[49m[43m][49m[43m][49m)[38;5;241m.[39mmean(axis[38;5;241m=[39m[38;5;241m2[39m)
+[1;32m     25[0m     labels[i] [38;5;241m=[39m np[38;5;241m.[39mround(np[38;5;241m.[39mrandom[38;5;241m.[39mrand())
+[1;32m     26[0m     images[i] [38;5;241m+[39m[38;5;241m=[39m noise[labels[i]]
+
+[0;31mIndexError[0m: list index out of range
+IndexError: list index out of range
+
