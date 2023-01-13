@@ -369,7 +369,7 @@ does not depend on $n$. It is easy to check that the above $S_{\rX \rX}$ is the 
 
 **Note:** The above derivation can be extended to 2D signals (images) without much difficulty.
 
- Now, lets use the Wiener filter approach to denoise the noisy image which we used earlier and campare it with the use of Gaussian filtering.  We use the Fourier version of the Wiener filter to denoise the image. For simplicity we assume that we know the power spectrum of the image, there are multiple methods of estimating this power spectrum, which we donot delve into here.
+Now, let's use the Wiener filter approach to denoise the noisy image, which we used earlier and compare it with Gaussian filtering. We use the Fourier version of the Wiener filter to denoise the image. For simplicity we assume that we know the power spectrum of the image, there are multiple methods of estimating this power spectrum, which we do not delve into here.
 
 
  ```{code-cell}
@@ -396,7 +396,7 @@ axs[0].imshow(img_est, cmap='gray')
 axs[1].imshow(img_est[100:170, 200:300], cmap='gray');   
  ```
 
-Image's estimated using a Guassian Blur and Wiener filter looks slightly different from the original image. So, to compare them quantitatively, we compute the $\ell_2$ norm of the distance between them. 
+Images estimated using a Gaussian blur and Wiener filter looks slightly different from the original image. So, to compare them quantitatively, we compute the $\ell_2$-norm of the distance between them.
 
 
 ```{code-cell}
@@ -404,15 +404,13 @@ print('Wiener Filter: ',np.linalg.norm(img_est - img_bw))
 print('Gaussian Blurring:',np.linalg.norm(x_hat - img_bw))
 print('Noisy Image:',np.linalg.norm(img_noise - img_bw))
 ```
-We can clearly observe that image estimated using the wiener filter is much closer compare to that of the Guassian blur.
+We can clearly observe that image estimated using the Wiener filter is much closer compare to that of the Guassian blur.
 
 
 
 ## Deblurring
 
-Another common image degradation mechanism is blurring (due to out of focus imaging, atmospheric or other point-spread functions, lens blur, motion blur, ...). In a typical degradation pipeline an image is first blurred and then corrupted by noise.
-
-How can we derive an optimal (L)MMSE estimator for deblurring, or joint deblurring and denoising? Or perhaps a Wiener filter? 
+Another common image degradation mechanism is blurring (due to out-of-focus imaging, atmospheric or other point-spread functions, lens blur, motion blur, ...). Typically, the image is blurred and then corrupted with noise. The goal is to recover the original image. Here, we first model the blurring process and then derive an optimal estimator to deblur the image and then denoise it.  Specifically, we derive a Wiener filter for deblurring and denoising.
 
 
 First, lets see how the blurring effects an image.
@@ -438,13 +436,13 @@ fig, axs = plt.subplots(1, 2, figsize=(15, 10))
 axs[0].imshow(x_blur, cmap='gray')
 axs[1].imshow(x_blur[100:170, 200:300], cmap='gray');
 ```
-A simple way of looking at blurring is that we are averaging a pixel location using the value of it neighbours. Thus blurring is a linear operation. For an image $\vx$, let us assume that $\mB$ is a blurring matrix. Then the blurred image is obtained as 
+A simple way of looking at blurring is that we are averaging a pixel using the value of it neighbours. Thus blurring is a linear operation. For an image $\vx$, let us assume that $\mB$ is a blurring matrix. Then the blurred image is obtained as:
 
 $$
  \vy = \mB \vx
 $$
 
-In practice, this blurring can be represented by a convolutional filter. Thus if we know the filter coefficients, the fourier representation of the blurred image is 
+In practice, a convolutional filter can be used to simulate this blurring. Assuming we know this filter, the Fourier trasnform of the blurred image is, using the filter and the original image is:
 
 $$
 Y[\vk] = B[\vk]X[\vk]
@@ -472,7 +470,7 @@ $$
 Y[\vk] = B[\vk]X[\vk] + W[\vk]
 $$
 
-Lets, try the previous procedure  of deblurring and see how it works:
+Lets, try the previous procedure  for  deblurring and see how it works:
 
 ```{code-cell}
  sig = 0.1
@@ -488,18 +486,19 @@ axs[1].title.set_text('Deblurred by dividing')
 Thus, dividing by the fourier coefficient yields an estimate that differs greatly from the original image. This is due to the fact that we do not account for noise, and these noisy coefficients can be amplified simply by dividing them. As a result, while performing the deblurring operation, we must consider the noise. In the following section, we derive the Wiener filter coefficient for deblurring using the blurring filter and statistical properties of the noise.
 
 ### Deblurring using Wiener filter
-For simplicity, we assume  are operating on 1-D signals. This can be easily extended to images or any higher-dimensional signals as well. Let $x[n],y[n]$ be the image and the blurred image, let $b[n]$ be the impulse reponse of the blurring fitler. For simplicity we assume circular convolution for blurring. Thus we observe:
+For simplicity,  assume that we  are operating on 1-D signals. This can be easily extended to images or any higher-dimensional signals. Let $x[n],y[n]$ be the image and the blurred image, let $b[n]$ be the impulse reponse of the blurring fitler. For simplicity we assume circular convolution for blurring. Thus we observe:
 
 $$
 y[n] = (x \circledast b)[n] + w[n] 
 $$
 
-Thus to obtain the original signal $x[n]$, we apply a filter $h[n]$ on the obervation $y[n]$. Applying the Discrete fourier Transform, we obtain the estimated signal $\tilde{x}[n]$ as:
+Thus to obtain the original signal $x[n]$, we apply a filter $h[n]$ on the obervation $y[n]$. Applying the Discrete Fourier Transform (DFT), we obtain the estimated signal $\tilde{x}[n]$ as:
+
 $$
   \tilde{X}[k] = H[k]Y[k]
 $$
 
-Where $\tilde{X}[k], Y[k]$ and $H[k]$ are Discrete Fourier transforms of the signal $\tilde{x}[n], y[n]$ and $h[n]$ respectively. As we obtained the filter for denoising, we perform the same operation to obtain the filter coefficients for deblurring. Thus we obtain the Wiener filter as:
+Where $\tilde{X}[k], Y[k]$ and $H[k]$ are the DFTs of the signal $\tilde{x}[n], y[n]$ and $h[n]$ respectively. As we obtained the filter for denoising, we perform the same operation to obtain the filter coefficients for deblurring. Thus we obtain the Wiener filter as:
 
 $$
 H[\ell] = \frac{S_{XY}[\ell]}{S_{YY}[\ell]}
@@ -671,7 +670,7 @@ $$
   \end{aligned}
 $$
 
-Now, lets consider a periodic extension of the signal $h[n]$. This can be done by repeating the signal, $\tilde{h}[n] = h[n \mod N]$. Using this periodic extension, we define the circular convolution as follows:
+Now, lets consider a periodic extension of the signal $h[n]$. This can be done by repeating the signal, $\tilde{h}[n] = h[n \mod N]$. Using this periodic extension, we define the circular convolution as follows( TODO: Add reference to Foundations of Signal Processing):
 
 $$
 \begin{aligned}
@@ -686,7 +685,9 @@ $$
 
 The above derivation shows that the circular convolution is equivalent to the convolution of the periodic extension of the signal $h[n]$ with the signal $x[n]$. Thus the circular convolution is a special case of convolution. As the signals are periodic, to compute circular convolution we only need to look at elements of the signal and the impulse reponse within  a single Period. Thus circular convolution can be seen as a convolution where indeces are from a finite field $\ZZ_N$.
 
-In practice, we only work with finite length signals. Thus when we compute the circular convolution we assume that the signal is periodic with period equal to the length of the signal. Thus for a finite length signal $x[n]$ circularly convolving with a an impulse response, with small support can introduce edge effects. That is, value at the beginning of the signal is affected by the values at the end of the signal and vice versa. Circula comvolution can be computed efficiently using the Fast Fourier Transform (FFT), the reason being that FFTs implicitly assume periodicity of the signal. Thus the FFT of the signal is computed and then the FFT of the impulse response is multiplied with the FFT of the signal. The inverse FFT of the product gives the circular convolution of the signal with the impulse response. Computational complexity of a Circular convolution using FFT is  $O(N \log N)$, where $N$ is the length of the signal. This is much faster than the naive implementation of the circular convolution which takes $O(N^2)$ operations.
+In practice, we only work with finite length signals. Thus when we compute the circular convolution we assume that the signal is periodic with period equal to the length of the signal. Thus for a finite length signal $x[n]$ circularly convolving with a an impulse response, with small support can introduce edge effects. That is, value at the beginning of the signal is affected by the values at the end of the signal and vice versa. 
+
+Circular comvolution can be computed efficiently using the Fast Fourier Transform (FFT), the reason being that FFTs implicitly assume periodicity of the signal. Thus the FFT of the signal is computed and then the FFT of the impulse response is multiplied with the FFT of the signal. The inverse FFT of the product gives the circular convolution of the signal with the impulse response. Computational complexity of a Circular convolution using FFT is  $O(N \log N)$, where $N$ is the length of the signal. This is much faster than the naive implementation of the circular convolution which takes $O(N^2)$ operations.
 
 
 
@@ -774,7 +775,7 @@ $$\tilde{y}[n] = S(\tilde{x})[n] = S(x)[n-k] = y[n-k]$$
 
 For such systems, the  impulse response completely characterizes it. That is, we can predict the output of the system for any input $x[n]$, using its impulse resonse $h[n]$.  Thus the impulse response is the most important property of an LTI system. 
 
-Lets, see how this is true for the for an LTI system $S(\cdot)$. The impulse reponse is $h[n] = S(\delta)[n]$. For any input signal $x[n]$, we can write it interms of the delta function as:
+Lets, see how this is true for the for an LTI system $S(\cdot)$. The impulse reponse is $h[n] = S(\delta)[n]$. Any input signal $x[n]$  can be written interms of the delta function as:
 
 $$
 x[n] = \sum_{k= -\infty}^{\infty} x_k \delta[n-k] = \sum_{k= -\infty}^{\infty} x_k \delta_k[n]=\bigg(\sum_{k= -\infty}^{\infty} x_k \delta_k\bigg)[n]
@@ -791,7 +792,7 @@ y[n] &= S(x)[n] \\
 \end{aligned}
 $$ 
 
-Thus with just the impulse response of the system, we can predict the output of the system for any input signal. The last equation is the definition of the convolution. This can be used for any two signals, they do not have to be the input and output of a system, provided that the sum converges. Thus convolution between signals $x_1[n]$ and $x_2[n]$ is defined as:
+Thus with just the impulse response of the system, we can predict the output of the system for any input signal. The last equation is the definition of the convolution. This can be used for any two signals, they do not have to be the input and output of a system (provided that the sum converges). Thus convolution between signals $x_1[n]$ and $x_2[n]$ is defined as:
 
 $$
  (x_1 \ast x_2)[n] := \sum_{k= -\infty}^{\infty} x_1[k] x_2[n-k]
@@ -805,7 +806,3 @@ $$
 - There is a more pleasing derivation of the MMSE estimator without differentiation. Do it for the non-conditional expectation. (Optimizing over constant functions.)
 - Add the regression function / conditional expectation in the lecture on regression.
 - Comment on data efficiency for full vs 
-
-
-
-
