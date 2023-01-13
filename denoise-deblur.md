@@ -670,7 +670,7 @@ $$
   \end{aligned}
 $$
 
-Now, lets consider a periodic extension of the signal $h[n]$. This can be done by repeating the signal, $\tilde{h}[n] = h[n \mod N]$. Using this periodic extension, we define the circular convolution as follows:
+Now, lets consider a periodic extension of the signal $h[n]$. This can be done by repeating the signal, $\tilde{h}[n] = h[n \mod N]$. Using this periodic extension, we define the circular convolution as follows( TODO: Add reference to Foundations of Signal Processing):
 
 $$
 \begin{aligned}
