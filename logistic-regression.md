@@ -143,9 +143,21 @@ of our explanatory variables $x_1,...,x_n$. Additionally we model a constant noi
 distributed. 
 
 $$
-    \mathbf{y} = \mathbf{w}^T\mathbf{X} + \epsilon
+    \mathbf{y} = \mathbf{w}^T\mathbf{X} + \epsilon \quad \textit{where} \quad \epsilon \sim \mathcal{N}(0, \sigma^2\mathbf{I})
 $$
 
+The predictions are therefore normally distributed with variance $\sigma^2$ and mean $\mathbf{w}^T\mathbf{X}$, since for a constant $c$ and 
+normal distribution $F_X$ we have:
+
+$$
+    F_{X + c}(x) = p(X + c \leq x) = p(X \leq x - c) = \int_{-\infty}^{x-c}\frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{1}{2}\left(\frac{(t-\mu)^2}{\sigma}\right)}dt
+$$
+$$
+    \quad = \int_{-\infty}^{x}\frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{1}{2}\left(\frac{(s-(c+\mu))^2}{\sigma}\right)}ds
+$$
+
+And therefore $c + \mathcal{N}(\mu, \sigma^2) = \mathcal{N}(\mu + c, \sigma^2)$. Or in other words, the mean of the distribution is shifted by
+adding a constant $c$.
 The probability of a response $\mathbf{y}$ given variables $\mathbf{x}$ and parameters $\theta$ can then be writen as follows:
 
 $$
