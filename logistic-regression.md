@@ -165,8 +165,8 @@ $$
     p(\mathbf{y} | \mathbf{x}; \theta) = \mathcal{N}(\mathbf{y}|\mathbf{w}^T\mathbf{x}, \sigma^2)\quad\textit{where}\quad \theta = (\mathbf{w}, \sigma)
 $$
 
-We then find our optimal parameters $\theta^*$ by maximizing the likelihood of observing our training set $\mathcal{D}$ and our parameters $\theta$.
-$p(\mathcal{D};\theta)$. If the events $(y_i, x_i)$ are assumed to be $iid.$ their joint probability is a product.
+We then find our optimal parameters $\theta^*$ by maximizing the likelihood $p(\mathcal{D};\theta)$ of observing our training set $\mathcal{D}$ and our parameters $\theta$.
+If the events $(y_i, x_i)$ are assumed to be $iid.$ their joint probability is a product.
 
 $$
     \hat{\theta} = arg\max_\theta p(\mathcal{D};\theta) = arg\max_\theta \prod_{i=1}^{n}p(y_i|x_i;\theta)
