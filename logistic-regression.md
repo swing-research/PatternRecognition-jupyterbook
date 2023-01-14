@@ -65,8 +65,64 @@ $$
     \min\{||\mathbf{y}-\mathbf{X}\mathbf{w}||^2\ |\ \mathbf{w} \in \mathbb{R}^d\} = \min\{||\mathbf{y}-v||^2\ |\ v \in span\{x^{(1)},x^{(2)},...,x^{(3)}\}\}
 $$
 
-We saw that the shortest residual $\hat{y} - y$ for an arbitrary dimensions is perpendicular to every column vector of $\mathbf{X}$,
-which can be expressed by their dot product resulting in 0.
+We saw that the shortest residual $\hat{y} - y$ for arbitrary dimensions is perpendicular to every column vector of $\mathbf{X}$.
+
+```{code-cell} ipython3
+:tags: [hide-input]
+x1 = numpy.array([1, 1, 1])
+x2 = numpy.array([1, -1, 1])
+y = numpy.array([-3, 1, 2])
+
+X = numpy.vstack((x1, x2)).T
+w = numpy.linalg.solve(X.T @ X, X.T @ y)
+y_hat = X @ w
+
+fig = plt.figure(figsize=(7,7))
+ax = fig.add_subplot(111, projection='3d')
+
+xx, yy = numpy.meshgrid(range(-3, 4), range(-3, 4))
+zz = xx
+
+ax.plot_surface(xx, yy, zz, alpha=0.1, color="blue")
+
+ax.quiver(
+        0, 0, 0,
+        x1[0], x1[1], x1[2],
+        color='k', alpha = .5, lw = 1,
+        label="$\mathbf{X}$ column-vector $x^{(1)}$."
+    )
+ax.quiver(
+        0, 0, 0,
+        x2[0], x2[1], x2[2],
+        color='k', alpha=.5, lw=1,
+        label="$\mathbf{X}$ column-vector $x^{(2)}$."
+    )
+ax.quiver(
+        0, 0, 0,
+        y[0], y[1], y[2],
+        color='orange', alpha=.7, lw=1,
+        label="True value $\mathbf{y}$."
+    )
+ax.quiver(
+        0, 0, 0,
+        y_hat[0], y_hat[1], y_hat[2],
+        color='orange', alpha=.7, lw=1,
+        label="Prediction $\hat{\mathbf{y}}=\mathbf{X}^T\mathbf{w}^*$."
+    )
+ax.plot([y[0], y_hat[0]], [y[1], y_hat[1]], [y[2], y_hat[2]], ':r', alpha=0.3, label="Residual $||\hat{\mathbf{y}}-\mathbf{y}||$")
+ax.text(*(x1 + 0.2), '$x^{(1)}$')
+ax.text(*(x2 + 0.2), '$x^{(2)}$')
+ax.text(*(y + 0.2), '$y$')
+ax.text(*(y_hat + 0.2), '$\widehat{y}$')
+ax.legend()
+plt.axis('off')
+
+ax.view_init(-16, -172)
+
+plt.show()
+```
+
+This can also be expressed by their dot product resulting in 0.
 
 $$
     (x^{(j)})^T(\mathbf{X}\mathbf{w}^*-\mathbf{y}) = 0\ \textit{for}\ j \in \{1, 2, ..., d+1\} 
