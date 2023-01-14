@@ -114,7 +114,7 @@ $$
 
 Imagine we have a simple binary classification problem with labels $\{-1, 1\}$, for
 example, let their be data about the outcome of students exams, which are either passed
-or failed, and for each student a record of how much hours have been put into studying.
+or failed. For each student we have a record of how much hours they have put into studying.
 
 We will first try to model this example with *simple linear regression*. 
 
