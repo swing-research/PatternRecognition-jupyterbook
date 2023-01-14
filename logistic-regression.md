@@ -194,7 +194,7 @@ Suffice it to say, this model is **highly affected by outliers** and not suited 
 
 ### Inadequate Loss-Function
 
-Secondly, a simple sanity check let's us see, that the probability for a student passing the exam who studies exceedingly long hours is greater than 1 in this model, which
+Secondly, a simple sanity check lets us see, that the probability for a student passing the exam who studies exceedingly long hours is greater than 1 in this model, which
 is absurd. Vice versa this model also allows for negative probabilities, which are equally non-tenable.
 
 *Why is it not stable?* We intend a regression which gives us a probability for data to classify as either label 
