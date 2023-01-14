@@ -533,13 +533,13 @@ $$
 
 ...where $\mu_{ic} = [softmax(w^T_1x_i,..., w^T_Cx_i)]_c$ and $y_{ic} = \textbf{1}(y_i = c)$. The right hand
 side of this simplification [can be read](https://en.wikipedia.org/wiki/Cross_entropy#Relation_to_maximum_likelihood) as the product of the estimated probabilities for classes $c$ to the
-power of their occurrences in the predictions, which is to say their actual probability. And if we substitute these definitions in the previous equations we get a more familiar equation.
+power of their occurrences in the predictions, which is to say their actual probability. And if we substitute these definitions in the previous equations a seemingly familiar equation....
     
 $$                                                              
     \sum_{i=1}^k ln\left(\prod_{c=1}^C \mu^{y_{ic}}_{ic}\right) = \sum_{i=1}^k \sum_{c=1}^C ln(\mu^{y_{ic}}_{ic}) = \sum_{i=1}^k \sum_{c=1}^C y_{ic} ln(\mu_{ic})
 $$
 
-The term $-\sum_{c=1}^C y_{ic} ln(\mu_{ic})$ is also defined as **cross-entropy**. This means that
+The term $\sum_{c=1}^C y_{ic} ln(\mu_{ic})$ looks suspiciously similar **cross-entropy**! This means that
 maximizing the likelihood $\ell(w)$ is equivalent to minimizing the cross-entropy, or to spare the headache *minimizing the negative loss-likelihood.*. Additionally for each 
 $(x_i, y_i) \in \mathcal{D}$, the variables $(y_{i1},...,y_{iC})$ and $(\mu_{i1},...,\mu_{iC})$ are well defined probability
 distributions over the C classes. We will continue to use this notation in this chapter. **To summarize**, the log-likelihood function to maximize in order to find the optimal parameters $\mathbf{w}$ can be writen as:
