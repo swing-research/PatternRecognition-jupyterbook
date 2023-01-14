@@ -53,7 +53,7 @@ $$
     \mathbf{X}^T\mathbf{y}=\mathbf{X}^T\mathbf{X}\mathbf{w}^*
 $$
 $$
-    \frac{\mathbf{X}^T\mathbf{y}}{\mathbf{X}^T\mathbf{X}}=\mathbf{w}^*
+    \left(\mathbf{X}^T\mathbf{X}\right)^{-1}\mathbf{X}^T\mathbf{y}=\mathbf{w}^*
 $$
 
 ### Geometry
@@ -76,7 +76,7 @@ Expanding this to include all column vectors we find that $(x^{(j)}_{j \in \{1, 
 simplify the expression the exact same way as we did in the algebraic approach.
 
 $$
-    \frac{\mathbf{X}^T\mathbf{y}}{\mathbf{X}^T\mathbf{X}}=\mathbf{w}^*
+    \left(\mathbf{X}^T\mathbf{X}\right)^{-1}\mathbf{X}^T\mathbf{y}=\mathbf{w}^*
 $$
 
 ### Probability
