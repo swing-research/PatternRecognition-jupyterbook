@@ -281,8 +281,8 @@ Given our data $x$ and corresponding weights $w_c$, we want to normalize our pre
 
 ### Logistics Function
 
-There are many normalization functions that can be chosen, with the criteria being among others differentiability, as models apply gradients, or 
-expressivity. Let's have a look at the standard logistics function, which is the sigmoid function $S$:
+There are many normalization functions that can be chosen, with the criteria being among others differentiability, if our models apply gradients for optimization, or 
+expressivity, which characterizes the complexity of functions that can be computed by our model. Let's have a look at the standard logistics function, which is the sigmoid function $S$:
 
 $$
     S(y) = \frac{1}{1 + e^{-y}}
