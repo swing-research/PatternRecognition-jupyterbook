@@ -82,7 +82,7 @@ $$
 ### Probability
 
 Finally, in a probabilistic approach to linear regression we assume that the response $Y$ is obtained by a linear combination
-of our explanatory variables $x_1,...,x_n$ and a constant noise or error $\epsilon$ which is usually assumed to be normally 
+of our explanatory variables $x_1,...,x_n$. Additionally we model a constant noise or error $\epsilon$ which is usually assumed to be normally 
 distributed. 
 
 $$
