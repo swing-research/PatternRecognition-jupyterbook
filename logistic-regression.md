@@ -408,7 +408,7 @@ $$
 $$
 
 The term $-\sum_{c=1}^C y_{ic} ln(\mu_{ic})$ is also defined as **cross-entropy**. This means that
-maximizing the likelihood $l(w)$ is equivalent to minimizing the cross-entropy, or to spare the headache *minimizing the negative loss-likelihood.*. Additionally for each 
+maximizing the likelihood $\ell(w)$ is equivalent to minimizing the cross-entropy, or to spare the headache *minimizing the negative loss-likelihood.*. Additionally for each 
 $(x_i, y_i) \in \mathcal{D}$, the variables $(y_{i1},...,y_{iC})$ and $(\mu_{i1},...,\mu_{iC})$ are well defined probability
 distributions over the C classes. We will continue to use this notation in this chapter. **To summarize**, the log-likelihood function to maximize in order to find the optimal parameters $\mathbf{w}$ can be writen as:
 
@@ -441,13 +441,13 @@ $(y_i, (1-y_i))$ and $(\mu_i, (1-\mu_i))$, as in how close the distribution of t
 the desired, actual distribution of the data. If we examine $\mu_i$ and $(1 - \mu_i)$ we find that they simplify considerably:
 
 $$
-    \mu_i = \frac{e^{w^T_{c_1}x}}{\sum_{c=1}^{2}e^{w^T_cx}} = \frac{e^{w^T_{c_1}x}}{e^{w^T_{c_1}x}+e^{w^T_{c_2}x}} = \frac{e^{w^T_{c_1}x}}{e^{w^T_{c_1}x}+e^{w^T_{c_2}x}} * \frac{e^{-w^T_{c_1}x}}{e^{-w^T_{c_1}x}}
+    \mu_i = \frac{e^{w^T_{c_1}x}}{\sum_{c=1}^{2}e^{w^T_cx}} = \frac{e^{w^T_{c_1}x}}{e^{w^T_{c_1}x}+e^{w^T_{c_2}x}} = \frac{e^{w^T_{c_1}x}}{e^{w^T_{c_1}x}+e^{w^T_{c_2}x}} * \left(\frac{e^{-w^T_{c_1}x}}{e^{-w^T_{c_1}x}}\right)
 $$
 $$
     = \frac{1}{1 + e^{(w_{c_2} - w_{c_1})^Tx}} = \frac{1}{1 + e^{w^Tx}}
 $$
 $$
-    (1-\mu_i) = 1 - \frac{1}{1 + e^{w^Tx}} = \frac{1 + e^{w^Tx} - 1}{1 + e^{w^Tx}} * \frac{e^{-w^Tx}}{e^{-w^Tx}} = \frac{1}{e^{-w^Tx} + 1} 
+    (1-\mu_i) = 1 - \frac{1}{1 + e^{w^Tx}} = \frac{1 + e^{w^Tx} - 1}{1 + e^{w^Tx}} * \left(\frac{e^{-w^Tx}}{e^{-w^Tx}} = \frac{1}{e^{-w^Tx} + 1}\right) 
 $$
 
 Note that this is exactly the sigmoid function $S(x) = \frac{1}{1+e^{-x}}$ which we have seen earlier.
