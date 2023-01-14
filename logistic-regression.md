@@ -233,8 +233,11 @@ thr1, = axs[2].plot(numpy.array([25] * len(y_shift)), y_shift, ':g')
 thr2, = axs[2].plot(numpy.array([30] * len(y_shift)), y_shift, ':r')
 
 axs[0].grid(True)
+axs[0].set_title("Model on Initial Data")
 axs[1].grid(True)
+axs[1].set_title("Model on Data with Outliers")
 axs[2].grid(True)
+axs[2].set_title("Shifted Prediction Threshold")
 
 # Add Legend & Labels
 axs[0].legend((line1,), ('Linear Model',), loc='lower right', shadow=True)
@@ -258,7 +261,8 @@ fig.tight_layout(pad=1.0);
 
 If we add datapoints, our predictions shift. Our threshold value for classifying
 an amount of studying as passing ($x \quad \textit{where} \quad y = 0$) shifts as well, which it should not in this case, as we will make more errors
-as to predictions for the non-outlier students.
+as to predictions for the non-outlier students. This can be seen in the third plot in the previous figure. The shifted 
+threshold causes us two more misclassified datapoints than the original threshold.
 
 Suffice it to say, this model is **highly affected by outliers** and not suited for the task of classification for these events.
 
