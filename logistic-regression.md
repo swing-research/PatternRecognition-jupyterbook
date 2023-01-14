@@ -138,12 +138,12 @@ $$
 
 ### Probability
 
-Finally, in a probabilistic approach to linear regression we assume that the response $Y$ is obtained by a linear combination
+Finally, in a probabilistic approach to linear regression we assume that the response $y$ is obtained by a linear combination
 of our explanatory variables $x_1,...,x_n$. Additionally we model a constant noise or error $\epsilon$ which is usually assumed to be normally 
 distributed. 
 
 $$
-    Y = \mathbf{w}^T\mathbf{X} + \epsilon
+    y = \mathbf{w}^T\mathbf{X} + \epsilon
 $$
 
 The probability of a response $y$ given variables $\mathbf{x}$ and parameters $\theta$ can then be writen as follows:
