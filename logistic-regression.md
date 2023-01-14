@@ -73,7 +73,7 @@ $$
 $$
 
 Expanding this to include all column vectors we find that $(x^{(j)}_{j \in \{1, 2, ..., d+1\}})^T = \mathbf{X}^T$ and can 
-simplify the expression the exact same way as we did in the algebraic approach.
+simplify the expression in the same exact way as we did in the algebraic approach.
 
 $$
     \left(\mathbf{X}^T\mathbf{X}\right)^{-1}\mathbf{X}^T\mathbf{y}=\mathbf{w}^*
