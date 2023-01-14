@@ -146,7 +146,8 @@ $$
     \mathbf{y} = \mathbf{w}^T\mathbf{X} + \epsilon \quad \textit{where} \quad \epsilon \sim \mathcal{N}(0, \sigma^2\mathbf{I})
 $$
 
-The predictions are therefore normally distributed with variance $\sigma^2$ and mean $\mathbf{w}^T\mathbf{X}$, since for a constant $c$ and 
+Adding a normally distributed random variable $\epsilon$ to the equation makes the results random as well, that is logical. The
+only thing to find out is how they are distributed. No problem! The predictions are also normally distributed with variance $\sigma^2$ and mean $\mathbf{w}^T\mathbf{X}$, since for a constant $c$ and 
 normal distribution $F_X$ we have:
 
 $$
