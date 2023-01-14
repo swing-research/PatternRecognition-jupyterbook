@@ -129,7 +129,7 @@ $$
     (x^{(j)})^T(\mathbf{X}\mathbf{w}^*-\mathbf{y}) = 0\ \textit{for}\ j \in \{1, 2, ..., d+1\} 
 $$
 
-Expanding this to include all column vectors we find that $(x^{(j)}_{j \in \{1, 2, ..., d+1\}})^T = \mathbf{X}^T$ and can 
+Expanding this to include all column vectors we find that $[x_1, x_2,...,x_{d+1}]^T = \mathbf{X}^T$ and can 
 simplify the expression in the same exact way as we did in the algebraic approach.
 
 $$
