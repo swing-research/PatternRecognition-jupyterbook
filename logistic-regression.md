@@ -539,9 +539,13 @@ $$
     \sum_{i=1}^k ln\left(\prod_{c=1}^C \mu^{y_{ic}}_{ic}\right) = \sum_{i=1}^k \sum_{c=1}^C ln(\mu^{y_{ic}}_{ic}) = \sum_{i=1}^k \sum_{c=1}^C y_{ic} ln(\mu_{ic})
 $$
 
-The term $\sum_{c=1}^C y_{ic} ln(\mu_{ic})$ looks suspiciously similar **cross-entropy**! This means that
-maximizing the likelihood $\ell(w)$ is equivalent to minimizing the cross-entropy, or to spare the headache *minimizing the negative loss-likelihood.*. Additionally for each 
-$(x_i, y_i) \in \mathcal{D}$, the variables $(y_{i1},...,y_{iC})$ and $(\mu_{i1},...,\mu_{iC})$ are well defined probability
+The term $\sum_{c=1}^C y_{ic} ln(\mu_{ic})$ looks suspiciously similar to **cross-entropy**! This means that
+maximizing the likelihood $\ell(w)$ is equivalent to minimizing the cross-entropy, or to spare the headache *minimizing the negative loss-likelihood.* 
+Why is that the case? We are essentially comparing two probability distributions. On the one hand we have the actual distribution of our data, and on
+the other hand we have the distribution of our prediction. When we are maximizing the likelihood of our prediction, we are trying to eliminate the 
+cross entropy between the two. *In not so many words*, we are trying to make our predicted distribution be like the true distribution.
+
+Additionally, for each $(x_i, y_i) \in \mathcal{D}$, the variables $(y_{i1},...,y_{iC})$ and $(\mu_{i1},...,\mu_{iC})$ are well defined probability
 distributions over the C classes. We will continue to use this notation in this chapter. **To summarize**, the log-likelihood function to maximize in order to find the optimal parameters $\mathbf{w}$ can be writen as:
 
 $$
