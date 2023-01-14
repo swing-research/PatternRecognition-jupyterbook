@@ -59,10 +59,11 @@ $$
 ### Geometry
 
 From a geometric point of view we can derive the same solution. We do this by substituting $v = \mathbf{X}\mathbf{w}$ in
-our original problem. The vector $v$ can then be expressed as some linear combination in the columnspace of $\mathbf{X}$.
+our original problem. The vector $v$ can then be expressed as some linear combination in the columnspace of $\mathbf{X}$. We
+will define the columns of $\mathbf{X}$ as $\mathbf{X}=[x^{(1)},...,x^{(d)}]$.
 
 $$
-    \min\{||\mathbf{y}-\mathbf{X}\mathbf{w}||^2\ |\ \mathbf{w} \in \mathbb{R}^d\} = \min\{||\mathbf{y}-v||^2\ |\ v \in span\{x^{(1)},x^{(2)},...,x^{(3)}\}\}
+    \min\{||\mathbf{y}-\mathbf{X}\mathbf{w}||^2\ |\ \mathbf{w} \in \mathbb{R}^d\} = \min\{||\mathbf{y}-v||^2\ |\ v \in span\{x^{(1)},x^{(2)},...,x^{(d)}\}\}
 $$
 
 We saw that the shortest residual $\hat{y} - y$ for arbitrary dimensions is perpendicular to every column vector of $\mathbf{X}$.
