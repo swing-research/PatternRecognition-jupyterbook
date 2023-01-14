@@ -268,14 +268,14 @@ Suffice it to say, this model is **highly affected by outliers** and not suited 
 
 ### Inadequate Loss-Function
 
-Secondly, a simple sanity check lets us see, that the probability for a student passing the exam who studies exceedingly long hours is greater than 1 in this model, which
-is absurd. Vice versa this model also allows for negative probabilities, which are equally non-tenable.
+Secondly, a simple sanity check lets us see, that the prediction for a student passing the exam who studies exceedingly long hours is greater than 1 in this model, which
+is absurd, if taken as a probability. Vice versa this model also allows for negative predictions, which are equally non-tenable for us.
 
 *Why is it not stable?* We intend a regression which gives us a probability for data to classify as either label 
 $\{-1, 1\}$. But our linear regression outputs values in the real numbers $\mathbb{R}$.
 
-Previously, the quality of our classification models has been measured with the $ l_{01} $ loss function, which 
-simply maps an accurate classification to 0, and an inaccurate classification to 1.
+Previously, the quality of our classification models has been measured with the $ l_{01} $ loss function, which, 
+given the true label $y$ and our prediction $\hat{y}$, simply maps an accurate classification to 0, and an inaccurate classification to 1.
 
 $$
 l_{01}(y, \hat{y}) = \textbf{1}(y = \hat{y}) = 1 - y\hat{y} \quad \textit{where} \quad \hat{y} \in \{-1, 1\}
