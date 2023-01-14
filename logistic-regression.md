@@ -438,7 +438,8 @@ $$
 Alas, the optimal weights will only be found by training our model! Given some dataset 
 $\mathcal{D} = \{\ (x_i, y_i)\ |\ i \in \{1,...,k\}\}$, where our data is independent and identically 
 distributed, we know from previous chapters that we **maximize the likelihood** of the data in order
-to obtain the optimal parameters. In this case we utilize the log-likelihood function $\ell$.
+to obtain the optimal parameters. In this case we utilize the log-likelihood function $\ell$, which is
+the logarithm of the likelihood function $L$.
 
 $$
     \ell(\mathbf{w}) = ln(L(x;\mathbf{w})) = ln\left(\prod_{i=1}^k p( y = y_i | x_i; \mathbf{w})\right) = \sum_{i=1}^k ln(p( y = y_i | x_i; \mathbf{w}))
