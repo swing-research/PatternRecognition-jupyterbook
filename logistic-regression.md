@@ -138,18 +138,18 @@ $$
 
 ### Probability
 
-Finally, in a probabilistic approach to linear regression we assume that the response $y$ is obtained by a linear combination
+Finally, in a probabilistic approach to linear regression we assume that the response $\mathbf{y}$ is obtained by a linear combination
 of our explanatory variables $x_1,...,x_n$. Additionally we model a constant noise or error $\epsilon$ which is usually assumed to be normally 
 distributed. 
 
 $$
-    y = \mathbf{w}^T\mathbf{X} + \epsilon
+    \mathbf{y} = \mathbf{w}^T\mathbf{X} + \epsilon
 $$
 
-The probability of a response $y$ given variables $\mathbf{x}$ and parameters $\theta$ can then be writen as follows:
+The probability of a response $\mathbf{y}$ given variables $\mathbf{x}$ and parameters $\theta$ can then be writen as follows:
 
 $$
-    p(y | \mathbf{x}; \theta) = \mathcal{N}(y|\mathbf{w}^T\mathbf{x}, \sigma^2)\quad\textit{where}\quad \theta = (\mathbf{w}, \sigma)
+    p(\mathbf{y} | \mathbf{x}; \theta) = \mathcal{N}(\mathbf{y}|\mathbf{w}^T\mathbf{x}, \sigma^2)\quad\textit{where}\quad \theta = (\mathbf{w}, \sigma)
 $$
 
 We then find our optimal parameters $\theta^*$ by maximizing the likelihood of observing our training set $\mathcal{D}$ and our parameters $\theta$.
