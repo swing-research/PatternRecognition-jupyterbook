@@ -572,9 +572,9 @@ $$
     NNL(\mathbf{w}) = -\sum_{i=1}^k \left(y_{i1} ln(\mu_{i1}) + y_{i2} ln(\mu_{i2})\right) =  -\sum_{i=1}^k \left( y_i ln(\mu_i) + (1-y_i) ln(1-\mu_i)\right)
 $$
 
-Another way of picturing this equation is as measuring the cross-entropy between two probability distributions
+As we explored previously, another way of picturing this equation is measuring the cross-entropy between two probability distributions
 $(y_i, (1-y_i))$ and $(\mu_i, (1-\mu_i))$, as in how close the distribution of the predictions is to
-the desired, actual distribution of the data. If we examine $\mu_i$ and $(1 - \mu_i)$ we find that they simplify considerably:
+the actual distribution of the data. If we examine $\mu_i$ and $(1 - \mu_i)$ we find that they simplify considerably:
 
 $$
     \mu_i = \frac{e^{w^T_{c_1}x}}{\sum_{c=1}^{2}e^{w^T_cx}} = \frac{e^{w^T_{c_1}x}}{e^{w^T_{c_1}x}+e^{w^T_{c_2}x}} = \frac{e^{w^T_{c_1}x}}{e^{w^T_{c_1}x}+e^{w^T_{c_2}x}} * \left(\frac{e^{-w^T_{c_1}x}}{e^{-w^T_{c_1}x}}\right)
@@ -583,20 +583,21 @@ $$
     = \frac{1}{1 + e^{(w_{c_2} - w_{c_1})^Tx}} = \frac{1}{1 + e^{w^Tx}}
 $$
 $$
-    (1-\mu_i) = 1 - \frac{1}{1 + e^{w^Tx}} = \frac{1 + e^{w^Tx} - 1}{1 + e^{w^Tx}} * \left(\frac{e^{-w^Tx}}{e^{-w^Tx}} = \frac{1}{e^{-w^Tx} + 1}\right) 
+    (1-\mu_i) = 1 - \frac{1}{1 + e^{w^Tx}} = \frac{1 + e^{w^Tx} - 1}{1 + e^{w^Tx}} * \left(\frac{e^{-w^Tx}}{e^{-w^Tx}}\right) = \frac{1}{e^{-w^Tx} + 1}
 $$
 
 Note that this is exactly the sigmoid function $S(x) = \frac{1}{1+e^{-x}}$ which we have seen earlier.
 Substituting this in $NLL(W)$ as well as considering simple logarithm rules $log(\frac{a}{b}) = log(a) - log(b)$ and $log(1) = 0$ we get:
 
 $$
-    NLL(\mathbf{w}) = -\sum_{i=1}^k \left(y_i ln\left(\frac{1}{1 + e^{w^Tx}}\right) + (1-y_i) ln\left(\frac{1}{1 + e^{-w^Tx}}\right)\right)
+    NLL(\mathbf{w}) = -\sum_{i=1}^k \left(y_i ln\left(\frac{1}{1 + e^{w^Tx_i}}\right) + (1-y_i) ln\left(\frac{1}{1 + e^{-w^Tx_i}}\right)\right)
 $$
 $$
-    = \sum_{i=1}^k \left(y_i ln(1 + e^{w^Tx}) + (1-y_i) ln(1 + e^{-w^Tx})\right)
+    = \sum_{i=1}^k \left(y_i ln(1 + e^{w^Tx_i}) + (1-y_i) ln(1 + e^{-w^Tx_i})\right)
 $$
 
-If we further consider the function for binary cases \{-1, 1\}, then we can simply write: 
+If we further consider the function for binary cases \{-1, 1\}, then we can, you are getting the hang of this, *simplify*. 
+
 
 $$
     NLL(\mathbf{w}) = \sum_{i=1}^k ln(1 + e^{-y_iw^Tx_i}) \quad y_i \in \{-1, 1\}
@@ -618,9 +619,9 @@ $$
     \lim_{\hat{y} \rightarrow -\infty} ln(1 + e^{-y\hat{y}}) = \begin{cases} 0 &\quad y = -1 \\ +\infty &\quad y = 1 \end{cases}
 $$
 
-If you can still remember, we derived this loss to get rid of the least squares loss, which we
-deemed inadequate for classification problems. Let us quickly have a look at the least squares loss
-for comparison:
+We derived this loss to get rid of the least squares loss, which we
+[deemed inadequate for classification problems](#inadequate-loss-function). 
+Let us quickly have a look at the least squares loss for comparison:
 
 $$                                                                   
     NLL_{\mathcal{l}2}(\mathbf{w}) = \frac{1}{n}\sum_{i=1}^k (1 - y_i\hat{y}_i)^2 = \frac{1}{n}\sum_{i=1}^k (1 - y_iw^Tx_i)^2
