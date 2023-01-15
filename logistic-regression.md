@@ -415,7 +415,7 @@ ax.view_init(-140, 60);
 In both cases, the effect on the data is its projection to the probability range [0,1] and its normalization 
 such that, in the case of the vectorized version with softmax, the values of an output vector sum up to 1. In the
 previous graphic, each surface represents the probability of one of two classes at a given coordinate. The probability that either one or the other is our label should be their sum, given that they are independent, and 
-here we can be sure that this is the case. Sadly we are troubled picturing higher dimensions, but be assured the assumption
+here we can be sure that this is the case. Sadly we are troubled picturing higher dimensions, but rest assured the assumption
 holds.
 
 ## Finding a Suitable Loss 
