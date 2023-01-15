@@ -811,6 +811,36 @@ for i, step in enumerate(step_sizes):
     ax.scatter(xs[:nsteps], ys[:nsteps])
     ax.plot(xs[:nsteps], ys[:nsteps])
     ax.set_title(ttl);
+    
+plt.show()
+
+x1 = np.arange(-0.5, 2, 0.1)
+x2 = np.arange(-0.5, 3, 0.1)
+x = np.meshgrid(x1, x2)
+z = aoki_vectorized(np.array(x))
+
+fig2, axs = plt.subplots(1, 2, figsize=(10, 5))
+
+step_size_high = 0.6
+step_size_low = 0.01
+
+for i, step in enumerate([step_size_high, step_size_low]):
+    axs[i].contour(x1, x2, z, 100)
+    axs[i].plot(1, 1, "go", markersize=10)
+    x0 = np.array((0.0, 0.0))
+    if step == None:
+        xs, ys, fs = gradient_descent(x0, aoki, aoki_gd, hessian=aoki_hess, stepsize=None)
+        ttl = "exact line search"
+        fname = "steepestDescentDemo_linesearch"
+    else:
+        xs, ys, fx = gradient_descent(x0, aoki, aoki_gd, hessian=aoki_hess, stepsize=step)
+        ttl = "step size {:0.3f}".format(step)
+        fname = "steepestDescentDemo_step{:d}".format(int(step * 10))
+    axs[i].scatter(xs[:nsteps], ys[:nsteps])
+    axs[i].plot(xs[:nsteps], ys[:nsteps])
+    axs[i].set_title(ttl);
+
+plt.show()
 ```
 
 ### Step Size and Learning Rate
@@ -822,7 +852,9 @@ of iterations play into finding a close-to-optimal minimum.
 
 If gradient descend is used as an optimization technique for a model, then the step size can be seen, among else, as its 
 **learning rate**. If we set it too high, we might overshoot, oscillate or even diverge with our weights. If we set it
-to low, we might need a *large* number of iterations to find it.
+to low, we might need a *large* number of iterations to find it. This is visualized in the previous figure, where we can 
+see that for step size $\eta=0.6$ we see oscillations occurring, while for a low step size of
+$0.01$ we find that the progress towards the minimum is very slow indeed.
 
 ## Summary
 
