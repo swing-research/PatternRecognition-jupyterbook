@@ -650,6 +650,10 @@ plt.setp(ax, xlabel='y', ylabel='Loss for y_hat = 1', ylim=(-0.1, 2.0), xlim=(-1
 ax.grid(True)
 ```
 
+As you can see, and as we previously explored mathematically, the logistic loss approaches
+0 in the direction of an accurate prediction, while the $l_2$ loss grows to infinity either way.
+It is clear that the logistic loss is a far better modelling of the $l_{01}$ loss than $l_2$. 
+
 ## Finding the Optimal Parameters
 
 ### No Closed Form Expression for Logistic Regression
