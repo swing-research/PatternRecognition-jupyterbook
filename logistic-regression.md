@@ -85,6 +85,8 @@ xx, yy = numpy.meshgrid(range(-3, 4), range(-3, 4))
 zz = xx
 
 ax.plot_surface(xx, yy, zz, alpha=0.1, color="blue")
+ax.scatter(xx, yy, zz, marker='.', alpha=0.3)
+ax.grid(True)
 
 ax.quiver(
         0, 0, 0,
@@ -101,13 +103,13 @@ ax.quiver(
 ax.quiver(
         0, 0, 0,
         y[0], y[1], y[2],
-        color='orange', alpha=.7, lw=1,
+        color='red', alpha=.7, lw=1,
         label="True value $\mathbf{y}$."
     )
 ax.quiver(
         0, 0, 0,
         y_hat[0], y_hat[1], y_hat[2],
-        color='orange', alpha=.7, lw=1,
+        color='red', alpha=.7, lw=1,
         label="Prediction $\hat{\mathbf{y}}=\mathbf{X}^T\mathbf{w}^*$."
     )
 ax.plot([y[0], y_hat[0]], [y[1], y_hat[1]], [y[2], y_hat[2]], ':r', alpha=0.3, label="Residual $||\hat{\mathbf{y}}-\mathbf{y}||$")
@@ -118,7 +120,7 @@ ax.text(*(y_hat + 0.2), '$\widehat{y}$')
 ax.legend()
 plt.axis('off')
 
-ax.view_init(-16, -172)
+ax.view_init(-18, -172)
 
 plt.show()
 ```
