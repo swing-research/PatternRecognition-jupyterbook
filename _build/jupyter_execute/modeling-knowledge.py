@@ -7,7 +7,7 @@
 # 
 # ## Generalization
 # 
-# We start by an experiment. In Chapter [](ch:introduction) we very quickly built two classifiers. Let us now apply what we learned to the curious problem of determining whether someone is a "cat person" or a "dog person" by looking at a picture of their face.
+# We start by an experiment. In [Introduction](ch:introduction) we very quickly built two classifiers. Let us now apply what we learned to the curious problem of determining whether someone is a "cat person" or a "dog person" by looking at a picture of their face.
 
 # In[1]:
 
@@ -61,7 +61,7 @@ for i in range(n_train, n_train + n_test):
 
 # The interested customer has provided us with both a _training_ set and a _test_ set we can use to evaluate our method. Let's have a look at a couple of random images from the training set.
 
-# In[3]:
+# In[ ]:
 
 
 n_plots = 3
@@ -81,7 +81,7 @@ for i in range(n_plots):
 # 
 # Our next step is to use the code to fit a perceptron that we wrote last week. Instead of writing it again here we put it in a separate file and import here
 
-# In[4]:
+# In[ ]:
 
 
 from perceptron import train
@@ -90,7 +90,7 @@ labsym = labels*2 - 1
 w = train(images.reshape(n_train, -1), labsym)
 
 
-# In[5]:
+# In[ ]:
 
 
 labsym_est = np.sign(images.reshape(n_train, -1) @ w)
