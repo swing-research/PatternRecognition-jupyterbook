@@ -307,7 +307,7 @@ ax.grid(True);
 
 In the previous plot, one can see that the $l_{2}, l_{01}$ loss functions do not align, particularly
 where the values are exceedingly positive. Using the Least Squares Method does not make
-much sense in a discrete setting.
+much sense in a setting with discrete classes.
 
 ## Normalizing our Data
 
