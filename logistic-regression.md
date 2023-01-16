@@ -594,12 +594,21 @@ Substituting this in $NLL(W)$ as well as considering simple logarithm rules $log
 $$
     NLL(\mathbf{w}) = -\sum_{i=1}^k \left(y_i ln\left(\frac{1}{1 + e^{w^Tx_i}}\right) + (1-y_i) ln\left(\frac{1}{1 + e^{-w^Tx_i}}\right)\right)
 $$
+
+If we further focus the function for binary cases $y_i \in \{-1, 1\}$, then we can, you are getting the hang of this, *simplify*. 
+First let us consider it with labels $y'_i \in \{0, 1\}$ then for $y'_i = 0$ we have:
+
 $$
-    = \sum_{i=1}^k \left(y_i ln(1 + e^{w^Tx_i}) + (1-y_i) ln(1 + e^{-w^Tx_i})\right)
+    = -\sum_{i = 1}^k ln\left(\frac{1}{1 + e^{w^Tx_i}}\right)  = \sum_{i = 1}^k ln\left(1 + e^{w^Tx_i}\right)
 $$
 
-If we further consider the function for binary cases \{-1, 1\}, then we can, you are getting the hang of this, *simplify*. 
+For the case $y'_i = 1$ on the other hand we get:
 
+$$
+    = -\sum_{i = 1}^k ln\left(\frac{1}{1 + e^{-w^Tx_i}}\right)  = \sum_{i = 1}^k ln\left(1 + e^{-w^Tx_i}\right)
+$$
+
+Now, back with our original labels $y_i \in \{-1, 1\}$, we can elegantly model the same results for either binary class in one single equation. Neat!
 
 $$
     NLL(\mathbf{w}) = \sum_{i=1}^k ln(1 + e^{-y_iw^Tx_i}) \quad y_i \in \{-1, 1\}
