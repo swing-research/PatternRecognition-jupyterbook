@@ -7,7 +7,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-from tqdm import tqdm
+#from tqdm import tqdm
 
 mpl.rcParams['axes.spines.top'] = 0
 mpl.rcParams['axes.spines.right'] = 0
@@ -16,7 +16,8 @@ mpl.rcParams['axes.spines.bottom'] = 1
 mpl.rcParams.update({'font.size': 12})
 
 
-# # Introduction
+# (ch:introduction)=
+# # Introduction 
 # 
 # 
 # ## What is the plan?
@@ -70,7 +71,7 @@ for ax in axs:
 # 
 # To avoid needless complexity, we will first try to build a _binary_ classifier which distinguishes between two classes of handwritten digits. For example, it should recognize whether the input digit is a "4" or a "7". We begin by writing some spaghetti code to extract a random sample which only contains the chosen two digits.
 
-# In[3]:
+# In[ ]:
 
 
 classes = [4, 7]
@@ -91,7 +92,7 @@ y = 2*(y == classes[0]) - 1
 
 # We quickly verify that we indeed only have the two chosen digits by showing a small random sample.
 
-# In[4]:
+# In[ ]:
 
 
 fig, axs = plt.subplots(ncols=4, nrows=1, figsize=(14, 3))
@@ -144,7 +145,7 @@ for ax in axs:
 # 
 # We now need to decide how to choose the best weights $\mathbf{w}$. In order to do that we have to clearly state what we mean by _best_, but before doing that let us try something goofy 🤭: random weights. More concretely let us independently sample each $w_i$ from a standard normal distribution. (Standard means zero mean and unit variance).
 
-# In[5]:
+# In[ ]:
 
 
 # generate random weights
@@ -159,7 +160,7 @@ print('%d out of %d patterns correctly classified (%5.2f%%)' % (correct, n, 100*
 
 # Not very surprisingly, a linear classifier with random weights does not achieve a particularly impressive digit classification performance. On the other hand, we can see that there the values of $\mathbf{w}_{\text{random}}^T \mathbf{x}$ vary wildly---some are very small and thus "almost" correctly classified.
 
-# In[6]:
+# In[ ]:
 
 
 fig, ax = plt.subplots(figsize=(7, 5))
@@ -213,7 +214,7 @@ ax.set_title('$\mathbf{w}_{\mathrm{random}}^T \mathbf{x}$ for misclassified patt
 # 
 # Let's now apply these ideas to digit classification.
 
-# In[7]:
+# In[ ]:
 
 
 # find indices of misclassfied examples
@@ -233,11 +234,10 @@ print('The smallest absolute dot product is %.2e' % (dot_i,))
 # 
 # Now we add the computed perturbation to the weights, but we scale it by a number slightly larger than 1 so that the digit does not land on the decision boundary but (barely) crosses to the other side.
 
-# In[8]:
+# In[ ]:
 
 
-w_bumped = w_random - 1.000001 * X[i] * dot_i \
-                / np.linalg.norm(X[i])**2
+w_bumped = w_random - 1.000001 * X[i] * dot_i                 / np.linalg.norm(X[i])**2
 y_est_bumped = np.sign(X @ w_bumped)
 correct_bumped = np.sum(y_est_bumped * y == 1)
 print('Correct before: %d/%d, correct after: %d/%d' % (correct, n, correct_bumped, n))
@@ -249,7 +249,7 @@ print('Correct before: %d/%d, correct after: %d/%d' % (correct, n, correct_bumpe
 # 
 # A question comes to mind: even if we mess things up for some other digits, we could then apply our perturbation ideas to them, and cycle over misclassified digits until, hopefully, most of them become correctly classified. As we will see, this is not always possible (the patterns should be _linearly separable_ for it to be possible; in the above figure, there should exist a line which perfectly separates squares and circles). But it can often work quite well. Our strategy is as follows: for each misclassified pattern we will update the weights in the direction which would make the pattern correctly classified. A parameter called _learning rate_ will determine how strongly we bump the weights in that direction. Once we go through all training patterns we will start from the beginning, and repeat this process until the estimated classes (signs of dot products) stabilize, or, simpler, for some set number of iterations.
 
-# In[9]:
+# In[ ]:
 
 
 def train(X, y, lr=0.1, n_iter=30):
@@ -271,7 +271,7 @@ def train(X, y, lr=0.1, n_iter=30):
 
 # (Check class notes to see a better implementation.) We now apply this to MNIST.
 
-# In[10]:
+# In[ ]:
 
 
 w = train(X, y)
@@ -282,7 +282,7 @@ print("%d out of %d patterns are misclassified" % (error_count, n))
 
 # A much better result than what we initially obtained with random weights! Let's try to visualize the digits in a way that clearly shows that we've got ourselves some good weights. We need a way to represent the digits which live in a $28 \times = 784$ dimensional space by points in the 2D plane. We will do it like this: choose two directions $\mathbf{e}_1, \mathbf{e}_2 \in \mathbb{R}^{784}$ and then represent a digit $\mathbf{x}$ by a point $(\mathbf{e}_1^T \mathbf{x}, \mathbf{e}_2^T \mathbf{x})$ in the plane. We'll choose $\mathbf{e}_2 = \mathbf{w} / \| \mathbf{w} \|$ becase we're interested in what the distribution of points looks like along the direction of the weights. Then we'll set $\mathbf{e}_1$ to some unit vector orthogonal to $\mathbf{e}_2$. Since there are 783 orthogonal directions, we choose one at random. You can check that the computed vectors are indeed orthogonal.
 
-# In[11]:
+# In[ ]:
 
 
 w_orth = np.random.randn(d) 
@@ -300,7 +300,7 @@ ax.scatter(X_orth[y==-1], X_w[y==-1]);
 # 
 # An important benefit of using simple linear classifiers is that we can visualize the weights as a 28 $\times$ 28 image and see exactly how the different digits are distinguished. Such _interpretability_ is a desirable property of pattern recognition systems, but it's often absent in modern approaches based on large deep neural networks.
 
-# In[12]:
+# In[ ]:
 
 
 fig, ax = plt.subplots(figsize=(8, 8))
@@ -308,7 +308,7 @@ im = ax.imshow(w.reshape(28, 28), cmap='winter')
 _ = fig.colorbar(im, ax=ax, shrink=0.6)
 
 
-# # A different classifier: counting neighbor labels
+# ## A different classifier: counting neighbor labels
 # 
 # We have successfully constructed our first pattern classification system. The idea was perhaps a bit abstract and probably different from how you would go about classifying patterns by hand. 
 # 
@@ -319,7 +319,7 @@ _ = fig.colorbar(im, ax=ax, shrink=0.6)
 # 
 # Let's turn this intuitive approach into an algorithm. The idea is as follows: for a patter we want to classify, we will find $k$ patterns that are closest to it in the training set. Then we will do a majority vote: find the label that occurs most often among the neighbors and declare this label to be our estimate.
 
-# In[13]:
+# In[ ]:
 
 
 k = 31
@@ -348,9 +348,9 @@ print("The number of misclassified points is: ", error_count)
 # 
 # ## Which $k$ works best? 
 # 
-# In the above example we chose the number of neighbors as $k = 31$ for no particular reason. Intutively, this value should have a marked effect on the behavior of our classifier. Let us try an ad hoc strategy to choose it
+# In the above example we chose the number of neighbors as $k = 31$ for no particular reason. Intutively, this value should have a marked effect on the behavior of our classifier. Let us test many different values of $k$ to figure out which one is the best. Before we do that... we need to do something with the code above which is far too slow to run over and over for different $k$. The idea is to leverage fast mathematical primitives used by `numpy`, in particular matrix multiplication. To understand what the formula in the below code does, check out this [paper about Euclidean distance matrices](https://infoscience.epfl.ch/record/221380/files/EDM%283%29.pdf).
 
-# In[14]:
+# In[ ]:
 
 
 ec = []
@@ -369,17 +369,16 @@ plt.xlabel('$k$')
 plt.ylabel('Misclassified points');
 
 
-# It seems that both $k$ too small and $k$ too large are bad
+# It seems that both $k$ too small and $k$ too large are bad. Can you guess why?
 # 
-# Can we visualize what is going on? We need to use a low-dimensional example
+# It would be great to get some visual intution about what is going on, but we cannot easily do that for the $28 \times 28$ digits: we would have to find a way to visualize 784-dimensional space. Luckily there are many datasets with a small number of features which make more sense.
 # 
 # 
 # ## The Iris flower datset
 # 
-# - Yet another legendary dataset used by every data science course on the planet
-# - Ronald Fisher, probably the most important statistician of all time (and a complicated person)
+# Another legendary dataset used by almost every data science course on the planet is the Iris flower dataset compiled by Ronald Fisher, probably the most important statistician of all time (and a complicated person privately and publicly).
 
-# In[15]:
+# In[ ]:
 
 
 # Modified from Gaël Varoquaux
@@ -403,9 +402,9 @@ plt.xlim(x_min, x_max)
 _ = plt.ylim(y_min, y_max)
 
 
-# We again focus on two classes
+# We again focus on two classes:
 
-# In[16]:
+# In[ ]:
 
 
 excluded_class = 2
@@ -416,7 +415,7 @@ y[y == classes[0]] = -1
 y[y == classes[1]] = 1
 
 
-# In[17]:
+# In[ ]:
 
 
 X -= X.mean(axis=0)
@@ -438,7 +437,7 @@ plt.xlim(x_min, x_max)
 _ = plt.ylim(y_min, y_max)
 
 
-# In[18]:
+# In[ ]:
 
 
 k = 51
@@ -515,7 +514,7 @@ _ = plt.imshow(np.flipud(label), cmap='summer', extent=[x_min, x_max, y_min, y_m
 # - For $k$NN it's even a bit silly (consider the iris example)
 # 
 # 
-# # This course
+# ## This course
 # 
 # - "Pattern recognition" very close to "machine learning"
 # - Focus in PR is on "supervised learning"
