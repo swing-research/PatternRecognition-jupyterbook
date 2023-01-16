@@ -687,19 +687,25 @@ find a closed form expression for logistic regression like we did when deriving 
 
 Using gradient descend we can approximate local minima or maxima of functions in any number of dimensions. We iteratively
 approach the extrema by moving along the direction of the gradient of a function. You know the derivative of a function gives us
-a value for its steepness at every point in space. In gradient (steepest) descend, we find the **direction**, you 
-guessed it, of the **steepest descend** and move a distance with a certain factor, the **step size**. 
-If we start with some initial guess and repeat this process a certain number of times, where we end up must be close
+a value corresponding to its slope at every point in space. In gradient descend, we find the **direction**, you 
+guessed it, of the **descent** and move a distance with a scalar $\eta$, the **step size**.
+If we start with some initial guess $w_0$ and repeat this process a certain number of times $t_{max}$, where we end up must be close
 to a **local minimum**. We can formulate this in an algorithm as follows:
 
 $\textit{for} \quad t \in \{1, ..., t_{max}\} \quad \textit{do}:$
 
-$\quad\quad\quad\quad\mathbf{g}{(t)} = \nabla{\mathbf{w}} \mathrm{NLL}(\mathbf{w}_{(t)}) \quad\quad\quad\quad\quad \text{(1) Compute the gradient.}$ 
+$\quad\quad\quad\quad\mathbf{g}{(t)} = \nabla_{\mathbf{w}} \mathrm{NLL}(\mathbf{w}_{(t)}) \quad\quad\quad\quad\quad \text{(1) Compute the gradient.}$ 
 
 $\quad\quad\quad\quad\mathbf{g}{(t)}$: $\mathbf{w}{(t+1)} \gets \mathbf{w}{(t)} - \eta \mathbf{g}{(t)} \quad\ \ \text{(2) Update the weights}$
 
 Note the negative sign in (2), where we are stepping in the opposite direction of the gradient, or in other words, we are descending on the
-slope towards a local minimum.
+slope towards a local minimum. You can picture the computed vector $g(t)$ at a point $\nabla_{\mathbf{w}}\mathrm{NLL}(w_{(t)})$ to be the 
+direction the weights will be updated. The difference between gradient descend in general and **gradient steepest descend** is that in the latter
+the step size $\eta_t$ is chosen in the iterations such that the value of the objective function, in this case $\mathrm{NLL}$, is minimized at $\mathbf{w}{(t+1)}$.
+
+$$
+    \eta_t = arg\min_{\eta} \left( \mathrm{NLL}(\mathbf{w}{(t)} - \eta \mathbf{g}{(t)}) \right)
+$$
 
 ### Steepest Gradient Descend on the Aoki Function
 
