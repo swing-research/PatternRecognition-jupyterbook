@@ -9,4 +9,5 @@ chapters:
 - file: modeling-knowledge
 - file: filtering
 - file: denoise-deblur
+- file: linear-methods
 
