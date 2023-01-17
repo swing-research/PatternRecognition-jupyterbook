@@ -63,7 +63,7 @@ $$
 
 In conclusion we have another property of the ROC curve: The ROC curve is concave.
 
-<!-- There is some code at this point in the notebook but I don't think it makes sense to put it here fully out of contect. Do you have an idea what I could put here instead?-->
+<!-- There is some code of the Snail example in the notebook here for an interactive plot that does not really work in the jupyter-book. Do you have an idea what I could put here instead?-->
 
 <!-- I was thinking of adding a section for AUC but it was not really covered in the lexture so I decided against it.-->
 
