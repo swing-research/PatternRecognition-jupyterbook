@@ -46,7 +46,7 @@ We now take the next step towards and more algorithmical approach and have try t
 1. What knowledge can we assume to have?
 2. How do we build algorithms given the knowledge we have?
 
-### Sample vs. population
+## Sample vs. population
 
 To get our answers we start with the assumption that we have n "labeled" instaces $(x_1,y_1),\dots,(x_n,y_n)$ where each $(x_i,y_i)$ is drawn from the underlying distribution $(X,Y)$ (Sometimes in this context also the word realization is used). Both *draw* and *realization* are not 100% precise descriptions but they are good enough to conveniently explain the process that is happening. When doing math and statistics of learning like that , we often assume that the instances are drawn independently and identically distributed (i.i.d.) from the distribution $(X,Y)$. This means that the instances are drawn from the same distribution and that the instances are independent of each other and their features. 
 
