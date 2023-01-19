@@ -10,4 +10,4 @@ chapters:
 - file: filtering
 - file: denoise-deblur
 - file: linear-methods
-- file: likelihood-tests
+- file: likelihood-tests-and-linear-regression
