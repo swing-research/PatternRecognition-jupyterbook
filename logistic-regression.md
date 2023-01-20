@@ -673,10 +673,7 @@ We now have an adequate regression with a suitable loss function, so we *should*
 the partial derivatives to zero and obtain our optimal weights $\mathbf{w}$.
 
 $$
-    \nabla_{\mathbf{w}}NLL(\mathbf{w}) = \nabla_{\mathbf{w}}\sum_{i = 1}^{n}(\mu_i-y_i)x_i = \nabla_{\mathbf{w}}\mathbf{X}^T(\mu-y)
-$$
-$$
-    = \mathbf{X}^T\left(\nabla_{\mathbf{w}}\frac{e^{w^T_cx}}{\sum_{c=1}^{C}e^{w^T_cx}}\right) 
+    \nabla_{\mathbf{w}}NLL(\mathbf{w}) = \nabla_{\mathbf{w}}\sum_{i = 1}^{n}(\mu_i-y_i)x_i = \nabla_{\mathbf{w}}\mathbf{X}^T\left(\left(\frac{e^{w^T_cx}}{\sum_{c=1}^{C}e^{w^T_cx}}\right)-y\right)
 $$
 
 Now there are some good news and bad news. The good news is, we won't have to calculate this derivative and set it to
