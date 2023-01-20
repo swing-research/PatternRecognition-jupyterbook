@@ -481,7 +481,7 @@ will shift the mean $s$ of $\gamma(x)$ and calculate the cross entropy along the
 :tags: [hide-input]
 from scipy.stats import norm
    
-def cross_entropy2(x, s):
+def cross_entropy(x, s):
     y = numpy.zeros(len(x))
     for idx, means in enumerate(s):
         y[idx] = numpy.sum(numpy.multiply(norm.pdf(x),numpy.log(norm.pdf(x - means))))
@@ -491,7 +491,7 @@ n = 100
 
 xs = numpy.linspace(-1, 1, n)
 ss = numpy.array([numpy.linspace(-5, 5, n)]*n).T
-ys = cross_entropy2(xs, ss)
+ys = cross_entropy(xs, ss)
 
 fig, axs = plt.subplots(1, 2, figsize=(10,4))
     
@@ -510,7 +510,6 @@ axs[1].set_title("$\delta(x)$ and $\gamma(x)$ for $s=5$")
 axs[1].yaxis.set_visible(False)
 
 plt.show()
-
 
 ```
 
