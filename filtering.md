@@ -21,7 +21,7 @@ kernelspec:
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-from tqdm import tqdm
+# from tqdm import tqdm
 
 mpl.rcParams['axes.spines.top'] = 0
 mpl.rcParams['axes.spines.right'] = 0

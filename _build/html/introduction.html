@@ -50,12 +50,12 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"vect": ["\\boldsymbol{#1}", 1], "mat": ["\\boldsymbol{#1}", 1], "rvar": ["\\mathsf{#1}", 1], "rvect": ["\\mathsf{\\boldsymbol{#1}}", 1], "rmat": ["\\mathsf{\\boldsymbol{#1}}", 1], "vx": ["\\vect{x}"], "vy": ["\\vect{y}"], "vz": ["\\vect{z}"], "vv": ["\\vect{v}"], "vw": ["\\vect{w}"], "va": ["\\vect{a}"], "vb": ["\\vect{b}"], "vc": ["\\vect{c}"], "vd": ["\\vect{d}"], "ve": ["\\vect{e}"], "vf": ["\\vect{f}"], "vg": ["\\vect{g}"], "vh": ["\\vect{h}"], "vk": ["\\vect{k}"], "vp": ["\\vect{p}"], "vn": ["\\vect{n}"], "vell": ["\\vect{\\ell}"], "vmu": ["\\vect{\\mu}"], "mX": ["\\mat{X}"], "mY": ["\\mat{Y}"], "mZ": ["\\mat{Z}"], "mV": ["\\mat{V}"], "mW": ["\\mat{W}"], "mA": ["\\mat{A}"], "mB": ["\\mat{B}"], "mC": ["\\mat{C}"], "mD": ["\\mat{D}"], "mE": ["\\mat{E}"], "mF": ["\\mat{F}"], "mG": ["\\mat{G}"], "mH": ["\\mat{H}"], "mK": ["\\mat{K}"], "mP": ["\\mat{P}"], "mSigma": ["\\mat{\\Sigma}"], "mI": ["\\mat{I}"], "rx": ["\\rvar{x}"], "ry": ["\\rvar{y}"], "rz": ["\\rvar{z}"], "rv": ["\\rvar{v}"], "rw": ["\\rvar{w}"], "ra": ["\\rvar{a}"], "rb": ["\\rvar{b}"], "rc": ["\\rvar{c}"], "rd": ["\\rvar{d}"], "re": ["\\rvar{e}"], "rf": ["\\rvar{f}"], "rg": ["\\rvar{g}"], "rh": ["\\rvar{h}"], "rk": ["\\rvar{k}"], "rp": ["\\rvar{p}"], "rX": ["\\rvar{X}"], "rH": ["\\rvar{H}"], "rY": ["\\rvar{Y}"], "rvx": ["\\rvect{x}"], "rvy": ["\\rvect{y}"], "rvz": ["\\rvect{z}"], "rvv": ["\\rvect{v}"], "rvw": ["\\rvect{w}"], "rva": ["\\rvect{a}"], "rvb": ["\\rvect{b}"], "rvc": ["\\rvect{c}"], "rvd": ["\\rvect{d}"], "rve": ["\\rvect{e}"], "rvf": ["\\rvect{f}"], "rvg": ["\\rvect{g}"], "rvh": ["\\rvect{h}"], "rvk": ["\\rvect{k}"], "rvp": ["\\rvect{p}"], "rmX": ["\\rmat{X}"], "rmY": ["\\rmat{Y}"], "rmZ": ["\\rmat{Z}"], "rmV": ["\\rmat{V}"], "rmW": ["\\rmat{W}"], "rmA": ["\\rmat{A}"], "rmB": ["\\rmat{B}"], "rmC": ["\\rmat{C}"], "rmD": ["\\rmat{D}"], "rmE": ["\\rmat{E}"], "rmF": ["\\rmat{F}"], "rmG": ["\\rmat{G}"], "rmH": ["\\rmat{H}"], "rmK": ["\\rmat{K}"], "rmP": ["\\rmat{P}"], "EE": ["\\mathbb{E}"], "RR": ["\\mathbb{R}"], "CC": ["\\mathbb{C}"], "ZZ": ["\\mathbb{Z}"], "SS": ["\\mathbb{S}"], "norm": ["\\|#1\\|", 1]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Modeling Knowledge" href="modeling-knowledge.html" />
-    <link rel="prev" title="Welcome to your Jupyter Book" href="intro.html" />
+    <link rel="prev" title="Installation" href="installation.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -116,6 +116,11 @@ const thebe_selector_output = ".output, .cell_output"
             </li>
         </ul>
         <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="installation.html">
+   Installation
+  </a>
+ </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    Introduction
@@ -129,6 +134,21 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="linear-methods.html">
    Linear Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="logistic-regression.html">
+   Logistic Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="filtering.html">
+   Filtering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="denoise-deblur.html">
+   Denoising and deblurring
   </a>
  </li>
 </ul>
@@ -354,137 +374,126 @@ title="Print to PDF"
     </div>
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
-   Introduction
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-is-the-plan">
+   What is the plan?
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#what-is-the-plan">
-     What is the plan?
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#the-mnist-dataset">
-     The MNIST dataset
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#mnist">
-     MNIST
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#our-goal-ship-a-pr-system">
-     Our goal: ship a PR system
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#let-s-focus-on-two-digits-binary-classification">
-     Let’s focus on two digits: binary classification
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#rule-0-simple-ideas-first">
-     Rule 0: simple ideas first
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#choosing-the-right-weights">
-     Choosing the right weights
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#let-s-make-this-into-an-algorithm">
-     Let’s make this into an algorithm
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#what-do-the-weights-do">
-     What do the weights do?
-    </a>
-   </li>
-  </ul>
  </li>
- <li class="toc-h1 nav-item toc-entry">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-mnist-dataset">
+   The MNIST dataset
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mnist">
+   MNIST
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#our-goal-ship-a-pr-system">
+   Our goal: ship a PR system
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#let-s-focus-on-two-digits-binary-classification">
+   Let’s focus on two digits: binary classification
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#rule-0-simple-ideas-first">
+   Rule 0: simple ideas first
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#choosing-the-right-weights">
+   Choosing the right weights
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#let-s-make-this-into-an-algorithm">
+   Let’s make this into an algorithm
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-do-the-weights-do">
+   What do the weights do?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#a-different-classifier-counting-neighbor-labels">
    A different classifier: counting neighbor labels
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#which-k-works-best">
-     Which
-     <span class="math notranslate nohighlight">
-      \(k\)
-     </span>
-     works best?
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#the-iris-flower-datset">
-     The Iris flower datset
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#the-perceptron">
-     The perceptron
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#well-we-first-reinvented-the-perceptron">
-     Well, we first reinvented the
-     <em>
-      perceptron
-     </em>
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#we-then-reinvented-k-nearest-neighbors">
-     We then reinvented
-     <span class="math notranslate nohighlight">
-      \(k\)
-     </span>
-     nearest neighbors
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#some-of-the-questions-we-must-answer">
-     Some of the questions we must answer
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#we-have-been-committing-a-crime">
-     We have been committing a crime
-    </a>
-   </li>
-  </ul>
  </li>
- <li class="toc-h1 nav-item toc-entry">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#which-k-works-best">
+   Which
+   <span class="math notranslate nohighlight">
+    \(k\)
+   </span>
+   works best?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-iris-flower-datset">
+   The Iris flower datset
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-perceptron">
+   The perceptron
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#well-we-first-reinvented-the-perceptron">
+   Well, we first reinvented the
+   <em>
+    perceptron
+   </em>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#we-then-reinvented-k-nearest-neighbors">
+   We then reinvented
+   <span class="math notranslate nohighlight">
+    \(k\)
+   </span>
+   nearest neighbors
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#some-of-the-questions-we-must-answer">
+   Some of the questions we must answer
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#we-have-been-committing-a-crime">
+   We have been committing a crime
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#this-course">
    This course
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#beware">
-     Beware
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#beware">
+   Beware
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#key-mathematical-tools">
+   Key mathematical tools
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#probability-theory-and-statistics">
+     Probability theory (and statistics)
     </a>
    </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#key-mathematical-tools">
-     Key mathematical tools
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#linear-algebra">
+     Linear algebra
     </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#probability-theory-and-statistics">
-       Probability theory (and statistics)
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#linear-algebra">
-       Linear algebra
-      </a>
-     </li>
-    </ul>
    </li>
   </ul>
  </li>
@@ -507,137 +516,126 @@ title="Print to PDF"
                         </div>
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
-   Introduction
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-is-the-plan">
+   What is the plan?
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#what-is-the-plan">
-     What is the plan?
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#the-mnist-dataset">
-     The MNIST dataset
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#mnist">
-     MNIST
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#our-goal-ship-a-pr-system">
-     Our goal: ship a PR system
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#let-s-focus-on-two-digits-binary-classification">
-     Let’s focus on two digits: binary classification
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#rule-0-simple-ideas-first">
-     Rule 0: simple ideas first
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#choosing-the-right-weights">
-     Choosing the right weights
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#let-s-make-this-into-an-algorithm">
-     Let’s make this into an algorithm
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#what-do-the-weights-do">
-     What do the weights do?
-    </a>
-   </li>
-  </ul>
  </li>
- <li class="toc-h1 nav-item toc-entry">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-mnist-dataset">
+   The MNIST dataset
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mnist">
+   MNIST
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#our-goal-ship-a-pr-system">
+   Our goal: ship a PR system
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#let-s-focus-on-two-digits-binary-classification">
+   Let’s focus on two digits: binary classification
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#rule-0-simple-ideas-first">
+   Rule 0: simple ideas first
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#choosing-the-right-weights">
+   Choosing the right weights
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#let-s-make-this-into-an-algorithm">
+   Let’s make this into an algorithm
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-do-the-weights-do">
+   What do the weights do?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#a-different-classifier-counting-neighbor-labels">
    A different classifier: counting neighbor labels
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#which-k-works-best">
-     Which
-     <span class="math notranslate nohighlight">
-      \(k\)
-     </span>
-     works best?
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#the-iris-flower-datset">
-     The Iris flower datset
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#the-perceptron">
-     The perceptron
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#well-we-first-reinvented-the-perceptron">
-     Well, we first reinvented the
-     <em>
-      perceptron
-     </em>
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#we-then-reinvented-k-nearest-neighbors">
-     We then reinvented
-     <span class="math notranslate nohighlight">
-      \(k\)
-     </span>
-     nearest neighbors
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#some-of-the-questions-we-must-answer">
-     Some of the questions we must answer
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#we-have-been-committing-a-crime">
-     We have been committing a crime
-    </a>
-   </li>
-  </ul>
  </li>
- <li class="toc-h1 nav-item toc-entry">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#which-k-works-best">
+   Which
+   <span class="math notranslate nohighlight">
+    \(k\)
+   </span>
+   works best?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-iris-flower-datset">
+   The Iris flower datset
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-perceptron">
+   The perceptron
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#well-we-first-reinvented-the-perceptron">
+   Well, we first reinvented the
+   <em>
+    perceptron
+   </em>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#we-then-reinvented-k-nearest-neighbors">
+   We then reinvented
+   <span class="math notranslate nohighlight">
+    \(k\)
+   </span>
+   nearest neighbors
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#some-of-the-questions-we-must-answer">
+   Some of the questions we must answer
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#we-have-been-committing-a-crime">
+   We have been committing a crime
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#this-course">
    This course
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#beware">
-     Beware
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#beware">
+   Beware
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#key-mathematical-tools">
+   Key mathematical tools
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#probability-theory-and-statistics">
+     Probability theory (and statistics)
     </a>
    </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#key-mathematical-tools">
-     Key mathematical tools
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#linear-algebra">
+     Linear algebra
     </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#probability-theory-and-statistics">
-       Probability theory (and statistics)
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#linear-algebra">
-       Linear algebra
-      </a>
-     </li>
-    </ul>
    </li>
   </ul>
  </li>
@@ -656,7 +654,7 @@ title="Print to PDF"
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
-<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="c1">#from tqdm import tqdm</span>
 
 <span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.spines.top&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.spines.right&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
@@ -668,7 +666,7 @@ title="Print to PDF"
 </div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="introduction">
-<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">#</a></h1>
+<span id="ch-introduction"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">#</a></h1>
 <section id="what-is-the-plan">
 <h2>What is the plan?<a class="headerlink" href="#what-is-the-plan" title="Permalink to this headline">#</a></h2>
 <p>Pattern recognition is about recognizing patterns. It is almost synonymous with supervised learning, although unsupervised learning plays an important role in feature design. To really understand pattern recognition you need to get comfortable with a certain amount of math, perhaps more than you would like. This will be hard unless you believe in it and perhaps even like it.</p>
@@ -804,7 +802,7 @@ While we are designing our pattern recognition system we can do whatever we want
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2479 out of 5000 patterns correctly classified (49.58%)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2307 out of 5000 patterns correctly classified (46.14%)
 </pre></div>
 </div>
 </div>
@@ -885,7 +883,7 @@ While we are designing our pattern recognition system we can do whatever we want
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The smallest absolute dot product is 4.18e-01
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The smallest absolute dot product is 1.98e+00
 </pre></div>
 </div>
 </div>
@@ -907,7 +905,7 @@ While we are designing our pattern recognition system we can do whatever we want
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Correct before: 2479/5000, correct after: 2480/5000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Correct before: 2307/5000, correct after: 2308/5000
 </pre></div>
 </div>
 </div>
@@ -949,7 +947,7 @@ While we are designing our pattern recognition system we can do whatever we want
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>13 out of 5000 patterns are misclassified
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>15 out of 5000 patterns are misclassified
 </pre></div>
 </div>
 </div>
@@ -990,9 +988,8 @@ While we are designing our pattern recognition system we can do whatever we want
 </div>
 </div>
 </section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="a-different-classifier-counting-neighbor-labels">
-<h1>A different classifier: counting neighbor labels<a class="headerlink" href="#a-different-classifier-counting-neighbor-labels" title="Permalink to this headline">#</a></h1>
+<section id="a-different-classifier-counting-neighbor-labels">
+<h2>A different classifier: counting neighbor labels<a class="headerlink" href="#a-different-classifier-counting-neighbor-labels" title="Permalink to this headline">#</a></h2>
 <p>We have successfully constructed our first pattern classification system. The idea was perhaps a bit abstract and probably different from how you would go about classifying patterns by hand.</p>
 <figure class="align-default" id="id2">
 <img alt="_images/Meyer_Lemon.jpg" src="_images/Meyer_Lemon.jpg" />
@@ -1028,15 +1025,16 @@ While we are designing our pattern recognition system we can do whatever we want
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The number of misclassified points is:  40
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The number of misclassified points is:  30
 </pre></div>
 </div>
 </div>
 </div>
 <p>This is pretty slow but in the end we get quite a decent result. The right thing to do would be to test how this works for patterns outside of the training set, but for the moment let’s just keep playing around and building intuition.</p>
+</section>
 <section id="which-k-works-best">
 <h2>Which <span class="math notranslate nohighlight">\(k\)</span> works best?<a class="headerlink" href="#which-k-works-best" title="Permalink to this headline">#</a></h2>
-<p>In the above example we chose the number of neighbors as <span class="math notranslate nohighlight">\(k = 31\)</span> for no particular reason. Intutively, this value should have a marked effect on the behavior of our classifier. Let us try an ad hoc strategy to choose it</p>
+<p>In the above example we chose the number of neighbors as <span class="math notranslate nohighlight">\(k = 31\)</span> for no particular reason. Intutively, this value should have a marked effect on the behavior of our classifier. Let us test many different values of <span class="math notranslate nohighlight">\(k\)</span> to figure out which one is the best. Before we do that… we need to do something with the code above which is far too slow to run over and over for different <span class="math notranslate nohighlight">\(k\)</span>. The idea is to leverage fast mathematical primitives used by <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, in particular matrix multiplication. To understand what the formula in the below code does, check out this <a class="reference external" href="https://infoscience.epfl.ch/record/221380/files/EDM%283%29.pdf">paper about Euclidean distance matrices</a>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ec</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1060,15 +1058,12 @@ While we are designing our pattern recognition system we can do whatever we want
 <img alt="_images/introduction_26_0.png" src="_images/introduction_26_0.png" />
 </div>
 </div>
-<p>It seems that both <span class="math notranslate nohighlight">\(k\)</span> too small and <span class="math notranslate nohighlight">\(k\)</span> too large are bad</p>
-<p>Can we visualize what is going on? We need to use a low-dimensional example</p>
+<p>It seems that both <span class="math notranslate nohighlight">\(k\)</span> too small and <span class="math notranslate nohighlight">\(k\)</span> too large are bad. Can you guess why?</p>
+<p>It would be great to get some visual intution about what is going on, but we cannot easily do that for the <span class="math notranslate nohighlight">\(28 \times 28\)</span> digits: we would have to find a way to visualize 784-dimensional space. Luckily there are many datasets with a small number of features which make more sense.</p>
 </section>
 <section id="the-iris-flower-datset">
 <h2>The Iris flower datset<a class="headerlink" href="#the-iris-flower-datset" title="Permalink to this headline">#</a></h2>
-<ul class="simple">
-<li><p>Yet another legendary dataset used by every data science course on the planet</p></li>
-<li><p>Ronald Fisher, probably the most important statistician of all time (and a complicated person)</p></li>
-</ul>
+<p>Another legendary dataset used by almost every data science course on the planet is the Iris flower dataset compiled by Ronald Fisher, probably the most important statistician of all time (and a complicated person privately and publicly).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Modified from Gaël Varoquaux</span>
@@ -1097,7 +1092,7 @@ While we are designing our pattern recognition system we can do whatever we want
 <img alt="_images/introduction_28_0.png" src="_images/introduction_28_0.png" />
 </div>
 </div>
-<p>We again focus on two classes</p>
+<p>We again focus on two classes:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">excluded_class</span> <span class="o">=</span> <span class="mi">2</span>
@@ -1211,9 +1206,8 @@ While we are designing our pattern recognition system we can do whatever we want
 <li><p>For <span class="math notranslate nohighlight">\(k\)</span>NN it’s even a bit silly (consider the iris example)</p></li>
 </ul>
 </section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="this-course">
-<h1>This course<a class="headerlink" href="#this-course" title="Permalink to this headline">#</a></h1>
+<section id="this-course">
+<h2>This course<a class="headerlink" href="#this-course" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>“Pattern recognition” very close to “machine learning”</p></li>
 <li><p>Focus in PR is on “supervised learning”</p>
@@ -1229,6 +1223,7 @@ While we are designing our pattern recognition system we can do whatever we want
 </ul>
 </li>
 </ul>
+</section>
 <section id="beware">
 <h2>Beware<a class="headerlink" href="#beware" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
@@ -1289,11 +1284,11 @@ While we are designing our pattern recognition system we can do whatever we want
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="installation.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Welcome to your Jupyter Book</p>
+            <p class="prev-next-title">Installation</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="modeling-knowledge.html" title="next page">

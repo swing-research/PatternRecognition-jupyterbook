@@ -19,7 +19,7 @@ Terminology inspired by Hardt and Recht.
 
 ## Generalization
 
-We start by an experiment. In Chapter [](ch:introduction) we very quickly built two classifiers. Let us now apply what we learned to the curious problem of determining whether someone is a "cat person" or a "dog person" by looking at a picture of their face.
+We start by an experiment. In [Introduction](ch:introduction) we very quickly built two classifiers. Let us now apply what we learned to the curious problem of determining whether someone is a "cat person" or a "dog person" by looking at a picture of their face.
 
 ```{code-cell}
 :tags: [hide-input]
