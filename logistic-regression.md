@@ -479,49 +479,39 @@ will shift the mean $s$ of $\gamma(x)$ and calculate the cross entropy along the
 
 ```{code-cell}
 :tags: [hide-input]
-
-def cross_entropy(f1, f2, mean, var, pdf, X):
-    return -sum([pdf(f1, x, mean, var)*numpy.log(pdf(f2, x, mean, var)) for x in X])
+from scipy.stats import norm
+   
+def cross_entropy2(x, s):
+    y = numpy.zeros(len(x))
+    for idx, means in enumerate(s):
+        y[idx] = numpy.sum(numpy.multiply(norm.pdf(x),numpy.log(norm.pdf(x - means))))
+    return -y
     
-def normal_pdf(f, x, mean, var):
-    x = f(x, mean, var)
-    return (1/(var*numpy.sqrt(2*numpy.pi)))*numpy.exp(-(1/2)*((x - mean)/var)**2)
-    
-def normal_pdf_plot(x, mean, var):
-    return (1/(var*numpy.sqrt(2*numpy.pi)))*numpy.exp(-(1/2)*((x - mean)/var)**2)
+n = 100
 
-def gamma_f(x, mean, var):
-    return x + numpy.random.normal(mean, var)
-    
-def delta_f(x, mean, var):
-    return x
-
-X = numpy.linspace(0, 1, 20)
+xs = numpy.linspace(-1, 1, n)
+ss = numpy.array([numpy.linspace(-5, 5, n)]*n).T
+ys = cross_entropy2(xs, ss)
 
 fig, axs = plt.subplots(1, 2, figsize=(10,4))
-
-means = numpy.linspace(0, 5, 100)
-
-ys = numpy.zeros(100)
-
-for idx, mu in enumerate(means):
-  ys[idx] = cross_entropy(gamma_f, delta_f, mu, 1, normal_pdf, X)  
     
-axs[0].plot(means, ys)
+axs[0].plot(ss, ys)
 axs[0].set_title("$H(\gamma,\delta)$ where $\gamma(x)\sim\mathcal{N}(s, 1),\delta(x)\sim\mathcal{N}(0, 1)$")
 axs[0].set_ylabel("$H(\gamma,\delta)$")
 axs[0].set_xlabel("$s$")
 
-xs = numpy.linspace(-5, 10, 100)
-ys1 = normal_pdf_plot(xs, 0, 1)
-ys2 = normal_pdf_plot(xs, 5, 1)
+xs = numpy.linspace(-5, 10, n)
+ys1 = norm.pdf(xs)
+ys2 = norm.pdf(xs - numpy.array([5]*n)) 
 
 axs[1].plot(xs, ys1, label="$\delta(x)$")
 axs[1].plot(xs, ys2, label="$\gamma(x)$")
 axs[1].set_title("$\delta(x)$ and $\gamma(x)$ for $s=5$")
 axs[1].yaxis.set_visible(False)
-ax
+
 plt.show()
+
+
 ```
 
 Generally, the lower the cross-entropy in our datasets, the better our
