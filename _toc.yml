@@ -10,3 +10,4 @@ chapters:
 - file: filtering
 - file: denoise-deblur
 - file: linear-methods
+- file: edge-detection
