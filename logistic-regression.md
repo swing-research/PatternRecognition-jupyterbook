@@ -599,13 +599,13 @@ If we further focus the function for binary cases $y_i \in \{-1, 1\}$, then we c
 First let us consider it with labels $y'_i \in \{0, 1\}$ then for $y'_i = 0$ we have:
 
 $$
-    = -\sum_{i = 1}^k ln\left(\frac{1}{1 + e^{w^Tx_i}}\right)  = \sum_{i = 1}^k ln\left(1 + e^{w^Tx_i}\right)
+    = -\sum_{i = 1, y'_{i} = 0}^k ln\left(\frac{1}{1 + e^{w^Tx_i}}\right)  = \sum_{i = 1, y'_{i} = 0}^k ln\left(1 + e^{w^Tx_i}\right)
 $$
 
 For the case $y'_i = 1$ on the other hand we get:
 
 $$
-    = -\sum_{i = 1}^k ln\left(\frac{1}{1 + e^{-w^Tx_i}}\right)  = \sum_{i = 1}^k ln\left(1 + e^{-w^Tx_i}\right)
+    = -\sum_{i = 1, y'_{i} = 1}^k ln\left(\frac{1}{1 + e^{-w^Tx_i}}\right)  = \sum_{i = 1, y'_{i} = 1}^k ln\left(1 + e^{-w^Tx_i}\right)
 $$
 
 Now, back with our original labels $y_i \in \{-1, 1\}$, we can elegantly model the same results for either binary class in one single equation. Neat!
