@@ -52,7 +52,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Filtering" href="filtering.html" />
+    <link rel="next" title="Linear Regression" href="linear-methods.html" />
     <link rel="prev" title="Introduction" href="introduction.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -130,6 +130,16 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="linear-methods.html">
+   Linear Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="logistic-regression.html">
+   Logistic Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="filtering.html">
    Filtering
   </a>
@@ -137,11 +147,6 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="denoise-deblur.html">
    Denoising and deblurring
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="linear-methods.html">
-   Linear Regression
   </a>
  </li>
 </ul>
@@ -466,7 +471,7 @@ title="Print to PDF"
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">IndexError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
-<span class="nn">/tmp/ipykernel_357131/1601703186.py</span> in <span class="ni">&lt;cell line: 23&gt;</span><span class="nt">()</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">24</span>
 <span class="g g-Whitespace">     </span><span class="mi">22</span> <span class="n">shuffle_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">n_train</span> <span class="o">+</span> <span class="n">n_test</span><span class="p">)</span>
 <span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_train</span><span class="p">):</span>
 <span class="ne">---&gt; </span><span class="mi">24</span>     <span class="n">images</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">shuffle_idx</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -555,10 +560,10 @@ title="Print to PDF"
             <p class="prev-next-title">Introduction</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="filtering.html" title="next page">
+    <a class='right-next' id="next-link" href="linear-methods.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Filtering</p>
+        <p class="prev-next-title">Linear Regression</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
