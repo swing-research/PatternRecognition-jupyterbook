@@ -139,6 +139,16 @@ const thebe_selector_output = ".output, .cell_output"
    Denoising and deblurring
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="linear-methods.html">
+   Linear Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="likelihood-tests-and-linear-regression.html">
+   Likelihood tests and Linear Regression
+  </a>
+ </li>
 </ul>
 
     </div>
@@ -406,7 +416,7 @@ title="Print to PDF"
 <p>Terminology inspired by Hardt and Recht.</p>
 <section id="generalization">
 <h2>Generalization<a class="headerlink" href="#generalization" title="Permalink to this headline">#</a></h2>
-<p>We start by an experiment. In Chapter <span class="xref myst"></span> we very quickly built two classifiers. Let us now apply what we learned to the curious problem of determining whether someone is a “cat person” or a “dog person” by looking at a picture of their face.</p>
+<p>We start by an experiment. In <a class="reference internal" href="introduction.html#ch-introduction"><span class="std std-ref">Introduction</span></a> we very quickly built two classifiers. Let us now apply what we learned to the curious problem of determining whether someone is a “cat person” or a “dog person” by looking at a picture of their face.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -458,6 +468,20 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">IndexError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">24</span>
+<span class="g g-Whitespace">     </span><span class="mi">22</span> <span class="n">shuffle_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">n_train</span> <span class="o">+</span> <span class="n">n_test</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_train</span><span class="p">):</span>
+<span class="ne">---&gt; </span><span class="mi">24</span>     <span class="n">images</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">shuffle_idx</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">25</span>     <span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">())</span>
+<span class="g g-Whitespace">     </span><span class="mi">26</span>     <span class="n">images</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">noise</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+
+<span class="ne">IndexError</span>: list index out of range
+</pre></div>
+</div>
+</div>
 </div>
 <p>The interested customer has provided us with both a <em>training</em> set and a <em>test</em> set we can use to evaluate our method. Let’s have a look at a couple of random images from the training set.</p>
 <div class="cell docutils container">
@@ -475,12 +499,6 @@ title="Print to PDF"
         <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">text_label</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">n_plots</span> <span class="o">+</span> <span class="n">j</span><span class="p">]])</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1000, 250, 250)
-</pre></div>
-</div>
-<img alt="_images/modeling-knowledge_4_1.png" src="_images/modeling-knowledge_4_1.png" />
 </div>
 </div>
 <p>Who would have thought?</p>
@@ -501,11 +519,6 @@ title="Print to PDF"
 <span class="n">labels_est</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">((</span><span class="n">labsym_est</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">n_correct</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">labsym_est</span> <span class="o">==</span> <span class="n">labsym</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The perceptron correctly classifies </span><span class="si">%d</span><span class="s1"> out of </span><span class="si">%d</span><span class="s1"> training images&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">n_correct</span><span class="p">,</span> <span class="n">n_train</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The perceptron correctly classifies 642 out of 1000 training images
 </pre></div>
 </div>
 </div>

@@ -141,6 +141,16 @@ const thebe_selector_output = ".output, .cell_output"
    Denoising and deblurring
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="linear-methods.html">
+   Linear Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="likelihood-tests-and-linear-regression.html">
+   Likelihood tests and Linear Regression
+  </a>
+ </li>
 </ul>
 
     </div>
@@ -644,7 +654,7 @@ title="Print to PDF"
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
-<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="c1">#from tqdm import tqdm</span>
 
 <span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.spines.top&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.spines.right&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
@@ -656,7 +666,7 @@ title="Print to PDF"
 </div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="introduction">
-<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">#</a></h1>
+<span id="ch-introduction"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">#</a></h1>
 <section id="what-is-the-plan">
 <h2>What is the plan?<a class="headerlink" href="#what-is-the-plan" title="Permalink to this headline">#</a></h2>
 <p>Pattern recognition is about recognizing patterns. It is almost synonymous with supervised learning, although unsupervised learning plays an important role in feature design. To really understand pattern recognition you need to get comfortable with a certain amount of math, perhaps more than you would like. This will be hard unless you believe in it and perhaps even like it.</p>
@@ -792,7 +802,7 @@ While we are designing our pattern recognition system we can do whatever we want
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2296 out of 5000 patterns correctly classified (45.92%)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2824 out of 5000 patterns correctly classified (56.48%)
 </pre></div>
 </div>
 </div>
@@ -873,7 +883,7 @@ While we are designing our pattern recognition system we can do whatever we want
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The smallest absolute dot product is 3.19e-01
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The smallest absolute dot product is 2.77e+00
 </pre></div>
 </div>
 </div>
@@ -895,7 +905,7 @@ While we are designing our pattern recognition system we can do whatever we want
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Correct before: 2296/5000, correct after: 2297/5000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Correct before: 2824/5000, correct after: 2825/5000
 </pre></div>
 </div>
 </div>
@@ -937,7 +947,7 @@ While we are designing our pattern recognition system we can do whatever we want
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6 out of 5000 patterns are misclassified
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>22 out of 5000 patterns are misclassified
 </pre></div>
 </div>
 </div>
@@ -1015,7 +1025,7 @@ While we are designing our pattern recognition system we can do whatever we want
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The number of misclassified points is:  38
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The number of misclassified points is:  47
 </pre></div>
 </div>
 </div>

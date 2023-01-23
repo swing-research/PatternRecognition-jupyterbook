@@ -29,7 +29,7 @@ substitutions:
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-from tqdm import tqdm
+#from tqdm import tqdm
 
 mpl.rcParams['axes.spines.top'] = 0
 mpl.rcParams['axes.spines.right'] = 0
@@ -38,7 +38,8 @@ mpl.rcParams['axes.spines.bottom'] = 1
 mpl.rcParams.update({'font.size': 12})
 ```
 
-# Introduction
+(ch:introduction)=
+# Introduction 
 
 
 ## What is the plan?
