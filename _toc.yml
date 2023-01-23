@@ -10,4 +10,6 @@ chapters:
 - file: filtering
 - file: denoise-deblur
 - file: linear-methods
+- file: likelihood-tests-and-linear-regression
 - file: edge-detection
+
