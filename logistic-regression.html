@@ -1,0 +1,1649 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Logistic Regression (Colin Fingerlin) &#8212; Pattern Recognition</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"vect": ["\\boldsymbol{#1}", 1], "mat": ["\\boldsymbol{#1}", 1], "rvar": ["\\mathsf{#1}", 1], "rvect": ["\\mathsf{\\boldsymbol{#1}}", 1], "rmat": ["\\mathsf{\\boldsymbol{#1}}", 1], "vx": ["\\vect{x}"], "vy": ["\\vect{y}"], "vz": ["\\vect{z}"], "vv": ["\\vect{v}"], "vw": ["\\vect{w}"], "va": ["\\vect{a}"], "vb": ["\\vect{b}"], "vc": ["\\vect{c}"], "vd": ["\\vect{d}"], "ve": ["\\vect{e}"], "vf": ["\\vect{f}"], "vg": ["\\vect{g}"], "vh": ["\\vect{h}"], "vk": ["\\vect{k}"], "vp": ["\\vect{p}"], "vn": ["\\vect{n}"], "vell": ["\\vect{\\ell}"], "vmu": ["\\vect{\\mu}"], "mX": ["\\mat{X}"], "mY": ["\\mat{Y}"], "mZ": ["\\mat{Z}"], "mV": ["\\mat{V}"], "mW": ["\\mat{W}"], "mA": ["\\mat{A}"], "mB": ["\\mat{B}"], "mC": ["\\mat{C}"], "mD": ["\\mat{D}"], "mE": ["\\mat{E}"], "mF": ["\\mat{F}"], "mG": ["\\mat{G}"], "mH": ["\\mat{H}"], "mK": ["\\mat{K}"], "mP": ["\\mat{P}"], "mSigma": ["\\mat{\\Sigma}"], "mI": ["\\mat{I}"], "rx": ["\\rvar{x}"], "ry": ["\\rvar{y}"], "rz": ["\\rvar{z}"], "rv": ["\\rvar{v}"], "rw": ["\\rvar{w}"], "ra": ["\\rvar{a}"], "rb": ["\\rvar{b}"], "rc": ["\\rvar{c}"], "rd": ["\\rvar{d}"], "re": ["\\rvar{e}"], "rf": ["\\rvar{f}"], "rg": ["\\rvar{g}"], "rh": ["\\rvar{h}"], "rk": ["\\rvar{k}"], "rp": ["\\rvar{p}"], "rX": ["\\rvar{X}"], "rH": ["\\rvar{H}"], "rY": ["\\rvar{Y}"], "rvx": ["\\rvect{x}"], "rvy": ["\\rvect{y}"], "rvz": ["\\rvect{z}"], "rvv": ["\\rvect{v}"], "rvw": ["\\rvect{w}"], "rva": ["\\rvect{a}"], "rvb": ["\\rvect{b}"], "rvc": ["\\rvect{c}"], "rvd": ["\\rvect{d}"], "rve": ["\\rvect{e}"], "rvf": ["\\rvect{f}"], "rvg": ["\\rvect{g}"], "rvh": ["\\rvect{h}"], "rvk": ["\\rvect{k}"], "rvp": ["\\rvect{p}"], "rmX": ["\\rmat{X}"], "rmY": ["\\rmat{Y}"], "rmZ": ["\\rmat{Z}"], "rmV": ["\\rmat{V}"], "rmW": ["\\rmat{W}"], "rmA": ["\\rmat{A}"], "rmB": ["\\rmat{B}"], "rmC": ["\\rmat{C}"], "rmD": ["\\rmat{D}"], "rmE": ["\\rmat{E}"], "rmF": ["\\rmat{F}"], "rmG": ["\\rmat{G}"], "rmH": ["\\rmat{H}"], "rmK": ["\\rmat{K}"], "rmP": ["\\rmat{P}"], "EE": ["\\mathbb{E}"], "RR": ["\\mathbb{R}"], "CC": ["\\mathbb{C}"], "ZZ": ["\\mathbb{Z}"], "SS": ["\\mathbb{S}"], "norm": ["\\|#1\\|", 1]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Filtering" href="filtering.html" />
+    <link rel="prev" title="Linear Regression-2 (Melanie Svab)" href="linear-methods-2.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo_sada-lab_black.svg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Pattern Recognition</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="installation.html">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="introduction.html">
+   Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="modeling-knowledge.html">
+   Modeling Knowledge
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="likelihood-tests-and-linear-regression.html">
+   Likelihood tests and Linear Regression (Tim Keller)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="linear-methods-2.html">
+   Linear Regression-2 (Melanie Svab)
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Logistic Regression (Colin Fingerlin)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="filtering.html">
+   Filtering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="denoise-deblur.html">
+   Denoising and deblurring
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/docs/logistic-regression.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/executablebooks/jupyter-book"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Flogistic-regression.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/logistic-regression.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download notebook file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="_sources/logistic-regression.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ways-to-derive-optimal-linear-regressors">
+   3 Ways to Derive Optimal Linear Regressors
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#algebra">
+     Algebra
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#geometry">
+     Geometry
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#probability">
+     Probability
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear-regression-classification-problems">
+   Linear Regression &amp; Classification Problems
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#passing-exams">
+     Passing Exams
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#shifting-prediction-threshold">
+     Shifting Prediction Threshold
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#inadequate-loss-function">
+     Inadequate Loss-Function
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#normalizing-our-data">
+   Normalizing our Data
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#logistics-function">
+     Logistics Function
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#softmax">
+     Softmax
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#finding-a-suitable-loss">
+   Finding a Suitable Loss
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#posterior-values">
+     Posterior Values
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#preparing-our-model-for-training">
+     Preparing our Model for Training
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#cross-entropy">
+     Cross-Entropy
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#binary-classification-with-nnl">
+   Binary Classification with NNL
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#negative-log-likelihood-loss">
+     Negative Log-Likelihood Loss
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#comparison-with-lse">
+     Comparison with LSE
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#finding-the-optimal-parameters">
+   Finding the Optimal Parameters
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#no-closed-form-expression-for-logistic-regression">
+     No Closed Form Expression for Logistic Regression
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#gradient-steepest-descend">
+     Gradient (Steepest) Descend
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#steepest-gradient-descend-on-the-aoki-function">
+     Steepest Gradient Descend on the Aoki Function
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-size-and-learning-rate">
+     Step Size and Learning Rate
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summary">
+   Summary
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Logistic Regression (Colin Fingerlin)</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ways-to-derive-optimal-linear-regressors">
+   3 Ways to Derive Optimal Linear Regressors
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#algebra">
+     Algebra
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#geometry">
+     Geometry
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#probability">
+     Probability
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear-regression-classification-problems">
+   Linear Regression &amp; Classification Problems
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#passing-exams">
+     Passing Exams
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#shifting-prediction-threshold">
+     Shifting Prediction Threshold
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#inadequate-loss-function">
+     Inadequate Loss-Function
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#normalizing-our-data">
+   Normalizing our Data
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#logistics-function">
+     Logistics Function
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#softmax">
+     Softmax
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#finding-a-suitable-loss">
+   Finding a Suitable Loss
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#posterior-values">
+     Posterior Values
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#preparing-our-model-for-training">
+     Preparing our Model for Training
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#cross-entropy">
+     Cross-Entropy
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#binary-classification-with-nnl">
+   Binary Classification with NNL
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#negative-log-likelihood-loss">
+     Negative Log-Likelihood Loss
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#comparison-with-lse">
+     Comparison with LSE
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#finding-the-optimal-parameters">
+   Finding the Optimal Parameters
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#no-closed-form-expression-for-logistic-regression">
+     No Closed Form Expression for Logistic Regression
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#gradient-steepest-descend">
+     Gradient (Steepest) Descend
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#steepest-gradient-descend-on-the-aoki-function">
+     Steepest Gradient Descend on the Aoki Function
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-size-and-learning-rate">
+     Step Size and Learning Rate
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summary">
+   Summary
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="logistic-regression-colin-fingerlin">
+<h1>Logistic Regression (Colin Fingerlin)<a class="headerlink" href="#logistic-regression-colin-fingerlin" title="Permalink to this headline">#</a></h1>
+<section id="ways-to-derive-optimal-linear-regressors">
+<h2>3 Ways to Derive Optimal Linear Regressors<a class="headerlink" href="#ways-to-derive-optimal-linear-regressors" title="Permalink to this headline">#</a></h2>
+<p>Let there be a dataset <span class="math notranslate nohighlight">\(\mathcal{D} = \{ (\mathbf{x}_i, y_i) \}_{i = 1}^n\)</span> and a loss function as follows.</p>
+<div class="math notranslate nohighlight">
+\[
+    \sum_{i=1}^{n}(y_i - \tilde{\mathbf{x}}_i^T\mathbf{w})^2 = ||\mathbf{y}-\mathbf{X}\mathbf{w}||^2
+\]</div>
+<p>We have seen that there are multiple ways to obtain the optimal weights for linear regression in the previous chapter
+<em>Perspectives on Linear Regression</em>, so let us go over them again in a quick recap.</p>
+<section id="algebra">
+<h3>Algebra<a class="headerlink" href="#algebra" title="Permalink to this headline">#</a></h3>
+<p>First, we already found weights by finding the first order derivative and setting the expression to zero.
+In our example we would thus solve the following equation.</p>
+<div class="math notranslate nohighlight">
+\[
+    \nabla_{\mathbf{w}}||\mathbf{y}-\mathbf{X}\mathbf{w}||^2
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+    -2\mathbf{X}^T(\mathbf{y}-\mathbf{X}\mathbf{w})
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+    -2(\mathbf{X}^T\mathbf{y}-\mathbf{X}^T\mathbf{X}\mathbf{w}^*)=0
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+    \mathbf{X}^T\mathbf{y}=\mathbf{X}^T\mathbf{X}\mathbf{w}^*
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+    \left(\mathbf{X}^T\mathbf{X}\right)^{-1}\mathbf{X}^T\mathbf{y}=\mathbf{w}^*
+\]</div>
+</section>
+<section id="geometry">
+<h3>Geometry<a class="headerlink" href="#geometry" title="Permalink to this headline">#</a></h3>
+<p>From a geometric point of view we can derive the same solution. We do this by substituting <span class="math notranslate nohighlight">\(v = \mathbf{X}\mathbf{w}\)</span> in
+our original problem. The vector <span class="math notranslate nohighlight">\(v\)</span> can then be expressed as some linear combination in the columnspace of <span class="math notranslate nohighlight">\(\mathbf{X}\)</span>. We
+will define the columns of <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> as <span class="math notranslate nohighlight">\(\mathbf{X}=[x^{(1)},...,x^{(d)}]\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[
+    \min\{||\mathbf{y}-\mathbf{X}\mathbf{w}||^2\ |\ \mathbf{w} \in \mathbb{R}^d\} = \min\{||\mathbf{y}-v||^2\ |\ v \in span\{x^{(1)},x^{(2)},...,x^{(d)}\}\}
+\]</div>
+<p>We saw that the shortest residual <span class="math notranslate nohighlight">\(\hat{y} - y\)</span> for arbitrary dimensions is perpendicular to every column vector of <span class="math notranslate nohighlight">\(\mathbf{X}\)</span>.</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x1</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">y_hat</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">w</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">7</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+
+<span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">zz</span> <span class="o">=</span> <span class="n">xx</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">zz</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">zz</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span>
+        <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">x1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x1</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">.5</span><span class="p">,</span> <span class="n">lw</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$\mathbf</span><span class="si">{X}</span><span class="s2">$ column-vector $x^{(1)}$.&quot;</span>
+    <span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span>
+        <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">x2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x2</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x2</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.5</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$\mathbf</span><span class="si">{X}</span><span class="s2">$ column-vector $x^{(2)}$.&quot;</span>
+    <span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span>
+        <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.7</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;True value $\mathbf</span><span class="si">{y}</span><span class="s2">$.&quot;</span>
+    <span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span>
+        <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">y_hat</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y_hat</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">y_hat</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.7</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Prediction $\hat{\mathbf</span><span class="si">{y}</span><span class="s2">}=\mathbf</span><span class="si">{X}</span><span class="s2">^T\mathbf</span><span class="si">{w}</span><span class="s2">^*$.&quot;</span>
+    <span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y_hat</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">y_hat</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span class="n">y</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">y_hat</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="s1">&#39;:r&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Residual $||\hat{\mathbf</span><span class="si">{y}</span><span class="s2">}-\mathbf</span><span class="si">{y}</span><span class="s2">||$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">),</span> <span class="s1">&#39;$x^{(1)}$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">x2</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">),</span> <span class="s1">&#39;$x^{(2)}$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">),</span> <span class="s1">&#39;$y$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">y_hat</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">),</span> <span class="s1">&#39;$\widehat</span><span class="si">{y}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">view_init</span><span class="p">(</span><span class="o">-</span><span class="mi">18</span><span class="p">,</span> <span class="o">-</span><span class="mi">172</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/logistic-regression_2_0.png" src="_images/logistic-regression_2_0.png" />
+</div>
+</div>
+<p>This can also be expressed by their dot product resulting in 0.</p>
+<div class="math notranslate nohighlight">
+\[
+    (x^{(j)})^T(\mathbf{X}\mathbf{w}^*-\mathbf{y}) = 0\ \textit{for}\ j \in \{1, 2, ..., d+1\} 
+\]</div>
+<p>Expanding this to include all column vectors we find that <span class="math notranslate nohighlight">\([x_1, x_2,...,x_{d+1}]^T = \mathbf{X}^T\)</span> and can
+simplify the expression in the same exact way as we did in the algebraic approach.</p>
+<div class="math notranslate nohighlight">
+\[
+    \left(\mathbf{X}^T\mathbf{X}\right)^{-1}\mathbf{X}^T\mathbf{y}=\mathbf{w}^*
+\]</div>
+</section>
+<section id="probability">
+<h3>Probability<a class="headerlink" href="#probability" title="Permalink to this headline">#</a></h3>
+<p>Finally, in a probabilistic approach to linear regression we assume that the response <span class="math notranslate nohighlight">\(\mathbf{y}\)</span> is obtained by a linear combination
+of our explanatory variables <span class="math notranslate nohighlight">\(x_1,...,x_n\)</span>. Additionally we model a constant noise or error <span class="math notranslate nohighlight">\(\epsilon\)</span> which is usually assumed to be normally
+distributed.</p>
+<div class="math notranslate nohighlight">
+\[
+    \mathbf{y} = \mathbf{w}^T\mathbf{X} + \epsilon \quad \textit{where} \quad \epsilon \sim \mathcal{N}(0, \sigma^2\mathbf{I})
+\]</div>
+<p>Adding a normally distributed random variable <span class="math notranslate nohighlight">\(\epsilon\)</span> to the equation makes the results random as well, that is logical. The
+only thing to find out is how they are distributed. No problem! The predictions are also normally distributed with variance <span class="math notranslate nohighlight">\(\sigma^2\)</span> and mean <span class="math notranslate nohighlight">\(\mathbf{w}^T\mathbf{X}\)</span>, since for a constant <span class="math notranslate nohighlight">\(c\)</span> and
+normal distribution <span class="math notranslate nohighlight">\(F_X\)</span> we have:</p>
+<div class="math notranslate nohighlight">
+\[
+    F_{X + c}(x) = p(X + c \leq x) = p(X \leq x - c) = \int_{-\infty}^{x-c}\frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{1}{2}\left(\frac{(t-\mu)^2}{\sigma}\right)}dt
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+    \quad = \int_{-\infty}^{x}\frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{1}{2}\left(\frac{(s-(c+\mu))^2}{\sigma}\right)}ds
+\]</div>
+<p>And therefore <span class="math notranslate nohighlight">\(c + \mathcal{N}(\mu, \sigma^2) = \mathcal{N}(\mu + c, \sigma^2)\)</span>. Or in other words, the mean of the distribution is shifted by
+adding a constant <span class="math notranslate nohighlight">\(c\)</span>.
+The probability of a response <span class="math notranslate nohighlight">\(\mathbf{y}\)</span> given variables <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> and parameters <span class="math notranslate nohighlight">\(\theta\)</span> can then be writen as follows:</p>
+<div class="math notranslate nohighlight">
+\[
+    p(\mathbf{y} | \mathbf{x}; \theta) = \mathcal{N}(\mathbf{y}|\mathbf{w}^T\mathbf{x}, \sigma^2)\quad\textit{where}\quad \theta = (\mathbf{w}, \sigma)
+\]</div>
+<p>We then find our optimal parameters <span class="math notranslate nohighlight">\(\theta^*\)</span> by maximizing the likelihood <span class="math notranslate nohighlight">\(p(\mathcal{D};\theta)\)</span> of observing our training set <span class="math notranslate nohighlight">\(\mathcal{D}\)</span> and our parameters <span class="math notranslate nohighlight">\(\theta\)</span>.
+If the events <span class="math notranslate nohighlight">\((y_i, x_i)\)</span> are assumed to be <span class="math notranslate nohighlight">\(iid.\)</span> their joint probability is a product.</p>
+<div class="math notranslate nohighlight">
+\[
+    \hat{\theta} = arg\max_\theta p(\mathcal{D};\theta) = arg\max_\theta \prod_{i=1}^{n}p(y_i|x_i;\theta)
+\]</div>
+<p>Then we can maximize the log-likelihood, which is a function of our parameters <span class="math notranslate nohighlight">\(\theta\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[
+    \ell(\theta) := \log p(\mathcal{D}; \theta) = \sum_{i = 1}^n \log p(y_i | \mathbf{x}_i ; \theta)
+\]</div>
+</section>
+</section>
+<section id="linear-regression-classification-problems">
+<h2>Linear Regression &amp; Classification Problems<a class="headerlink" href="#linear-regression-classification-problems" title="Permalink to this headline">#</a></h2>
+<section id="passing-exams">
+<h3>Passing Exams<a class="headerlink" href="#passing-exams" title="Permalink to this headline">#</a></h3>
+<p>Imagine we have a simple binary classification problem with labels <span class="math notranslate nohighlight">\(\{-1, 1\}\)</span>, for
+example, let their be data about the outcome of students exams, which are either passed
+or failed. For each student we have a record of how much hours they have put into studying.</p>
+<p>We will first try to model this example with <em>simple linear regression</em>.</p>
+<p>What follows are two linear regressions. In the first one, we will fit our
+model to some fictitious data. Second, we will repeat it with some
+additional outlier datapoints, showcasing a number of students who put a lot
+of work in, to illustrate an arising issue.</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Some student data, where the integer refers to the hours of</span>
+<span class="c1"># studying and the sign proclaims whether the student passed the exam.</span>
+<span class="n">x1</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">24</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Here we add some additional data of students who - studied a lot.</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">24</span><span class="p">),</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">100</span><span class="p">)])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">y1</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">x1</span><span class="p">),</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>  <span class="c1"># Get the labels. {-1, 1}</span>
+<span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="mi">25</span><span class="p">),</span> <span class="n">numpy</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+
+<span class="c1"># Fit the regression models for both x1, x2.</span>
+<span class="n">reg1</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">)</span>
+<span class="n">reg2</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="c1"># Scatter the initial datapoints.</span>
+<span class="n">scatter1</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">c</span><span class="o">=-</span><span class="n">y1</span><span class="p">)</span>
+<span class="n">scatter2</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">c</span><span class="o">=-</span><span class="n">y2</span><span class="p">)</span>
+<span class="n">scatter3</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">c</span><span class="o">=-</span><span class="n">y2</span><span class="p">)</span>
+
+<span class="c1"># -------------------- Plot the Predictions ------------------</span>
+<span class="n">x_grid</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">x_grid2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">line1</span><span class="p">,</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_grid</span><span class="p">,</span> <span class="n">reg1</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_grid</span><span class="p">),</span> <span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">line2</span><span class="p">,</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_grid</span><span class="p">,</span> <span class="n">reg2</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_grid</span><span class="p">),</span> <span class="s1">&#39;c&#39;</span><span class="p">)</span>
+<span class="n">line2b</span><span class="p">,</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_grid</span><span class="p">,</span> <span class="n">reg1</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_grid</span><span class="p">),</span> <span class="s1">&#39;:b&#39;</span><span class="p">)</span>
+
+<span class="n">line3</span><span class="p">,</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_grid</span><span class="p">,</span> <span class="n">reg2</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_grid</span><span class="p">),</span> <span class="s1">&#39;c&#39;</span><span class="p">)</span>
+<span class="n">line3b</span><span class="p">,</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_grid</span><span class="p">,</span> <span class="n">reg1</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_grid</span><span class="p">),</span> <span class="s1">&#39;:b&#39;</span><span class="p">)</span>
+
+<span class="n">y_shift</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">thr1</span><span class="p">,</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">25</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_shift</span><span class="p">)),</span> <span class="n">y_shift</span><span class="p">,</span> <span class="s1">&#39;:g&#39;</span><span class="p">)</span>
+<span class="n">thr2</span><span class="p">,</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">30</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_shift</span><span class="p">)),</span> <span class="n">y_shift</span><span class="p">,</span> <span class="s1">&#39;:r&#39;</span><span class="p">)</span>
+
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Model on Initial Data&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Model on Data with Outliers&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Shifted Prediction Threshold&quot;</span><span class="p">)</span>
+
+<span class="c1"># Add Legend &amp; Labels</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">((</span><span class="n">line1</span><span class="p">,),</span> <span class="p">(</span><span class="s1">&#39;Linear Model&#39;</span><span class="p">,),</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">,</span> <span class="n">shadow</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">((</span><span class="n">line2</span><span class="p">,</span> <span class="n">line2b</span><span class="p">,),</span> <span class="p">(</span><span class="s1">&#39;Shifted Linear Model&#39;</span><span class="p">,</span> <span class="s1">&#39;Linear Model&#39;</span><span class="p">,),</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">,</span> <span class="n">shadow</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">((</span><span class="n">line3</span><span class="p">,</span> <span class="n">line3b</span><span class="p">,</span> <span class="n">thr1</span><span class="p">,</span> <span class="n">thr2</span><span class="p">,),</span> <span class="p">(</span><span class="s1">&#39;Shifted Linear Model&#39;</span><span class="p">,</span> <span class="s1">&#39;Linear Model&#39;</span><span class="p">,</span> <span class="s1">&#39;Threshold&#39;</span><span class="p">,</span> <span class="s1">&#39;Shifted Threshold&#39;</span><span class="p">,),</span>
+              <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">,</span> <span class="n">shadow</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Hours of Studying&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Passing Exam (Prediction)&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Hours of Studying&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Hours of Studying&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">))</span>
+
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">pad</span><span class="o">=</span><span class="mf">1.0</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/logistic-regression_4_0.png" src="_images/logistic-regression_4_0.png" />
+</div>
+</div>
+</section>
+<section id="shifting-prediction-threshold">
+<h3>Shifting Prediction Threshold<a class="headerlink" href="#shifting-prediction-threshold" title="Permalink to this headline">#</a></h3>
+<p>If we add datapoints, our predictions shift. Our threshold value for classifying
+an amount of studying as passing (<span class="math notranslate nohighlight">\(x \quad \textit{where} \quad y = 0\)</span>) shifts as well, which it should not in this case, as we will make more errors
+as to predictions for the non-outlier students. This can be seen in the third plot in the previous figure. The shifted
+threshold causes us two more misclassified datapoints than the original threshold.</p>
+<p>Suffice it to say, this model is <strong>highly affected by outliers</strong> and not suited for the task of classification for these events.</p>
+</section>
+<section id="inadequate-loss-function">
+<h3>Inadequate Loss-Function<a class="headerlink" href="#inadequate-loss-function" title="Permalink to this headline">#</a></h3>
+<p>Secondly, a simple sanity check lets us see, that the prediction for a student passing the exam who studies exceedingly long hours is greater than 1 in this model, which
+is absurd, if taken as a probability. Vice versa this model also allows for negative predictions, which are equally non-tenable for us.</p>
+<p><em>Why is it not stable?</em> We intend a regression which gives us a probability for data to classify as either label
+<span class="math notranslate nohighlight">\(\{-1, 1\}\)</span>. But our linear regression outputs values in the real numbers <span class="math notranslate nohighlight">\(\mathbb{R}\)</span>.</p>
+<p>Previously, the quality of our classification models has been measured with the <span class="math notranslate nohighlight">\( l_{01} \)</span> loss function, which,
+given the true label <span class="math notranslate nohighlight">\(y\)</span> and our prediction <span class="math notranslate nohighlight">\(\hat{y}\)</span>, simply maps an accurate classification to 0, and an inaccurate classification to 1.</p>
+<div class="math notranslate nohighlight">
+\[
+l_{01}(y, \hat{y}) = \textbf{1}(y = \hat{y}) = 1 - y\hat{y} \quad \textit{where} \quad \hat{y} \in \{-1, 1\}
+\]</div>
+<p>Let us observe the difference between the <span class="math notranslate nohighlight">\(l_{01}\)</span> loss function and the
+squared loss <span class="math notranslate nohighlight">\(l_2\)</span> on real values, given we always predict the same label <span class="math notranslate nohighlight">\(1\)</span>.</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># L2-Loss Function</span>
+<span class="n">loss_l2</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">y</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">:</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">y_hat</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+<span class="c1"># L01-Loss Function</span>
+<span class="n">loss_01</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">y</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="n">y_hat</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">y_hat</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Always predict 1.</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">line1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">loss_l2</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">),</span> <span class="s1">&#39;--r&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;L2-Loss&#39;</span><span class="p">)</span>
+<span class="n">line2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">loss_01</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">),</span> <span class="s1">&#39;-r&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;L01-Loss&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">((</span><span class="s1">&#39;L2-Loss&#39;</span><span class="p">,</span> <span class="s1">&#39;L01-Loss&#39;</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Loss for y_hat = 1&#39;</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">),</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/logistic-regression_6_0.png" src="_images/logistic-regression_6_0.png" />
+</div>
+</div>
+<p>In the previous plot, one can see that the <span class="math notranslate nohighlight">\(l_{2}, l_{01}\)</span> loss functions do not align, particularly
+where the values are exceedingly positive. Using the Least Squares Method does not make
+much sense in a setting with discrete classes.</p>
+</section>
+</section>
+<section id="normalizing-our-data">
+<h2>Normalizing our Data<a class="headerlink" href="#normalizing-our-data" title="Permalink to this headline">#</a></h2>
+<p>With the One-Hot-Encoding technique we already saw how we can prepare data such that a classifier achieves
+better accuracy. Nonetheless, linear least squares regression did not give us suitable probabilities in <span class="math notranslate nohighlight">\([0, 1]\)</span>.
+Let us again have a look at the results.</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">mlxtend</span>
+<span class="kn">from</span> <span class="nn">mlxtend.data</span> <span class="kn">import</span> <span class="n">loadlocal_mnist</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">loadlocal_mnist</span><span class="p">(</span>
+        <span class="n">images_path</span><span class="o">=</span><span class="s1">&#39;./book_data/train-images-idx3-ubyte&#39;</span><span class="p">,</span> 
+        <span class="n">labels_path</span><span class="o">=</span><span class="s1">&#39;./book_data/train-labels-idx1-ubyte&#39;</span>
+        <span class="p">)</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="mi">28</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">50000</span>
+
+<span class="c1"># sample n digits from the big training set</span>
+<span class="n">shuffle_idx</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="n">shuffle_idx</span><span class="p">]</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">[</span><span class="n">shuffle_idx</span><span class="p">]</span>
+
+<span class="c1"># remove pixels that are always zero</span>
+<span class="n">nz_mask</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">X_train</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">X_mask</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[:,</span> <span class="n">nz_mask</span><span class="p">]</span> <span class="o">/</span> <span class="mf">255.0</span>
+<span class="n">d_mask</span> <span class="o">=</span> <span class="n">nz_mask</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="n">X_b</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">numpy</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X_mask</span><span class="p">))</span>
+
+<span class="n">lam</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">y_onehot</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">y_onehot</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">y_train</span><span class="p">[</span><span class="n">i</span><span class="p">])]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">W_mask</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">X_b</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X_b</span> <span class="o">+</span> <span class="n">lam</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">d_mask</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">@</span> <span class="n">X_b</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y_onehot</span>
+
+<span class="k">with</span> <span class="n">numpy</span><span class="o">.</span><span class="n">printoptions</span><span class="p">(</span><span class="n">formatter</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;float&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{: 0.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">}):</span>
+    <span class="nb">print</span><span class="p">((</span><span class="n">X_b</span> <span class="o">@</span> <span class="n">W_mask</span><span class="p">)[</span><span class="mi">5</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">y_onehot</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">X_b</span> <span class="o">@</span> <span class="n">W_mask</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 0.002 -0.058  0.045  0.063  0.176  0.089  0.011  0.072 -0.015  0.616]
+[ 0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000  1.000]
+1.6353114699265887
+</pre></div>
+</div>
+</div>
+</div>
+<p>Given our data <span class="math notranslate nohighlight">\(x\)</span> and corresponding weights <span class="math notranslate nohighlight">\(w_c\)</span>, we want to normalize our prediction <span class="math notranslate nohighlight">\(w^T_cx\)</span> with a function <span class="math notranslate nohighlight">\(f: \mathbb{R} \rightarrow [0, 1]\)</span>.</p>
+<section id="logistics-function">
+<h3>Logistics Function<a class="headerlink" href="#logistics-function" title="Permalink to this headline">#</a></h3>
+<p>There are many normalization functions that can be chosen, with the criteria being among others differentiability, if our models apply gradients for optimization, or
+expressivity, which characterizes the complexity of functions that can be computed by our model. Let’s have a look at the standard logistics function, which is the sigmoid function <span class="math notranslate nohighlight">\(S\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+    S(y) = \frac{1}{1 + e^{-y}}
+\]</div>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Supremum</span>
+<span class="n">x0</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Midpoint of Sigmoid Curve.</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Steepness</span>
+<span class="n">S</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">L</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">numpy</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">k</span><span class="o">*</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x0</span><span class="p">)))</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="n">line</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">S</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="s1">&#39;-k&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;S(y)&#39;</span><span class="p">)</span>       
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/logistic-regression_10_0.png" src="_images/logistic-regression_10_0.png" />
+</div>
+</div>
+</section>
+<section id="softmax">
+<h3>Softmax<a class="headerlink" href="#softmax" title="Permalink to this headline">#</a></h3>
+<p>In the case where we want to handle multiple classes <span class="math notranslate nohighlight">\(c \in \{c_1,...,c_C\}\)</span> we use a generalization of the logistics function for
+higher dimensions called <span class="math notranslate nohighlight">\(softmax\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[
+    softmax(y)_i = \frac{e^{y_i}}{\sum_{c'=1}^{C}e^{y_{c'}}} \quad \textit{where} \quad y = [y_1,...,y_C]^T
+\]</div>
+<p>We can visualize the softmax function for 2 dimensions, and will see that its marginal distributions
+do in fact resemble the sigmoid function!</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">cm</span>
+
+<span class="n">softmax</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">numpy</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+
+<span class="n">XX</span><span class="p">,</span> <span class="n">YY</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="n">Z</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">dstack</span><span class="p">((</span><span class="n">XX</span><span class="p">,</span> <span class="n">YY</span><span class="p">)))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;projection&quot;</span><span class="p">:</span> <span class="s2">&quot;3d&quot;</span><span class="p">},</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">7</span><span class="p">))</span>
+
+<span class="n">surf1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">XX</span><span class="p">,</span> <span class="n">YY</span><span class="p">,</span> <span class="n">Z</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">coolwarm</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">surf2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">XX</span><span class="p">,</span> <span class="n">YY</span><span class="p">,</span> <span class="n">Z</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">coolwarm</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">view_init</span><span class="p">(</span><span class="o">-</span><span class="mi">140</span><span class="p">,</span> <span class="mi">60</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/logistic-regression_12_0.png" src="_images/logistic-regression_12_0.png" />
+</div>
+</div>
+<p>In both cases, the effect on the data is its projection to the probability range [0,1] and its normalization
+such that, in the case of the vectorized version with softmax, the values of an output vector sum up to 1. In the
+previous graphic, each surface represents the probability of one of two classes at a given coordinate. The probability that either one or the other is our label should be their sum, given that they are independent, and
+here we can be sure that this is the case. Sadly we are troubled picturing higher dimensions, but rest assured the assumption
+holds.</p>
+</section>
+</section>
+<section id="finding-a-suitable-loss">
+<h2>Finding a Suitable Loss<a class="headerlink" href="#finding-a-suitable-loss" title="Permalink to this headline">#</a></h2>
+<section id="posterior-values">
+<h3>Posterior Values<a class="headerlink" href="#posterior-values" title="Permalink to this headline">#</a></h3>
+<p>Now that we have normalized our prediction with the <span class="math notranslate nohighlight">\(softmax\)</span>-function we can use the posterior values to
+derive a new loss function, which is more suitable than the least squares method.</p>
+<p>Since we have modeled our predictions as well-defined probabilities we can ask ourselves,
+given data <span class="math notranslate nohighlight">\(x\)</span> and its corresponding class-weights <span class="math notranslate nohighlight">\(w_c\)</span>, what is the probability of a certain class <span class="math notranslate nohighlight">\(c\)</span>?
+The answer <em>should</em> be our prediction.</p>
+<div class="math notranslate nohighlight">
+\[
+    p( y = c | x; \mathbf{w}) = \frac{e^{w^T_cx}}{\sum_{c=1}^{C}e^{w^T_cx}}
+\]</div>
+</section>
+<section id="preparing-our-model-for-training">
+<h3>Preparing our Model for Training<a class="headerlink" href="#preparing-our-model-for-training" title="Permalink to this headline">#</a></h3>
+<p>Alas, the optimal weights will only be found by training our model! Given some dataset
+<span class="math notranslate nohighlight">\(\mathcal{D} = \{\ (x_i, y_i)\ |\ i \in \{1,...,k\}\}\)</span>, where our data is independent and identically
+distributed, we know from previous chapters that we <strong>maximize the likelihood</strong> of the data in order
+to obtain the optimal parameters. In this case we utilize the log-likelihood function <span class="math notranslate nohighlight">\(\ell\)</span>, which is
+the logarithm of the likelihood function <span class="math notranslate nohighlight">\(L\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[
+    \ell(\mathbf{w}) = ln(L(x;\mathbf{w})) = ln\left(\prod_{i=1}^k p( y = y_i | x_i; \mathbf{w})\right) = \sum_{i=1}^k ln(p( y = y_i | x_i; \mathbf{w}))
+\]</div>
+<p>And if we substitute with our softmax function:</p>
+<div class="math notranslate nohighlight">
+\[
+    \sum_{i=1}^k ln(p( y = y_i | x_i; \mathbf{w})) = \sum_{i=1}^k ln\left(\frac{e^{w^T_{y_i}x}}{\sum_{c=1}^{C}e^{w^T_cx}}\right)
+\]</div>
+<p>If we double down on and work to simplify this expression we can establish a relationship to <strong>cross-entropy</strong>.</p>
+</section>
+<section id="cross-entropy">
+<h3>Cross-Entropy<a class="headerlink" href="#cross-entropy" title="Permalink to this headline">#</a></h3>
+<p>Think of two images, one is white noise and one is of a banana. Which of these pictures carries more information? You might think
+the banana, since we recognize it, and it conjures up relations in our minds. White noise on the other hand is meaningless to us.</p>
+<p><img alt="alt" src="_images/white-noise.png" /> <img alt="alt" src="_images/Banana-Single-2.jpg" /></p>
+<p>Say you want to send this data to a friend. Can you compress one more than the other? There is no way to relate any pixel value
+to another in a random image, so you indeed have to send all the data if your friend should receive it without loss. The noise is
+a state of maximum information or <em>maximum entropy</em>.</p>
+<p>When we speak of the <strong>cross-entropy</strong> between two probability distributions over the same set of events we are talking about
+the average number of information bits we need to classify one of the events. For example, if we have two probability distributions
+<span class="math notranslate nohighlight">\(\gamma, \delta\)</span> over the same set of events <span class="math notranslate nohighlight">\(\mathcal{X}\)</span>, the cross entropy <span class="math notranslate nohighlight">\(H\)</span> is defined as:</p>
+<div class="math notranslate nohighlight">
+\[
+    H(\gamma, \delta) = - \sum_{x\in\mathcal{X}}\gamma(x)\ln(\delta(x))
+\]</div>
+<p>Let us visualize this for two normal distributions <span class="math notranslate nohighlight">\(\gamma(x)\sim\mathcal{N}(s, 1)\)</span> and <span class="math notranslate nohighlight">\(\delta(x)\sim\mathcal{N}(0, 1)\)</span>. We
+will shift the mean <span class="math notranslate nohighlight">\(s\)</span> of <span class="math notranslate nohighlight">\(\gamma(x)\)</span> and calculate the cross entropy along the way!</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">norm</span>
+   
+<span class="k">def</span> <span class="nf">cross_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">means</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="n">numpy</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">means</span><span class="p">))))</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">y</span>
+    
+<span class="n">n</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="n">xs</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">ss</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">n</span><span class="p">)]</span><span class="o">*</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="n">ys</span> <span class="o">=</span> <span class="n">cross_entropy</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ss</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+    
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ss</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;$H(\gamma,\delta)$ where $\gamma(x)\sim\mathcal</span><span class="si">{N}</span><span class="s2">(s, 1),\delta(x)\sim\mathcal</span><span class="si">{N}</span><span class="s2">(0, 1)$&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$H(\gamma,\delta)$&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$s$&quot;</span><span class="p">)</span>
+
+<span class="n">xs</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">ys1</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+<span class="n">ys2</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">xs</span> <span class="o">-</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">5</span><span class="p">]</span><span class="o">*</span><span class="n">n</span><span class="p">))</span> 
+
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$\delta(x)$&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$\gamma(x)$&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;$\delta(x)$ and $\gamma(x)$ for $s=5$&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/logistic-regression_14_0.png" src="_images/logistic-regression_14_0.png" />
+</div>
+</div>
+<p>Generally, the lower the cross-entropy in our datasets, the better our
+model performs.</p>
+<p><strong>Now</strong>, let us get back to the equation and also define some more notation to simplify it! We will use a mathematical slight-of-hand.</p>
+<div class="math notranslate nohighlight">
+\[
+    \frac{e^{w^T_{y_i}x}}{\sum_{c=1}^{C}e^{w^T_cx}} = \prod_{c=1}^C \mu^{y_{ic}}_{ic}
+\]</div>
+<p>…where <span class="math notranslate nohighlight">\(\mu_{ic} = [softmax(w^T_1x_i,..., w^T_Cx_i)]_c\)</span> and <span class="math notranslate nohighlight">\(y_{ic} = \textbf{1}(y_i = c)\)</span>. The right hand
+side of this simplification <a class="reference external" href="https://en.wikipedia.org/wiki/Cross_entropy#Relation_to_maximum_likelihood">can be read</a> as the product of the estimated probabilities for classes <span class="math notranslate nohighlight">\(c\)</span> to the
+power of their occurrences in the predictions, which is to say their actual probability. And if we substitute these definitions in the previous equations a seemingly familiar equation….</p>
+<div class="math notranslate nohighlight">
+\[                                                              
+    \sum_{i=1}^k ln\left(\prod_{c=1}^C \mu^{y_{ic}}_{ic}\right) = \sum_{i=1}^k \sum_{c=1}^C ln(\mu^{y_{ic}}_{ic}) = \sum_{i=1}^k \sum_{c=1}^C y_{ic} ln(\mu_{ic})
+\]</div>
+<p>The term <span class="math notranslate nohighlight">\(\sum_{c=1}^C y_{ic} ln(\mu_{ic})\)</span> looks suspiciously similar to <strong>cross-entropy</strong>! This means that
+maximizing the likelihood <span class="math notranslate nohighlight">\(\ell(w)\)</span> is equivalent to minimizing the cross-entropy, or to spare the headache <em>minimizing the negative loss-likelihood.</em>
+Why is that the case? We are essentially comparing two probability distributions. On the one hand we have the actual distribution of our data, and on
+the other hand we have the distribution of our prediction. When we are maximizing the likelihood of our prediction, we are trying to eliminate the
+cross entropy between the two. <em>In not so many words</em>, we are trying to make our predicted distribution be like the true distribution.</p>
+<p>Additionally, for each <span class="math notranslate nohighlight">\((x_i, y_i) \in \mathcal{D}\)</span>, the variables <span class="math notranslate nohighlight">\((y_{i1},...,y_{iC})\)</span> and <span class="math notranslate nohighlight">\((\mu_{i1},...,\mu_{iC})\)</span> are well defined probability
+distributions over the C classes. We will continue to use this notation in this chapter. <strong>To summarize</strong>, the log-likelihood function to maximize in order to find the optimal parameters <span class="math notranslate nohighlight">\(\mathbf{w}\)</span> can be writen as:</p>
+<div class="math notranslate nohighlight">
+\[
+    \ell(\mathbf{w}) = \sum_{i=1}^k \sum_{c=1}^C y_{ic} ln(\mu_{ic})                        
+\]</div>
+<p>In our case, since it makes more sense colloquially to minimize an error, we will minimize the negative version of it. Which is
+minimizing the distance between the predicted and actual probability distributions of the data.</p>
+</section>
+</section>
+<section id="binary-classification-with-nnl">
+<h2>Binary Classification with NNL<a class="headerlink" href="#binary-classification-with-nnl" title="Permalink to this headline">#</a></h2>
+<section id="negative-log-likelihood-loss">
+<h3>Negative Log-Likelihood Loss<a class="headerlink" href="#negative-log-likelihood-loss" title="Permalink to this headline">#</a></h3>
+<p>Let us consider now an example for binary classification, which could be again our students actualized ECTS and a model
+to predict their success in exams, letting our classes be <span class="math notranslate nohighlight">\(c \in \{-1, 1\}\)</span>. We will consider the negative loss-likelihood:</p>
+<div class="math notranslate nohighlight">
+\[
+    NNL(\mathbf{w}) = -\sum_{i=1}^k \sum_{c=1}^C y_{ic} ln(\mu_{ic})  
+\]</div>
+<p>For our two classes, we know <span class="math notranslate nohighlight">\(p(y_i = -1) = 1 - p(y_i = 1)\)</span> and this simplifies to:</p>
+<div class="math notranslate nohighlight">
+\[
+    NNL(\mathbf{w}) = -\sum_{i=1}^k \left(y_{i1} ln(\mu_{i1}) + y_{i2} ln(\mu_{i2})\right) =  -\sum_{i=1}^k \left( y_i ln(\mu_i) + (1-y_i) ln(1-\mu_i)\right)
+\]</div>
+<p>As we explored previously, another way of picturing this equation is measuring the cross-entropy between two probability distributions
+<span class="math notranslate nohighlight">\((y_i, (1-y_i))\)</span> and <span class="math notranslate nohighlight">\((\mu_i, (1-\mu_i))\)</span>, as in how close the distribution of the predictions is to
+the actual distribution of the data. If we examine <span class="math notranslate nohighlight">\(\mu_i\)</span> and <span class="math notranslate nohighlight">\((1 - \mu_i)\)</span> we find that they simplify considerably:</p>
+<div class="math notranslate nohighlight">
+\[
+    \mu_i = \frac{e^{w^T_{c_1}x}}{\sum_{c=1}^{2}e^{w^T_cx}} = \frac{e^{w^T_{c_1}x}}{e^{w^T_{c_1}x}+e^{w^T_{c_2}x}} = \frac{e^{w^T_{c_1}x}}{e^{w^T_{c_1}x}+e^{w^T_{c_2}x}} * \left(\frac{e^{-w^T_{c_1}x}}{e^{-w^T_{c_1}x}}\right)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+    = \frac{1}{1 + e^{(w_{c_2} - w_{c_1})^Tx}} = \frac{1}{1 + e^{w^Tx}}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+    (1-\mu_i) = 1 - \frac{1}{1 + e^{w^Tx}} = \frac{1 + e^{w^Tx} - 1}{1 + e^{w^Tx}} * \left(\frac{e^{-w^Tx}}{e^{-w^Tx}}\right) = \frac{1}{e^{-w^Tx} + 1}
+\]</div>
+<p>Note that this is exactly the sigmoid function <span class="math notranslate nohighlight">\(S(x) = \frac{1}{1+e^{-x}}\)</span> which we have seen earlier.
+Substituting this in <span class="math notranslate nohighlight">\(NLL(W)\)</span> as well as considering simple logarithm rules <span class="math notranslate nohighlight">\(log(\frac{a}{b}) = log(a) - log(b)\)</span> and <span class="math notranslate nohighlight">\(log(1) = 0\)</span> we get:</p>
+<div class="math notranslate nohighlight">
+\[
+    NLL(\mathbf{w}) = -\sum_{i=1}^k \left(y_i ln\left(\frac{1}{1 + e^{w^Tx_i}}\right) + (1-y_i) ln\left(\frac{1}{1 + e^{-w^Tx_i}}\right)\right)
+\]</div>
+<p>If we further focus the function for binary cases <span class="math notranslate nohighlight">\(y_i \in \{-1, 1\}\)</span>, then we can, you are getting the hang of this, <em>simplify</em>.
+First let us consider it with labels <span class="math notranslate nohighlight">\(y'_i \in \{0, 1\}\)</span> then for <span class="math notranslate nohighlight">\(y'_i = 0\)</span> we have:</p>
+<div class="math notranslate nohighlight">
+\[
+    = -\sum_{i = 1, y'_{i} = 0}^k ln\left(\frac{1}{1 + e^{w^Tx_i}}\right)  = \sum_{i = 1, y'_{i} = 0}^k ln\left(1 + e^{w^Tx_i}\right)
+\]</div>
+<p>For the case <span class="math notranslate nohighlight">\(y'_i = 1\)</span> on the other hand we get:</p>
+<div class="math notranslate nohighlight">
+\[
+    = -\sum_{i = 1, y'_{i} = 1}^k ln\left(\frac{1}{1 + e^{-w^Tx_i}}\right)  = \sum_{i = 1, y'_{i} = 1}^k ln\left(1 + e^{-w^Tx_i}\right)
+\]</div>
+<p>Now, back with our original labels <span class="math notranslate nohighlight">\(y_i \in \{-1, 1\}\)</span>, we can elegantly model the same results for either binary class in one single equation. Neat!</p>
+<div class="math notranslate nohighlight">
+\[
+    NLL(\mathbf{w}) = \sum_{i=1}^k ln(1 + e^{-y_iw^Tx_i}) \quad y_i \in \{-1, 1\}
+\]</div>
+</section>
+<section id="comparison-with-lse">
+<h3>Comparison with LSE<a class="headerlink" href="#comparison-with-lse" title="Permalink to this headline">#</a></h3>
+<p>We can inspect the limits of this loss, to see why it is much more in line with our previous <span class="math notranslate nohighlight">\(l_{01}\)</span> loss. If our
+prediction is exceedingly positive but the true outcome is negative, the loss rises indefinitely. If on the other
+hand the true outcome is positive the loss function goes to zero.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    \lim_{\hat{y} \rightarrow +\infty} ln(1 + e^{-y\hat{y}}) = \begin{cases} +\infty &amp;\quad y = -1 \\ 0 &amp;\quad y = 1 \end{cases}
+\end{split}\]</div>
+<p>The same applies to the other direction, the loss goes to zero if the prediction matches the outcome, otherwise it grows to infinity.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    \lim_{\hat{y} \rightarrow -\infty} ln(1 + e^{-y\hat{y}}) = \begin{cases} 0 &amp;\quad y = -1 \\ +\infty &amp;\quad y = 1 \end{cases}
+\end{split}\]</div>
+<p>We derived this loss to get rid of the least squares loss, which we
+<a class="reference external" href="#inadequate-loss-function">deemed inadequate for classification problems</a>.
+Let us quickly have a look at the least squares loss for comparison:</p>
+<div class="math notranslate nohighlight">
+\[                                                                   
+    NLL_{\mathcal{l}2}(\mathbf{w}) = \frac{1}{n}\sum_{i=1}^k (1 - y_i\hat{y}_i)^2 = \frac{1}{n}\sum_{i=1}^k (1 - y_iw^Tx_i)^2
+\]</div>
+<p>We can plot all three losses, again with our prediction always being <span class="math notranslate nohighlight">\(1\)</span> to illustrate the difference.</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Squared Error</span>
+<span class="n">loss_l2</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">y</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">:</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">y_hat</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+<span class="c1"># L01 Error</span>
+<span class="n">loss_01</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">y</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="n">y_hat</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+<span class="c1"># Logistics-Loss</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">y</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">numpy</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">y</span><span class="o">*</span><span class="n">y_hat</span><span class="p">))</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">y_hat</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Always predict 1.</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">line1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">loss_l2</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">),</span> <span class="s1">&#39;--r&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;L2-Loss&#39;</span><span class="p">)</span>
+<span class="n">line2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">loss_01</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">),</span> <span class="s1">&#39;-r&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;L01-Loss&#39;</span><span class="p">)</span>
+<span class="n">line3</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">loss</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">),</span> <span class="s1">&#39;-b&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;LL-Loss&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">((</span><span class="s1">&#39;L2-Loss&#39;</span><span class="p">,</span> <span class="s1">&#39;L01-Loss&#39;</span><span class="p">,</span> <span class="s1">&#39;Logistics-Loss&#39;</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Loss for y_hat = 1&#39;</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">),</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/logistic-regression_16_0.png" src="_images/logistic-regression_16_0.png" />
+</div>
+</div>
+<p>As you can see, and as we previously explored mathematically, the logistic loss approaches
+0 in the direction of an accurate prediction, while the <span class="math notranslate nohighlight">\(l_2\)</span> loss grows to infinity either way.
+It is clear that the logistic loss is a far better modelling of the <span class="math notranslate nohighlight">\(l_{01}\)</span> loss than <span class="math notranslate nohighlight">\(l_2\)</span>.</p>
+</section>
+</section>
+<section id="finding-the-optimal-parameters">
+<h2>Finding the Optimal Parameters<a class="headerlink" href="#finding-the-optimal-parameters" title="Permalink to this headline">#</a></h2>
+<section id="no-closed-form-expression-for-logistic-regression">
+<h3>No Closed Form Expression for Logistic Regression<a class="headerlink" href="#no-closed-form-expression-for-logistic-regression" title="Permalink to this headline">#</a></h3>
+<p>We now have an adequate regression with a suitable loss function, so we <em>should</em> be able to set
+the partial derivatives to zero and obtain our optimal weights <span class="math notranslate nohighlight">\(\mathbf{w}\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[
+    \nabla_{\mathbf{w}}NLL(\mathbf{w}) = \nabla_{\mathbf{w}}\sum_{i = 1}^{n}(\mu_i-y_i)x_i = \nabla_{\mathbf{w}}\mathbf{X}^T\left(\left(\frac{e^{w^T_cx}}{\sum_{c=1}^{C}e^{w^T_cx}}\right)-y\right)
+\]</div>
+<p>Now there are some good news and bad news. The good news is, we won’t have to calculate this derivative and set it to
+zero in order to find the optimal weights. The bad news is, that we can not do so and have to find another way. Since the weights are tugged away in the exponents, here, we will not
+find a closed form expression for logistic regression like we did when deriving the linear least squares loss.</p>
+</section>
+<section id="gradient-steepest-descend">
+<h3>Gradient (Steepest) Descend<a class="headerlink" href="#gradient-steepest-descend" title="Permalink to this headline">#</a></h3>
+<p>Using gradient descend we can approximate local minima or maxima of functions in any number of dimensions. We iteratively
+approach the extrema by moving along the direction of the gradient of a function. You know the derivative of a function gives us
+a value corresponding to its slope at every point in space. In gradient descend, we find the <strong>direction</strong>, you
+guessed it, of the <strong>descent</strong> and move a distance with a scalar <span class="math notranslate nohighlight">\(\eta\)</span>, the <strong>step size</strong>.
+If we start with some initial guess <span class="math notranslate nohighlight">\(w_0\)</span> and repeat this process a certain number of times <span class="math notranslate nohighlight">\(t_{max}\)</span>, where we end up must be close
+to a <strong>local minimum</strong>. We can formulate this in an algorithm as follows:</p>
+<p><span class="math notranslate nohighlight">\(\textit{for} \quad t \in \{1, ..., t_{max}\} \quad \textit{do}:\)</span></p>
+<p><span class="math notranslate nohighlight">\(\quad\quad\quad\quad\mathbf{g}{(t)} = \nabla_{\mathbf{w}} \mathrm{NLL}(\mathbf{w}_{(t)}) \quad\quad\quad\quad\quad \text{(1) Compute the gradient.}\)</span></p>
+<p><span class="math notranslate nohighlight">\(\quad\quad\quad\quad\mathbf{g}{(t)}\)</span>: <span class="math notranslate nohighlight">\(\mathbf{w}{(t+1)} \gets \mathbf{w}{(t)} - \eta \mathbf{g}{(t)} \quad\ \ \text{(2) Update the weights}\)</span></p>
+<p>Note the negative sign in (2), where we are stepping in the opposite direction of the gradient, or in other words, we are descending on the
+slope towards a local minimum. You can picture the computed vector <span class="math notranslate nohighlight">\(g(t)\)</span> at a point <span class="math notranslate nohighlight">\(\nabla_{\mathbf{w}}\mathrm{NLL}(w_{(t)})\)</span> to be the
+direction the weights will be updated. The difference between gradient descend in general and <strong>gradient steepest descend</strong> is that in the latter
+the step size <span class="math notranslate nohighlight">\(\eta_t\)</span> is chosen in the iterations such that the value of the objective function, in this case <span class="math notranslate nohighlight">\(\mathrm{NLL}\)</span>, is minimized at <span class="math notranslate nohighlight">\(\mathbf{w}{(t+1)}\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[
+    \eta_t = arg\min_{\eta} \left( \mathrm{NLL}(\mathbf{w}{(t)} - \eta \mathbf{g}{(t)}) \right)
+\]</div>
+</section>
+<section id="steepest-gradient-descend-on-the-aoki-function">
+<h3>Steepest Gradient Descend on the Aoki Function<a class="headerlink" href="#steepest-gradient-descend-on-the-aoki-function" title="Permalink to this headline">#</a></h3>
+<p>We will use the Aoki Function as a surface to visualize the algorithm.</p>
+<div class="math notranslate nohighlight">
+\[
+    F(x, y) = 0.5(x^2 - y)^2 + 0.5(x - 1)^2
+\]</div>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">y_</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x_</span><span class="p">,</span> <span class="n">y_</span><span class="p">)</span>
+<span class="n">zz</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">xx</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">yy</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">xx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">7</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">zz</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">coolwarm</span><span class="p">,</span>  <span class="n">rcount</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">ccount</span><span class="o">=</span><span class="mi">100</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/logistic-regression_18_0.png" src="_images/logistic-regression_18_0.png" />
+</div>
+</div>
+<p>Our initial guess will be the <span class="math notranslate nohighlight">\((x = 0, y = 0)\)</span>, our step size <span class="math notranslate nohighlight">\(\eta = 0.3\)</span> and <span class="math notranslate nohighlight">\(t_{max} = 20\)</span>. The algorithm
+will as such start in the lower-left corner of the previous illustration and iterate a total number of 20
+steps.</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">minimize</span><span class="p">,</span> <span class="n">line_search</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="n">step_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">aoki_vectorized</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    F(x,y) = 0.5 (x^2 - y)^2 + 0.5 (x-1)^2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">x</span><span class="p">[:][</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="n">x</span><span class="p">[:][</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">x</span><span class="p">[:][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">f</span>
+
+
+<span class="k">def</span> <span class="nf">aoki</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    F(x,y) = 0.5 (x^2 - y)^2 + 0.5 (x-1)^2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">f</span>
+
+
+<span class="k">def</span> <span class="nf">aoki_gd</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    First-Order derivative of aoki function(Nabia - 1)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">g_x</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">g_y</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">g_x</span><span class="p">,</span> <span class="n">g_y</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">aoki_hess</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Second-Order derivative - Hessian Matrix of aoki function(Nabia - 2)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">g_xx</span> <span class="o">=</span> <span class="mi">6</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">g_xy</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">g_yy</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">H</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">g_xx</span>
+    <span class="n">H</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">g_xy</span>
+    <span class="n">H</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">g_xy</span>
+    <span class="n">H</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">g_yy</span>
+    <span class="k">return</span> <span class="n">H</span>
+
+
+<span class="k">def</span> <span class="nf">gradient_descent</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">f_prime</span><span class="p">,</span> <span class="n">hessian</span><span class="p">,</span> <span class="n">stepsize</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Steepest-Descent algorithm with option for line search</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x_i</span><span class="p">,</span> <span class="n">y_i</span> <span class="o">=</span> <span class="n">x0</span>
+    <span class="n">all_x_i</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="n">all_y_i</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="n">all_f_i</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">):</span>
+        <span class="n">all_x_i</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_i</span><span class="p">)</span>
+        <span class="n">all_y_i</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_i</span><span class="p">)</span>
+        <span class="n">all_f_i</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">([</span><span class="n">x_i</span><span class="p">,</span> <span class="n">y_i</span><span class="p">]))</span>
+        <span class="n">dx_i</span><span class="p">,</span> <span class="n">dy_i</span> <span class="o">=</span> <span class="n">f_prime</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">x_i</span><span class="p">,</span> <span class="n">y_i</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="n">stepsize</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Compute a step size using a line_search to satisfy the Wolf</span>
+            <span class="c1"># conditions</span>
+            <span class="n">step</span> <span class="o">=</span> <span class="n">line_search</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">f_prime</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">x_i</span><span class="p">,</span> <span class="n">y_i</span><span class="p">],</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">dx_i</span><span class="p">,</span> <span class="n">dy_i</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">dx_i</span><span class="p">,</span> <span class="n">dy_i</span><span class="p">],</span> <span class="n">c2</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+            <span class="n">step</span> <span class="o">=</span> <span class="n">step</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">step</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">step</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">step</span> <span class="o">=</span> <span class="n">stepsize</span>
+        <span class="n">x_i</span> <span class="o">+=</span> <span class="o">-</span><span class="n">step</span> <span class="o">*</span> <span class="n">dx_i</span>
+        <span class="n">y_i</span> <span class="o">+=</span> <span class="o">-</span><span class="n">step</span> <span class="o">*</span> <span class="n">dy_i</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">all_f_i</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mf">1e-16</span><span class="p">:</span>
+            <span class="k">break</span>
+    <span class="k">return</span> <span class="n">all_x_i</span><span class="p">,</span> <span class="n">all_y_i</span><span class="p">,</span> <span class="n">all_f_i</span>
+
+
+<span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">aoki_vectorized</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">nsteps</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">step_sizes</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;go&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">step</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">fs</span> <span class="o">=</span> <span class="n">gradient_descent</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">aoki</span><span class="p">,</span> <span class="n">aoki_gd</span><span class="p">,</span> <span class="n">hessian</span><span class="o">=</span><span class="n">aoki_hess</span><span class="p">,</span> <span class="n">stepsize</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">ttl</span> <span class="o">=</span> <span class="s2">&quot;exact line search&quot;</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="s2">&quot;steepestDescentDemo_linesearch&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">fx</span> <span class="o">=</span> <span class="n">gradient_descent</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">aoki</span><span class="p">,</span> <span class="n">aoki_gd</span><span class="p">,</span> <span class="n">hessian</span><span class="o">=</span><span class="n">aoki_hess</span><span class="p">,</span> <span class="n">stepsize</span><span class="o">=</span><span class="n">step</span><span class="p">)</span>
+        <span class="n">ttl</span> <span class="o">=</span> <span class="s2">&quot;step size </span><span class="si">{:0.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="s2">&quot;steepestDescentDemo_step</span><span class="si">{:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">step</span> <span class="o">*</span> <span class="mi">10</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xs</span><span class="p">[:</span><span class="n">nsteps</span><span class="p">],</span> <span class="n">ys</span><span class="p">[:</span><span class="n">nsteps</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">[:</span><span class="n">nsteps</span><span class="p">],</span> <span class="n">ys</span><span class="p">[:</span><span class="n">nsteps</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">ttl</span><span class="p">);</span>
+    
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">aoki_vectorized</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+<span class="n">fig2</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">step_size_high</span> <span class="o">=</span> <span class="mf">0.6</span>
+<span class="n">step_size_low</span> <span class="o">=</span> <span class="mf">0.01</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="n">step_size_high</span><span class="p">,</span> <span class="n">step_size_low</span><span class="p">]):</span>
+    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;go&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">step</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">fs</span> <span class="o">=</span> <span class="n">gradient_descent</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">aoki</span><span class="p">,</span> <span class="n">aoki_gd</span><span class="p">,</span> <span class="n">hessian</span><span class="o">=</span><span class="n">aoki_hess</span><span class="p">,</span> <span class="n">stepsize</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">ttl</span> <span class="o">=</span> <span class="s2">&quot;exact line search&quot;</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="s2">&quot;steepestDescentDemo_linesearch&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">fx</span> <span class="o">=</span> <span class="n">gradient_descent</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">aoki</span><span class="p">,</span> <span class="n">aoki_gd</span><span class="p">,</span> <span class="n">hessian</span><span class="o">=</span><span class="n">aoki_hess</span><span class="p">,</span> <span class="n">stepsize</span><span class="o">=</span><span class="n">step</span><span class="p">)</span>
+        <span class="n">ttl</span> <span class="o">=</span> <span class="s2">&quot;step size </span><span class="si">{:0.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="s2">&quot;steepestDescentDemo_step</span><span class="si">{:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">step</span> <span class="o">*</span> <span class="mi">10</span><span class="p">))</span>
+    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xs</span><span class="p">[:</span><span class="n">nsteps</span><span class="p">],</span> <span class="n">ys</span><span class="p">[:</span><span class="n">nsteps</span><span class="p">])</span>
+    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">[:</span><span class="n">nsteps</span><span class="p">],</span> <span class="n">ys</span><span class="p">[:</span><span class="n">nsteps</span><span class="p">])</span>
+    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">ttl</span><span class="p">);</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/logistic-regression_20_0.png" src="_images/logistic-regression_20_0.png" />
+<img alt="_images/logistic-regression_20_1.png" src="_images/logistic-regression_20_1.png" />
+</div>
+</div>
+</section>
+<section id="step-size-and-learning-rate">
+<h3>Step Size and Learning Rate<a class="headerlink" href="#step-size-and-learning-rate" title="Permalink to this headline">#</a></h3>
+<p>As stated, now visible, the weights will be updated iteratively to approach the local minimum in direction
+of the steepest descend. If the gradient will be near zero in an area around the true minimum, we will approach
+it more slowly. One can imagine the impact of this optimization on various surfaces and how initial guess, step size and the number
+of iterations play into finding a close-to-optimal minimum.</p>
+<p>If gradient descend is used as an optimization technique for a model, then the step size can be seen, among else, as its
+<strong>learning rate</strong>. If we set it too high, we might overshoot, oscillate or even diverge with our weights. If we set it
+to low, we might need a <em>large</em> number of iterations to find it. This is visualized in the previous figure, where we can
+see that for step size <span class="math notranslate nohighlight">\(\eta=0.6\)</span> we see oscillations occurring, while for a low step size of
+<span class="math notranslate nohighlight">\(0.01\)</span> we find that the progress towards the minimum is very slow indeed.</p>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">#</a></h2>
+<p>We have seen that <strong>linear regression</strong> causes issues for classification problems and explained
+why this is the case. For classification, the linear least squares approach is highly affected
+by outliers, causing the prediction threshold to shift suboptimally. Furthermore, the loss
+function that constitutes least-squares loss does not map well onto the <span class="math notranslate nohighlight">\(\ell_{01}\)</span> loss. And finally, the resulting
+prediction is <em>not</em> a well-defined probability distribution.</p>
+<p><strong>Logistic regression</strong> can fix this problem by transforming and normalizing our predictions with logistic
+functions. For the higher dimensional case the <span class="math notranslate nohighlight">\(softmax\)</span>-function provides the sought after utility.
+Our posterior values make up a well-defined probability distribution.</p>
+<div class="math notranslate nohighlight">
+\[
+    softmax(y)_i = \frac{e^{y_i}}{\sum_{c'=1}^{C}e^{y_{c'}}} \quad \textit{where} \quad y = [y_1,...,y_C]^T
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+    p( y = c | x; \mathbf{w}) = \frac{e^{w^T_cx}}{\sum_{c=1}^{C}e^{w^T_cx}}
+\]</div>
+<p>To derive a suitable loss we simplified the <strong>log-likelihood</strong> function of our equation and established
+a connection to cross-entropy. Maximizing the log-likelihood is equivalent to minimizing the negative
+log likelihood, which in turn is equivalent to minimizing <strong>cross-entropy</strong>.</p>
+<div class="math notranslate nohighlight">
+\[
+    NNL(\mathbf{w}) = -\sum_{i=1}^k \sum_{c=1}^C y_{ic} ln(\mu_{ic}) \quad \textit{where} \quad -\sum_{c=1}^C y_{ic} ln(\mu_{ic}) \quad \textit{is the cross-entropy.}                    
+\]</div>
+<p>We arrived at a suitable loss function that better describes the loss for classification problems in contrast
+to least-squares loss.</p>
+<div class="math notranslate nohighlight">
+\[                                                                   
+    NLL_{\mathcal{l}2}(\mathbf{w}) = \frac{1}{n}\sum_{i=1}^k (1 - y_iw^Tx_i)^2
+\]</div>
+<p>Finding the optimal parameters by taking the derivative is not possible since there does not exist a closed
+form expression for our problem.</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{X}^T(\nabla_{\mathbf{w}}\frac{e^{w^T_cx}}{\sum_{c=1}^{C}e^{w^T_cx}}) 
+\]</div>
+<p>Instead, we showed that we can use <strong>gradient steepest descend</strong> to iteratively approach an optimal solution.
+We also explained how the parameters of this optimization algorithm, such as the initial guess and <strong>learning rate</strong> <span class="math notranslate nohighlight">\(\eta\)</span> govern
+the speed and the accuracy of the model.</p>
+<p><em>In conclusion, if you come across classification problems in pattern recognition, you should definitely
+use logistic regression!</em></p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="linear-methods-2.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Linear Regression-2 (Melanie Svab)</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="filtering.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Filtering</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Ivan Dokmanić<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
