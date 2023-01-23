@@ -22,7 +22,7 @@ from sklearn.linear_model import LinearRegression
 ```
 
 
-# Logistic Regression
+# Logistic Regression (Colin Fingerlin)
 
 ## 3 Ways to Derive Optimal Linear Regressors
 
