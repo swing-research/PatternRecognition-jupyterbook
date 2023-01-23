@@ -28,7 +28,7 @@ mpl.rcParams['axes.spines.bottom'] = 1
 mpl.rcParams.update({'font.size': 12})
 ```
 (ch:linear-methods-and-linear-regression)=
-# Likelihood tests and Linear Regression
+# Likelihood tests and Linear Regression (Tim Keller)
 
 ## Receiver operating characteristic (ROC) curves
 
