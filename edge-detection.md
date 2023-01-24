@@ -235,7 +235,7 @@ axs[1].title.set_text('- gradnorm4, smoothed with 1-Kernel')
 axs[1].imshow(-gradnorm4, cmap='gray')
 axs[1].axis(False)
 ```
-By convoluting the image with those kernels we have managed to bring back those edges regardless of the noise. Lets look at a close-up of an edge.
+By convolving the image with those kernels we have managed to bring back those edges regardless of the noise. Lets look at a close-up of an edge.
 ```{code-cell}
 img = color.rgb2gray(io.imread('images/05-filtering-and-edge-detection/edge2.jpg'))
 sig = 0.1
