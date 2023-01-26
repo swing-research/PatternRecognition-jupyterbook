@@ -194,6 +194,7 @@ Coding the error would be:
 
 -jupytext:
 
+
 ```py
 # Snatched from: 
 
@@ -357,7 +358,7 @@ $$
 
 ### An alternative derivation of weights
 
-First note that a quadratic form may be expanded as
+Our loss function $ \| \mathbf{y} - \mathbf{X} \mathbf{w} \|^2 $ has a quadratic form if we expand it. Since we want to minimize it by taking the derivative, we will first try to simplify the math part. First note that a quadratic form may be expanded as
 
 $$
 \mathbf{a}^T \mathbf{Q} \mathbf{a} = \sum_{i = 1}^d \sum_{j = 1}^d a_i q_{ij}  a_j
