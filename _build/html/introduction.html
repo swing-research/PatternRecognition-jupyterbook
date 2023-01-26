@@ -143,7 +143,9 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="linear-methods.html">
-   Linear Regression
+   <strong>
+    Different Perspectives on Linear Regression (1)
+   </strong>
   </a>
  </li>
 </ul>
@@ -697,18 +699,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="nn">/tmp/ipykernel_346785/2442578629.py</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">mlxtend.data</span> <span class="kn">import</span> <span class="n">loadlocal_mnist</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> 
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">loadlocal_mnist</span><span class="p">(</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span>         <span class="n">images_path</span><span class="o">=</span><span class="s1">&#39;./book_data/train-images-idx3-ubyte&#39;</span><span class="p">,</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span>         <span class="n">labels_path</span><span class="o">=</span><span class="s1">&#39;./book_data/train-labels-idx1-ubyte&#39;</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;mlxtend&#39;
-</pre></div>
-</div>
+<img alt="_images/introduction_2_0.png" src="_images/introduction_2_0.png" />
 </div>
 </div>
 </section>
@@ -750,6 +741,9 @@ While we are designing our pattern recognition system we can do whatever we want
     <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1000</span><span class="p">)]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/introduction_6_0.png" src="_images/introduction_6_0.png" />
 </div>
 </div>
 </section>
@@ -804,6 +798,11 @@ While we are designing our pattern recognition system we can do whatever we want
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2373 out of 5000 patterns correctly classified (47.46%)
+</pre></div>
+</div>
+</div>
 </div>
 <p>Not very surprisingly, a linear classifier with random weights does not achieve a particularly impressive digit classification performance. On the other hand, we can see that there the values of <span class="math notranslate nohighlight">\(\mathbf{w}_{\text{random}}^T \mathbf{x}\)</span> vary wildly—some are very small and thus “almost” correctly classified.</p>
 <div class="cell docutils container">
@@ -813,6 +812,9 @@ While we are designing our pattern recognition system we can do whatever we want
 <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;$\mathbf</span><span class="si">{w}</span><span class="s1">_{\mathrm</span><span class="si">{random}</span><span class="s1">}^T \mathbf</span><span class="si">{x}</span><span class="s1">$ for misclassified patterns&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/introduction_10_0.png" src="_images/introduction_10_0.png" />
 </div>
 </div>
 <p>A thought that naturally comes to mind is: can we somehow perturb the weights so that some of those patterns that are almost correctly classified pass to the correct class. Before figuring out how to do this visually, by geometry, we can think about the problem purely algebraically. Suppose that some training pattern <span class="math notranslate nohighlight">\(\mathbf{x}_{-1}\)</span> whose label is <span class="math notranslate nohighlight">\(-1\)</span> is misclassified; that is, <span class="math notranslate nohighlight">\(\mathbf{w}_{\mathrm{random}}^T \mathbf{x}_{-1} &gt; 0\)</span>. A simple way to change the weights so that this pattern becomes correctly classified is to subtract from <span class="math notranslate nohighlight">\(\mathbf{w}_{\mathrm{rnd}}\)</span> some multiple of <span class="math notranslate nohighlight">\(\mathbf{x}_{-1}\)</span> since that will decrease the dot product and (for a sufficiently large multiplicative factor) make it negative, which is what we want. Indeed, letting <span class="math notranslate nohighlight">\(\alpha &gt; 0\)</span></p>
@@ -877,6 +879,11 @@ While we are designing our pattern recognition system we can do whatever we want
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The smallest absolute dot product is 3.01e-01
+</pre></div>
+</div>
+</div>
 </div>
 <p>We identified the pattern (a digit) which is the closest to the linear decision boundary in the sense of angle). Note that this does not mean that it is the closest in distance.</p>
 <div class="tip dropdown admonition">
@@ -891,6 +898,11 @@ While we are designing our pattern recognition system we can do whatever we want
 <span class="n">y_est_bumped</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">X</span> <span class="o">@</span> <span class="n">w_bumped</span><span class="p">)</span>
 <span class="n">correct_bumped</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y_est_bumped</span> <span class="o">*</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Correct before: </span><span class="si">%d</span><span class="s1">/</span><span class="si">%d</span><span class="s1">, correct after: </span><span class="si">%d</span><span class="s1">/</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">correct</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">correct_bumped</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Correct before: 2373/5000, correct after: 2374/5000
 </pre></div>
 </div>
 </div>
@@ -931,6 +943,11 @@ While we are designing our pattern recognition system we can do whatever we want
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>9 out of 5000 patterns are misclassified
+</pre></div>
+</div>
+</div>
 </div>
 <p>A much better result than what we initially obtained with random weights! Let’s try to visualize the digits in a way that clearly shows that we’ve got ourselves some good weights. We need a way to represent the digits which live in a <span class="math notranslate nohighlight">\(28 \times = 784\)</span> dimensional space by points in the 2D plane. We will do it like this: choose two directions <span class="math notranslate nohighlight">\(\mathbf{e}_1, \mathbf{e}_2 \in \mathbb{R}^{784}\)</span> and then represent a digit <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> by a point <span class="math notranslate nohighlight">\((\mathbf{e}_1^T \mathbf{x}, \mathbf{e}_2^T \mathbf{x})\)</span> in the plane. We’ll choose <span class="math notranslate nohighlight">\(\mathbf{e}_2 = \mathbf{w} / \| \mathbf{w} \|\)</span> becase we’re interested in what the distribution of points looks like along the direction of the weights. Then we’ll set <span class="math notranslate nohighlight">\(\mathbf{e}_1\)</span> to some unit vector orthogonal to <span class="math notranslate nohighlight">\(\mathbf{e}_2\)</span>. Since there are 783 orthogonal directions, we choose one at random. You can check that the computed vectors are indeed orthogonal.</p>
 <div class="cell docutils container">
@@ -947,6 +964,9 @@ While we are designing our pattern recognition system we can do whatever we want
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="_images/introduction_20_0.png" src="_images/introduction_20_0.png" />
+</div>
 </div>
 </section>
 <section id="what-do-the-weights-do">
@@ -959,6 +979,9 @@ While we are designing our pattern recognition system we can do whatever we want
 <span class="n">_</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">shrink</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/introduction_22_0.png" src="_images/introduction_22_0.png" />
 </div>
 </div>
 </section>
@@ -998,6 +1021,11 @@ While we are designing our pattern recognition system we can do whatever we want
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The number of misclassified points is:  35
+</pre></div>
+</div>
+</div>
 </div>
 <p>This is pretty slow but in the end we get quite a decent result. The right thing to do would be to test how this works for patterns outside of the training set, but for the moment let’s just keep playing around and building intuition.</p>
 </section>
@@ -1022,6 +1050,9 @@ While we are designing our pattern recognition system we can do whatever we want
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Misclassified points&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/introduction_26_0.png" src="_images/introduction_26_0.png" />
 </div>
 </div>
 <p>It seems that both <span class="math notranslate nohighlight">\(k\)</span> too small and <span class="math notranslate nohighlight">\(k\)</span> too large are bad. Can you guess why?</p>
@@ -1053,6 +1084,9 @@ While we are designing our pattern recognition system we can do whatever we want
 <span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/introduction_28_0.png" src="_images/introduction_28_0.png" />
 </div>
 </div>
 <p>We again focus on two classes:</p>
@@ -1090,6 +1124,9 @@ While we are designing our pattern recognition system we can do whatever we want
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="_images/introduction_31_0.png" src="_images/introduction_31_0.png" />
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1113,6 +1150,9 @@ While we are designing our pattern recognition system we can do whatever we want
 <span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">label</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;summer&#39;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">])</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/introduction_32_0.png" src="_images/introduction_32_0.png" />
 </div>
 </div>
 </section>

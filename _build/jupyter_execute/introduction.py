@@ -71,7 +71,7 @@ for ax in axs:
 # 
 # To avoid needless complexity, we will first try to build a _binary_ classifier which distinguishes between two classes of handwritten digits. For example, it should recognize whether the input digit is a "4" or a "7". We begin by writing some spaghetti code to extract a random sample which only contains the chosen two digits.
 
-# In[ ]:
+# In[3]:
 
 
 classes = [4, 7]
@@ -92,7 +92,7 @@ y = 2*(y == classes[0]) - 1
 
 # We quickly verify that we indeed only have the two chosen digits by showing a small random sample.
 
-# In[ ]:
+# In[4]:
 
 
 fig, axs = plt.subplots(ncols=4, nrows=1, figsize=(14, 3))
@@ -145,7 +145,7 @@ for ax in axs:
 # 
 # We now need to decide how to choose the best weights $\mathbf{w}$. In order to do that we have to clearly state what we mean by _best_, but before doing that let us try something goofy 🤭: random weights. More concretely let us independently sample each $w_i$ from a standard normal distribution. (Standard means zero mean and unit variance).
 
-# In[ ]:
+# In[5]:
 
 
 # generate random weights
@@ -160,7 +160,7 @@ print('%d out of %d patterns correctly classified (%5.2f%%)' % (correct, n, 100*
 
 # Not very surprisingly, a linear classifier with random weights does not achieve a particularly impressive digit classification performance. On the other hand, we can see that there the values of $\mathbf{w}_{\text{random}}^T \mathbf{x}$ vary wildly---some are very small and thus "almost" correctly classified.
 
-# In[ ]:
+# In[6]:
 
 
 fig, ax = plt.subplots(figsize=(7, 5))
@@ -214,7 +214,7 @@ ax.set_title('$\mathbf{w}_{\mathrm{random}}^T \mathbf{x}$ for misclassified patt
 # 
 # Let's now apply these ideas to digit classification.
 
-# In[ ]:
+# In[7]:
 
 
 # find indices of misclassfied examples
@@ -234,10 +234,11 @@ print('The smallest absolute dot product is %.2e' % (dot_i,))
 # 
 # Now we add the computed perturbation to the weights, but we scale it by a number slightly larger than 1 so that the digit does not land on the decision boundary but (barely) crosses to the other side.
 
-# In[ ]:
+# In[8]:
 
 
-w_bumped = w_random - 1.000001 * X[i] * dot_i                 / np.linalg.norm(X[i])**2
+w_bumped = w_random - 1.000001 * X[i] * dot_i \
+                / np.linalg.norm(X[i])**2
 y_est_bumped = np.sign(X @ w_bumped)
 correct_bumped = np.sum(y_est_bumped * y == 1)
 print('Correct before: %d/%d, correct after: %d/%d' % (correct, n, correct_bumped, n))
@@ -249,7 +250,7 @@ print('Correct before: %d/%d, correct after: %d/%d' % (correct, n, correct_bumpe
 # 
 # A question comes to mind: even if we mess things up for some other digits, we could then apply our perturbation ideas to them, and cycle over misclassified digits until, hopefully, most of them become correctly classified. As we will see, this is not always possible (the patterns should be _linearly separable_ for it to be possible; in the above figure, there should exist a line which perfectly separates squares and circles). But it can often work quite well. Our strategy is as follows: for each misclassified pattern we will update the weights in the direction which would make the pattern correctly classified. A parameter called _learning rate_ will determine how strongly we bump the weights in that direction. Once we go through all training patterns we will start from the beginning, and repeat this process until the estimated classes (signs of dot products) stabilize, or, simpler, for some set number of iterations.
 
-# In[ ]:
+# In[9]:
 
 
 def train(X, y, lr=0.1, n_iter=30):
@@ -271,7 +272,7 @@ def train(X, y, lr=0.1, n_iter=30):
 
 # (Check class notes to see a better implementation.) We now apply this to MNIST.
 
-# In[ ]:
+# In[10]:
 
 
 w = train(X, y)
@@ -282,7 +283,7 @@ print("%d out of %d patterns are misclassified" % (error_count, n))
 
 # A much better result than what we initially obtained with random weights! Let's try to visualize the digits in a way that clearly shows that we've got ourselves some good weights. We need a way to represent the digits which live in a $28 \times = 784$ dimensional space by points in the 2D plane. We will do it like this: choose two directions $\mathbf{e}_1, \mathbf{e}_2 \in \mathbb{R}^{784}$ and then represent a digit $\mathbf{x}$ by a point $(\mathbf{e}_1^T \mathbf{x}, \mathbf{e}_2^T \mathbf{x})$ in the plane. We'll choose $\mathbf{e}_2 = \mathbf{w} / \| \mathbf{w} \|$ becase we're interested in what the distribution of points looks like along the direction of the weights. Then we'll set $\mathbf{e}_1$ to some unit vector orthogonal to $\mathbf{e}_2$. Since there are 783 orthogonal directions, we choose one at random. You can check that the computed vectors are indeed orthogonal.
 
-# In[ ]:
+# In[11]:
 
 
 w_orth = np.random.randn(d) 
@@ -300,7 +301,7 @@ ax.scatter(X_orth[y==-1], X_w[y==-1]);
 # 
 # An important benefit of using simple linear classifiers is that we can visualize the weights as a 28 $\times$ 28 image and see exactly how the different digits are distinguished. Such _interpretability_ is a desirable property of pattern recognition systems, but it's often absent in modern approaches based on large deep neural networks.
 
-# In[ ]:
+# In[12]:
 
 
 fig, ax = plt.subplots(figsize=(8, 8))
@@ -319,7 +320,7 @@ _ = fig.colorbar(im, ax=ax, shrink=0.6)
 # 
 # Let's turn this intuitive approach into an algorithm. The idea is as follows: for a patter we want to classify, we will find $k$ patterns that are closest to it in the training set. Then we will do a majority vote: find the label that occurs most often among the neighbors and declare this label to be our estimate.
 
-# In[ ]:
+# In[13]:
 
 
 k = 31
@@ -350,7 +351,7 @@ print("The number of misclassified points is: ", error_count)
 # 
 # In the above example we chose the number of neighbors as $k = 31$ for no particular reason. Intutively, this value should have a marked effect on the behavior of our classifier. Let us test many different values of $k$ to figure out which one is the best. Before we do that... we need to do something with the code above which is far too slow to run over and over for different $k$. The idea is to leverage fast mathematical primitives used by `numpy`, in particular matrix multiplication. To understand what the formula in the below code does, check out this [paper about Euclidean distance matrices](https://infoscience.epfl.ch/record/221380/files/EDM%283%29.pdf).
 
-# In[ ]:
+# In[14]:
 
 
 ec = []
@@ -378,7 +379,7 @@ plt.ylabel('Misclassified points');
 # 
 # Another legendary dataset used by almost every data science course on the planet is the Iris flower dataset compiled by Ronald Fisher, probably the most important statistician of all time (and a complicated person privately and publicly).
 
-# In[ ]:
+# In[15]:
 
 
 # Modified from Gaël Varoquaux
@@ -404,7 +405,7 @@ _ = plt.ylim(y_min, y_max)
 
 # We again focus on two classes:
 
-# In[ ]:
+# In[16]:
 
 
 excluded_class = 2
@@ -415,7 +416,7 @@ y[y == classes[0]] = -1
 y[y == classes[1]] = 1
 
 
-# In[ ]:
+# In[17]:
 
 
 X -= X.mean(axis=0)
@@ -437,7 +438,7 @@ plt.xlim(x_min, x_max)
 _ = plt.ylim(y_min, y_max)
 
 
-# In[ ]:
+# In[18]:
 
 
 k = 51

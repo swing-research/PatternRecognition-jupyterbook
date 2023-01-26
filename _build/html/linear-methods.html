@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Linear Regression &#8212; Pattern Recognition</title>
+    <title>Different Perspectives on Linear Regression (1) &#8212; Pattern Recognition</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -50,6 +50,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"vect": ["\\boldsymbol{#1}", 1], "mat": ["\\boldsymbol{#1}", 1], "rvar": ["\\mathsf{#1}", 1], "rvect": ["\\mathsf{\\boldsymbol{#1}}", 1], "rmat": ["\\mathsf{\\boldsymbol{#1}}", 1], "vx": ["\\vect{x}"], "vy": ["\\vect{y}"], "vz": ["\\vect{z}"], "vv": ["\\vect{v}"], "vw": ["\\vect{w}"], "va": ["\\vect{a}"], "vb": ["\\vect{b}"], "vc": ["\\vect{c}"], "vd": ["\\vect{d}"], "ve": ["\\vect{e}"], "vf": ["\\vect{f}"], "vg": ["\\vect{g}"], "vh": ["\\vect{h}"], "vk": ["\\vect{k}"], "vp": ["\\vect{p}"], "vn": ["\\vect{n}"], "vell": ["\\vect{\\ell}"], "vmu": ["\\vect{\\mu}"], "mX": ["\\mat{X}"], "mY": ["\\mat{Y}"], "mZ": ["\\mat{Z}"], "mV": ["\\mat{V}"], "mW": ["\\mat{W}"], "mA": ["\\mat{A}"], "mB": ["\\mat{B}"], "mC": ["\\mat{C}"], "mD": ["\\mat{D}"], "mE": ["\\mat{E}"], "mF": ["\\mat{F}"], "mG": ["\\mat{G}"], "mH": ["\\mat{H}"], "mK": ["\\mat{K}"], "mP": ["\\mat{P}"], "mSigma": ["\\mat{\\Sigma}"], "mI": ["\\mat{I}"], "rx": ["\\rvar{x}"], "ry": ["\\rvar{y}"], "rz": ["\\rvar{z}"], "rv": ["\\rvar{v}"], "rw": ["\\rvar{w}"], "ra": ["\\rvar{a}"], "rb": ["\\rvar{b}"], "rc": ["\\rvar{c}"], "rd": ["\\rvar{d}"], "re": ["\\rvar{e}"], "rf": ["\\rvar{f}"], "rg": ["\\rvar{g}"], "rh": ["\\rvar{h}"], "rk": ["\\rvar{k}"], "rp": ["\\rvar{p}"], "rX": ["\\rvar{X}"], "rH": ["\\rvar{H}"], "rY": ["\\rvar{Y}"], "rvx": ["\\rvect{x}"], "rvy": ["\\rvect{y}"], "rvz": ["\\rvect{z}"], "rvv": ["\\rvect{v}"], "rvw": ["\\rvect{w}"], "rva": ["\\rvect{a}"], "rvb": ["\\rvect{b}"], "rvc": ["\\rvect{c}"], "rvd": ["\\rvect{d}"], "rve": ["\\rvect{e}"], "rvf": ["\\rvect{f}"], "rvg": ["\\rvect{g}"], "rvh": ["\\rvect{h}"], "rvk": ["\\rvect{k}"], "rvp": ["\\rvect{p}"], "rmX": ["\\rmat{X}"], "rmY": ["\\rmat{Y}"], "rmZ": ["\\rmat{Z}"], "rmV": ["\\rmat{V}"], "rmW": ["\\rmat{W}"], "rmA": ["\\rmat{A}"], "rmB": ["\\rmat{B}"], "rmC": ["\\rmat{C}"], "rmD": ["\\rmat{D}"], "rmE": ["\\rmat{E}"], "rmF": ["\\rmat{F}"], "rmG": ["\\rmat{G}"], "rmH": ["\\rmat{H}"], "rmK": ["\\rmat{K}"], "rmP": ["\\rmat{P}"], "EE": ["\\mathbb{E}"], "RR": ["\\mathbb{R}"], "CC": ["\\mathbb{C}"], "ZZ": ["\\mathbb{Z}"], "SS": ["\\mathbb{S}"], "norm": ["\\|#1\\|", 1]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="Denoising and deblurring" href="denoise-deblur.html" />
@@ -140,7 +142,9 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Linear Regression
+   <strong>
+    Different Perspectives on Linear Regression (1)
+   </strong>
   </a>
  </li>
 </ul>
@@ -344,23 +348,242 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   <strong>
+    Different Perspectives on Linear Regression (1)
+   </strong>
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#recap-what-is-supervised-learning">
+   1. Recap: What is supervised learning?
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduction-what-is-linear-regression">
+   2. Introduction: What is Linear regression?
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mathematical-formulation">
+   3. Mathematical formulation
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#a-miminizing-error-of-prediction">
+     a) Miminizing error of prediction
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#b-find-optimal-weights-for-the-function">
+     b) Find optimal weights for the function
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#c-an-alternative-derivation-of-weights">
+     c) An alternative derivation of weights
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#d-yet-another-perspective-geometry">
+     d) Yet another perspective: Geometry
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#e-example-with-a-bit-of-fun">
+     <strong>
+      e) Example with a bit of fun:
+     </strong>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#least-squares-method">
+       <strong>
+        Least squares method:
+       </strong>
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#label-encoding">
+       <strong>
+        Label encoding
+       </strong>
+       :
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-probabilistic-perspective-on-linear-regression">
+   4. A probabilistic perspective on linear regression
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#a-visual-explanation">
+     <strong>
+      a) Visual explanation
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#statistically-optimal-parameters-maximum-likelihood">
+     <strong>
+      2) Statistically optimal parameters: Maximum likelihood
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#limitations-of-simple-linear-regression-and-outlook">
+     <strong>
+      Limitations of simple linear regression and outlook
+     </strong>
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
 </div>
     </div>
     <div class="article row">
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Linear Regression</h1>
+                <h1>Different Perspectives on Linear Regression (1)</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   <strong>
+    Different Perspectives on Linear Regression (1)
+   </strong>
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#recap-what-is-supervised-learning">
+   1. Recap: What is supervised learning?
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduction-what-is-linear-regression">
+   2. Introduction: What is Linear regression?
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mathematical-formulation">
+   3. Mathematical formulation
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#a-miminizing-error-of-prediction">
+     a) Miminizing error of prediction
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#b-find-optimal-weights-for-the-function">
+     b) Find optimal weights for the function
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#c-an-alternative-derivation-of-weights">
+     c) An alternative derivation of weights
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#d-yet-another-perspective-geometry">
+     d) Yet another perspective: Geometry
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#e-example-with-a-bit-of-fun">
+     <strong>
+      e) Example with a bit of fun:
+     </strong>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#least-squares-method">
+       <strong>
+        Least squares method:
+       </strong>
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#label-encoding">
+       <strong>
+        Label encoding
+       </strong>
+       :
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-probabilistic-perspective-on-linear-regression">
+   4. A probabilistic perspective on linear regression
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#a-visual-explanation">
+     <strong>
+      a) Visual explanation
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#statistically-optimal-parameters-maximum-likelihood">
+     <strong>
+      2) Statistically optimal parameters: Maximum likelihood
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#limitations-of-simple-linear-regression-and-outlook">
+     <strong>
+      Limitations of simple linear regression and outlook
+     </strong>
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -368,9 +591,769 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="linear-regression">
-<h1>Linear Regression<a class="headerlink" href="#linear-regression" title="Permalink to this headline">#</a></h1>
-<p>blah</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="different-perspectives-on-linear-regression-1">
+<h1><strong>Different Perspectives on Linear Regression (1)</strong><a class="headerlink" href="#different-perspectives-on-linear-regression-1" title="Permalink to this headline">#</a></h1>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="recap-what-is-supervised-learning">
+<h1>1. Recap: What is supervised learning?<a class="headerlink" href="#recap-what-is-supervised-learning" title="Permalink to this headline">#</a></h1>
+<ul>
+<li><p>In supervised learning algorithms, a labeled dataset is provided which serves as a training set and gives the algorithm examples of how to classify new data. The  question for the algorithm is then to find out the caracteristics of the different categories.</p>
+<ul>
+<li><p>so we assume having access to <em>n</em> “labeled” patterns or instances:
+<br/><br/></p>
+<div class="math notranslate nohighlight">
+\[
+    (x_{1}, y_{1}), (x_{2}, y_{2}),..., (x_{n}, y_{n})
+    \]</div>
+</li>
+<li><p>we assume that each pattern-label pair <span class="math notranslate nohighlight">\((x_{i},y_{i})\)</span> is a <em>draw</em> from the same distribution as that of <span class="math notranslate nohighlight">\((X,Y)\)</span>. Sometimes the word <em>realization</em> is used for instead of “sample”.</p></li>
+<li><p>both <em>draw</em> and <em>realization</em> are a bit imprecise but convenient; deterministic numbers admit no notion of distribution or independence.</p></li>
+<li><p>when we want to do math and statistics of learning, we assume that the sample consists of <em>n</em> iid / i.i.d (<span class="math notranslate nohighlight">\(=\)</span> independent, identically-distributed) copies of <span class="math notranslate nohighlight">\((X,Y)\)</span>:
+<br/><br/></p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+  (X_{1}, Y_{1}), (X_{2}, Y_{2}),..., (X_{n}, Y_{n})
+  \]</div>
+<ul class="simple">
+<li><p>by copies we mean variables with the same joint distribution but independent for different <em>i</em></p></li>
+<li><p>key assumption of iid random variables
+<br/><br/></p></li>
+</ul>
+</li>
+<li><p>It can be used for classification or regression, so for predictions of probabilities or numerical values.</p></li>
+<li><p>The inconveniant is that a lot of work is needed, in order to prepare the training set.</p></li>
+</ul>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="introduction-what-is-linear-regression">
+<h1>2. Introduction: What is Linear regression?<a class="headerlink" href="#introduction-what-is-linear-regression" title="Permalink to this headline">#</a></h1>
+<p>If we have two sets of variables with a linear dependence, we can use a machine learning method which is called (surprize!): Linear regression.
+So for example if we observe the weight of mice we can assume, that it increases linearly with their size.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">random</span>
+
+<span class="c1"># create data</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">6.0</span><span class="p">,</span> <span class="mf">8.4</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">9.8</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">8.0</span><span class="p">,</span> <span class="mf">11.2</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">9.0</span><span class="p">,</span> <span class="mf">12.6</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">14.0</span><span class="p">]]</span>
+
+<span class="c1"># define header names</span>
+<span class="n">col_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Size in cm&quot;</span><span class="p">,</span> <span class="s2">&quot;Weight in g&quot;</span><span class="p">]</span>
+
+<span class="c1"># display table</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">col_names</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s2">&quot;fancy_grid&quot;</span><span class="p">))</span>
+
+<span class="n">data_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_2</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">data_2</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;--og&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Size of mouse&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Weight of mouse&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="nn">/tmp/ipykernel_13266/403100903.py</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">random</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> 
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="c1"># create data</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;tabulate&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p><img alt="Table with size and weight" src="_images/TablePlot.png" /></p>
+<p>The table lists some of the data values. The goal of the algorithm is now to learn from this distribution in order to be able to classify new points.
+We can observe from the plot, that there is a linear trend in the data.
+The function which builds a link between the two variables is called the regression function.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="mathematical-formulation">
+<h1>3. Mathematical formulation<a class="headerlink" href="#mathematical-formulation" title="Permalink to this headline">#</a></h1>
+<p>Now a linear function is written as <span class="math notranslate nohighlight">\( y = ax + b\)</span>. In our case <span class="math notranslate nohighlight">\( y \)</span> would be the weight of the mice and <span class="math notranslate nohighlight">\( x \)</span> corresponds to the size.</p>
+<section id="a-miminizing-error-of-prediction">
+<h2>a) Miminizing error of prediction<a class="headerlink" href="#a-miminizing-error-of-prediction" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>Our linear model is now:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+Ŷ(x) = ŷ = w_{0} + w_{1} \cdot x
+\]</div>
+<blockquote>
+<div><p>📔 <strong>Note</strong>: The ^ indicates that we predict the variable.</p>
+</div></blockquote>
+<p>From the training set the algorithm knows some of the <span class="math notranslate nohighlight">\( x \)</span> and <span class="math notranslate nohighlight">\( ŷ \)</span> values. In order to find a function that fits all datapoints we need to approximate <span class="math notranslate nohighlight">\( w_{0} \)</span> and <span class="math notranslate nohighlight">\( w_{1} \)</span></p>
+</br>
+<ul class="simple">
+<li><p>Which <span class="math notranslate nohighlight">\( w_{0} \)</span>, <span class="math notranslate nohighlight">\( w_{1} \)</span> should we take? An infinite number of possible functions exist! So we take the values that minimize the error!
+What does it look like?</p></li>
+</ul>
+<p><img alt="Error description" src="_images/ExplanationError.png" /></p>
+<p>The error is represented by the green line. The bigger the distance of the line, the larger the error. So the best fitting function draws a red line that minimizes the green lines.</p>
+<ul class="simple">
+<li><p>The method used for this is called <strong>the least squares</strong> method. It minimizes the error function which describes the square of the distance between the datapoint and the fitting line. Since we look for a magnitude, we have to square the value:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\mathrm{loss}(\hat{y}, y) = (\hat{y} - y)^2
+\]</div>
+<blockquote>
+<div><p>📔 <strong>Note</strong>: The difference between the actual value and the models estimate is called a <strong>residual</strong></p>
+</div></blockquote>
+<p>Codesnipped:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+  
+<span class="n">Y</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span> 
+<span class="n">Y_hat</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.6</span><span class="p">,</span><span class="mf">1.29</span><span class="p">,</span><span class="mf">2.67</span><span class="p">,</span><span class="mf">2.99</span><span class="p">,</span><span class="mf">3.4</span><span class="p">]</span>  
+  
+<span class="c1"># Calculation of Mean Squared Error</span>
+<span class="n">mean_squared_error</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span><span class="n">Y_hat</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Earlier we would have tried something like</p>
+<div class="math notranslate nohighlight">
+\[
+\min_{w_0, w_1} \mathbb{E} ~ \mathrm{loss}(\hat{Y}(X), Y) = \min_{w_0, w_1} \mathbb{E} ~ (w_0 + w_1 X - Y)^2
+\]</div>
+<p>but now we are in the realistic supervised learning mode so we cannot compute expectations.</p>
+<ul class="simple">
+<li><p>So we attempt to solve:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+min_{\ w_{0},w_{1}} \  \frac{1}{n} \sum_{i}^{n}(w_{0} + w_{1}x_{i} - y_{i})^2
+\]</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">sig</span> <span class="o">=</span> <span class="mf">0.08</span>
+<span class="n">deg</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">a</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="n">sig</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">)</span>
+
+<span class="n">reg</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">y_hat</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">x_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">line</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_grid</span><span class="p">,</span> <span class="n">reg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_grid</span><span class="p">),</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="p">[</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">y_hat</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="s1">&#39;y&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="Linear Regression with error bars" src="_images/Plot1.png" /></p>
+<p>This was an example in one dimension. For the simple function <span class="math notranslate nohighlight">\( y = ax + b \)</span>. Now we can apply the same procedure in higher dimensions. We then get a function like:</p>
+<div class="math notranslate nohighlight">
+\[
+ŷ = w_{0} + w_{1}x_{1} + ... + w_{n}x_{n}
+\]</div>
+<p>For two dimensions it would be:  <span class="math notranslate nohighlight">\( ŷ = w_{0} + w_{1}x_{1} + w_{2}x_{2} \)</span>
+So we don’t use a line for the fitting, but a plane</p>
+<p>This would then look something like this:</p>
+<p><img alt="see &#64;MurphyMachineLearning, pp. 218, chp. 7" src="_images/Murphy2dPlot.png" /></p>
+<p>see &#64;MurphyMachineLearning, pp. 218, chp. 7</p>
+<p>Coding the error would be:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># Snatched from: </span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">sklearn.linear_model</span>
+
+<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
+
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">10</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="p">((</span><span class="n">X_train</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">5</span><span class="p">)</span><span class="o">+</span><span class="p">(</span><span class="n">X_train</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">5</span><span class="p">))</span> <span class="o">/</span> <span class="mf">1e4</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">60</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="p">((</span><span class="n">X_test</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">5</span><span class="p">)</span><span class="o">+</span><span class="p">(</span><span class="n">X_test</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">5</span><span class="p">))</span> <span class="o">/</span> <span class="mf">1e4</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_train</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X_train</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$x_1$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$x_2$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s2">&quot;$y$&quot;</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">LinearRegression</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MAE: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_test</span><span class="o">-</span><span class="n">y_pred</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;RMSE: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(((</span><span class="n">y_test</span><span class="o">-</span><span class="n">y_pred</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())))</span>
+
+<span class="n">coefs</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">coef_</span>
+<span class="n">intercept</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">intercept_</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">11</span><span class="p">),</span> <span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">ys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">11</span><span class="p">),</span> <span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+<span class="n">zs</span> <span class="o">=</span> <span class="n">xs</span><span class="o">*</span><span class="n">coefs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">ys</span><span class="o">*</span><span class="n">coefs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">intercept</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Equation: y = </span><span class="si">{:.2f}</span><span class="s2"> + </span><span class="si">{:.2f}</span><span class="s2">x1 + </span><span class="si">{:.2f}</span><span class="s2">x2&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">intercept</span><span class="p">,</span> <span class="n">coefs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                                          <span class="n">coefs</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span><span class="n">ys</span><span class="p">,</span><span class="n">zs</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="2d Linear regression" src="_images/Plot2.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">MAE</span><span class="p">:</span> <span class="mf">22995.110040883304</span>
+<span class="n">RMSE</span><span class="p">:</span> <span class="mf">34665.4522791148</span>
+<span class="n">Equation</span><span class="p">:</span> <span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="mf">3.47</span> <span class="o">+</span> <span class="mf">0.64</span><span class="n">x1</span> <span class="o">+</span> <span class="mf">0.72</span><span class="n">x2</span>
+</pre></div>
+</div>
+<p>Graphical Interpretation for the <span class="math notranslate nohighlight">\( n = 3\)</span>, <span class="math notranslate nohighlight">\( d = 2 \)</span> example:
+We have more examples than features (n &gt; d), we get a subspace that is spanned as a plane. And a vector which points somewhere in <span class="math notranslate nohighlight">\( \mathbb{R}^3 \)</span>. Our goal is to find a vector <span class="math notranslate nohighlight">\( ŷ \in \mathbb{R}^N \)</span> which is as close as possible to the real value.</p>
+<p>In order to get the minimal distance between the plane and our datapoint, we obtain a orthogonal projection of <span class="math notranslate nohighlight">\( y \)</span> onto the plane. This projection corresponds to <span class="math notranslate nohighlight">\( ŷ \)</span>.</p>
+<p><img alt="Projection of least squares, Murphy Machine Learning, chp 7" src="_images/MurphyPlot2.png" /></p>
+<p>see Projection of least squares, Murphy Machine Learning, chp 7 pp.221</p>
+<blockquote>
+<div><p>📔 <strong>Note</strong>: <strong>MAE</strong> is the mean absolute error (the residual is not squared) and <strong>RMSE</strong> is the root mean squared error.</p>
+</div></blockquote>
+<p><strong>Recap: linear regression and least squares</strong></p>
+<p>We worked hard to find a formula for the “best <strong>w</strong>! The name of the game is to rewrite everything in terms of vectors and matrices. This gives us a general formula for all possible dimensions.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\sum_{i = 1}^n (y_i - (w_0 + w_1 \cdot x_i))^2 
+    = 
+    \sum_{i = 1}^n \left(y_i - [1 \quad x_i] \begin{bmatrix}w_0 \\ w_1\end{bmatrix}\right)^2 
+    =
+    \left\|
+    ~
+    \begin{bmatrix}
+    y_1 \\ y_2 \\ \vdots \\ y_n
+    \end{bmatrix}
+    -
+    \begin{bmatrix}
+    1 &amp; x_1 \\
+    1 &amp; x_2 \\
+    \vdots &amp; \vdots \\
+    1 &amp; x_n
+    \end{bmatrix}
+    \begin{bmatrix}
+    w_0 \\ w_1
+    \end{bmatrix}
+    ~
+    \right\|^2
+    =
+    \| \mathbf{y} - \mathbf{X} \mathbf{w} \|^2
+\end{split}\]</div>
+<p>The resulting equation is also called the least squared residual. We passed from a scalar equation to a vector equation.</p>
+<blockquote>
+<div><p>📔 <strong>Note</strong>: if <span class="math notranslate nohighlight">\( (X_i,Y_i) ∼ iidP \)</span>, then by the law of large numbers</p>
+<div class="math notranslate nohighlight">
+\[
+\lim_{n \to \infty} \underbrace{\frac{1}{n} \sum_{i = 1}^n (Y_i - (w_0 + w_1 \cdot X_i))^2}_{\text{sample risk}} \to \underbrace{\mathbb{E} ~ (Y - (w_0 + w_1 \cdot X))^2}_{\text{population risk}}
+\]</div>
+</div></blockquote>
+</section>
+<section id="b-find-optimal-weights-for-the-function">
+<h2>b) Find optimal weights for the function<a class="headerlink" href="#b-find-optimal-weights-for-the-function" title="Permalink to this headline">#</a></h2>
+<p>We want to find the best weights that minimize the loss which we call <span class="math notranslate nohighlight">\( \mathbf{w}^\star \)</span></p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{w}^\star = \arg\min_{\mathbf{w}} \underbrace{\| \mathbf{y} - \mathbf{X} \mathbf{w} \|^2}_{= \text{loss} ~ \mathcal{L}(\mathbf{w})}
+\]</div>
+<p>Now for the solution we proceed as usual: in order to find a minimum we calculate the partial derivatives with respect to the components of <span class="math notranslate nohighlight">\( \mathbf{w} = [w_0, w_1,..., w_d] \)</span> with <span class="math notranslate nohighlight">\( d \)</span> the number of dimensions.</p>
+<p>It turns out:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\nabla_\mathbf{w} \left( \| \mathbf{y} - \mathbf{X} \mathbf{w} \|^2 \right) = \frac{\partial \mathcal{L}(\mathbf{w})}{\partial \mathbf{w}} = \begin{bmatrix}\frac{\partial \mathcal{L}}{\partial w_0}\\ 
+\frac{\partial \mathcal{L}}{\partial w_1} \\
+\vdots \\
+\frac{\partial \mathcal{L}}{\partial w_d}\end{bmatrix} = -2 \mathbf{X}^T(\mathbf{y} - \mathbf{X} \mathbf{w})
+\end{split}\]</div>
+<blockquote>
+<div><p>🎯 <strong>Result</strong>: The optimal weights are now:</p>
+<div class="math notranslate nohighlight">
+\[
+-2 \mathbf{X}^T(\mathbf{y} - \mathbf{X} \mathbf{w}) = \mathbf{0} \Rightarrow \mathbf{w}^\star = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}
+\]</div>
+</div></blockquote>
+<p><strong>Higher dimension:</strong></p>
+<ul class="simple">
+<li><p>In “real” Pattern Recognition (so all around us) we more or less never have simple scalar patterns / features <span class="math notranslate nohighlight">\( x_i \in \mathbb{R} \)</span></p></li>
+<li><p>Pictures, environnement… All is in high dimension. In digit classification we had vector features <span class="math notranslate nohighlight">\( \mathbf{x} \in \mathbb{R}^{284} \)</span> or <span class="math notranslate nohighlight">\( \mathbf{x} \in \mathbb{R}^{24 \times 24} \)</span> (Number of pixels in an picture).</p></li>
+<li><p>The prediction is then (note the “1” for notational convenience):</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\hat{y} = w_0 + \sum_{i = 1}^d w_i x_i = [1, x_1, \ldots, x_d] \begin{bmatrix} w_0 \\
+w_1 \\
+\vdots \\
+w_d \end{bmatrix} =: \mathbf{x}^T \mathbf{w}
+\end{split}\]</div>
+<p>For a training set <span class="math notranslate nohighlight">\((\mathbf{x}_1, y_1), \ldots, (\mathbf{x}_n, y_n) \)</span> we can write as before</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mathbf{y} =
+    \begin{bmatrix}
+    y_1 \\\\ y_2 \\\\ \vdots \\\\ y_n
+    \end{bmatrix}
+    \quad \quad
+    \mathbf{X} =
+    \begin{bmatrix}
+    1 &amp; -  \mathbf{x}_1^T - \\
+    \vdots &amp;   \vdots \\  
+     \\
+    1 &amp; -  \mathbf{x}_n^T - \\
+    \end{bmatrix}
+    \quad \quad
+    \mathbf{w} = \begin{bmatrix}
+    w_0 \\
+    \ w_1 \\
+    \\ \vdots \\
+    w_d
+    \end{bmatrix}
+\end{split}\]</div>
+</section>
+<section id="c-an-alternative-derivation-of-weights">
+<h2>c) An alternative derivation of weights<a class="headerlink" href="#c-an-alternative-derivation-of-weights" title="Permalink to this headline">#</a></h2>
+<p>First note that a quadratic form may be expanded as</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{a}^T \mathbf{Q} \mathbf{a} = \sum_{i = 1}^d \sum_{j = 1}^d a_i q_{ij}  a_j
+\]</div>
+<p>with some vector <span class="math notranslate nohighlight">\( \mathbf{a} \)</span> and some matrix <span class="math notranslate nohighlight">\( \mathbf{Q} \)</span>
+Now in order to get optimal weights we need to find the minimum. Again we will do it by taking the derivative:</p>
+<p>Thus:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+  \frac{\partial \mathbf{a}^T \mathbf{Q} \mathbf{a}}{\partial a_k}
+  &amp;= \sum_{j = 1}^d a_j q_{kj} + \sum_{i = 1}^d a_i q_{ik}  \\
+  \\&amp;= (\mathbf{Q} \mathbf{a})_k + (\mathbf{Q}^T \mathbf{a})_k
+  \end{aligned}
+\end{split}\]</div>
+<p>Collecting this for all <span class="math notranslate nohighlight">\( {k} \)</span> we get:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\nabla_{\mathbf{a}} (\mathbf{a}^T \mathbf{Q} \mathbf{a})
+    =
+    \begin{bmatrix}
+    \frac{\partial \mathbf{a}^T \mathbf{Q} \mathbf{a}}{\partial a_1} \\\\
+    \frac{\partial \mathbf{a}^T \mathbf{Q} \mathbf{a}}{\partial a_2} \\\\ \vdots \\\\
+    \frac{\partial \mathbf{a}^T \mathbf{Q} \mathbf{a}}{\partial a_d} \\\\
+    \end{bmatrix} =
+    \begin{bmatrix}
+    (\mathbf{Q} \mathbf{a})_1 + (\mathbf{Q}^T \mathbf{a})_1 \\\\
+    (\mathbf{Q} \mathbf{a})_2 + (\mathbf{Q}^T \mathbf{a})_2 \\\\
+    \vdots \\\\
+    (\mathbf{Q} \mathbf{a})_d + (\mathbf{Q}^T \mathbf{a})_d \\\\
+    \end{bmatrix} =
+    \mathbf{Q} \mathbf{a} + \mathbf{Q}^T \mathbf{a}
+\end{split}\]</div>
+<p>Now we apply this formula to our loss function <span class="math notranslate nohighlight">\( \| \mathbf{y} - \mathbf{X} \mathbf{w} \|^2 \)</span>:</p>
+<ul class="simple">
+<li><p>We first expand using the fact that <span class="math notranslate nohighlight">\( \| \mathbf{x} \|^2 = \mathbf{x}^T\mathbf{x} \)</span>:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\| \mathbf{X} \mathbf{w} - \mathbf{y} \|^2 = (\mathbf{X} \mathbf{w} - \mathbf{y})^T(\mathbf{X} \mathbf{w} - \mathbf{y}) = \mathbf{w}^T \mathbf{X}^T \mathbf{X} \mathbf{w} - 2 \mathbf{w}^T (\mathbf{X}^T \mathbf{y}) + \mathbf{y}^T \mathbf{y}
+\]</div>
+<ul class="simple">
+<li><p>Now we differentiate term by term. We first apply the rule derived on the previous slide: <span class="math notranslate nohighlight">\( \frac{\partial \mathbf{a}^T \mathbf{Q} \mathbf{a}}{\partial a_k} = (\mathbf{Q} \mathbf{a})_k + (\mathbf{Q}^T \mathbf{a})_k \)</span> :</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial \mathbf{w}^T \mathbf{X}^T \mathbf{X} \mathbf{w}}{\partial \mathbf{w}} = \mathbf{X}^T \mathbf{X} \mathbf{w} + (\mathbf{X}^T \mathbf{X})^T \mathbf{w}
+    = 2 \mathbf{X}^T \mathbf{X} \mathbf{w}
+\]</div>
+<ul class="simple">
+<li><p>For the second term we use the rule for differentiating linear functionals of <span class="math notranslate nohighlight">\( \mathbf{w} \)</span> which is very simple to derive:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial \mathbf{w}^T (\mathbf{X}^T \mathbf{y})}{\partial \mathbf{w}} = \mathbf{X}^T \mathbf{y}
+\]</div>
+<ul class="simple">
+<li><p>And finally for the third term, we have the derivative of a constant (wrt <span class="math notranslate nohighlight">\( \mathbf{w} \)</span>) is zero:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial \mathbf{y}^T \mathbf{y}}{\partial \mathbf{w}} = \mathbf{0}.
+\]</div>
+<ul class="simple">
+<li><p>Putting things together we again get <span class="math notranslate nohighlight">\(\  \mathbf{X}^T \mathbf{X} \mathbf{w} = \mathbf{X}^T \mathbf{y}\)</span></p></li>
+</ul>
+</section>
+<section id="d-yet-another-perspective-geometry">
+<h2>d) Yet another perspective: Geometry<a class="headerlink" href="#d-yet-another-perspective-geometry" title="Permalink to this headline">#</a></h2>
+<p>We can rewrite:</p>
+<div class="math notranslate nohighlight">
+\[
+\min \left \{ \| \mathbf{y} - \mathbf{X} \mathbf{w} \|^2 \mid \mathbf{w} \in \mathbb{R}^d \right\}
+\]</div>
+<p>as:</p>
+<div class="math notranslate nohighlight">
+\[
+\min \left\{ \| \mathbf{y} - \mathbf{v} \|^2 \mid \mathbf{v} = \mathbf{X} \mathbf{w}, \mathbf{w} \in \mathbb{R}^d \right\}
+\]</div>
+<p>if we ignore <span class="math notranslate nohighlight">\( \mathbf{w} \)</span> for the moment and only care about <span class="math notranslate nohighlight">\( \mathbf{v} \)</span>, then we can also write:</p>
+<div class="math notranslate nohighlight">
+\[
+\min \left\{ \| \mathbf{y} - \mathbf{v} \|^2 \mid \mathbf{v} \in \mathrm{span} \{ \mathbf{x}^{(1)}, \ldots, \mathbf{x}^{(d)} \}\right\}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\( \{ \mathbf{x}^{(1)}, \ldots, \mathbf{x}^{(d)} \} \)</span> are the columns of <span class="math notranslate nohighlight">\( \mathbf{X} \)</span>.</p>
+<p>So which vector <span class="math notranslate nohighlight">\( \mathbf{v} \in \mathrm{span} \{ \mathbf{x}^{(1)}, \ldots, \mathbf{x}^{(d)} \} \)</span> minimizes this distance? Consider a small example with <span class="math notranslate nohighlight">\( d = 2, n = 3 \)</span></p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">y_hat</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">w</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+
+<span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">zz</span> <span class="o">=</span> <span class="n">xx</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span>
+        <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">x1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x1</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">.8</span><span class="p">,</span> <span class="n">lw</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span>
+        <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">x2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x2</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x2</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.8</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span>
+        <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.8</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span>
+        <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">y_hat</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y_hat</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">y_hat</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.8</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y_hat</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">y_hat</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span class="n">y</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">y_hat</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="s1">&#39;g:&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">zz</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">),</span> <span class="s1">&#39;$x^{(1)} = [1, 1, 1]^T$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">x2</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">),</span> <span class="s1">&#39;$x^{(2)} = [1, -1, 1]^T$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">),</span> <span class="s1">&#39;$y = [-3, 1, 2]^T$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">y_hat</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">),</span> <span class="s1">&#39;$\widehat</span><span class="si">{y}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="Least squares projection" src="_images/Plot3.png" /></p>
+<p>As in Murphys Machine Learning we get again an example of Least squares projection (dotted line), this time with the output:</p>
+<p><code class="docutils literal notranslate"> <span class="pre">(-3.3,</span> <span class="pre">3.3,</span> <span class="pre">-3.3,</span> <span class="pre">3.3)</span></code></p>
+<ul class="simple">
+<li><p>So again the shortest residual <span class="math notranslate nohighlight">\( \mathbf{ŷ - y} \)</span> (the one with the smallest norm) is perpendicular to the plane, and in particular to <span class="math notranslate nohighlight">\( \mathbf{x^{(1)}} \)</span> and <span class="math notranslate nohighlight">\( \mathbf{x^{(2)}} \)</span></p></li>
+</ul>
+<ol class="simple">
+<li><p>For general <span class="math notranslate nohighlight">\( d \)</span>, <span class="math notranslate nohighlight">\( \mathbf{ŷ - y} \)</span> is perpendicular to every column of <span class="math notranslate nohighlight">\( \mathbf{X} \)</span>, (which means that the scalar product is <span class="math notranslate nohighlight">\( 0 \)</span>):</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+(\mathbf{x}^{(j)})^T (\hat{\mathbf{y}} - \mathbf{y}) = (\mathbf{x}^{(1)})^T (\mathbf{X} \mathbf{w} - \mathbf{y}) = 0 \quad \text{for} \quad j = 1, 2, \ldots, d + 1
+\]</div>
+<ol class="simple">
+<li><p>Writing this for every <span class="math notranslate nohighlight">\( j \)</span> gives:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\left[\begin{array}{cc} - &amp; (\mathbf{x}^{(1)})^T &amp; -  \\\\ - &amp; (\mathbf{x}^{(2)})^T &amp; - \\ 
+\vdots \\ - &amp; (\mathbf{x}^{(d + 1)})^T &amp; - \end{array} \right] (\mathbf{X} \mathbf{w} - \mathbf{y}) = \mathbf{0}
+\end{split}\]</div>
+<ol class="simple">
+<li><p>Now we recall that:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mathbf{X} = \begin{bmatrix} | &amp; \cdots &amp; |\\\\ \mathbf{x}^{(1)} &amp; \cdots &amp; \mathbf{x}^{(d+1)}\\\\| &amp; \cdots &amp; |\end{bmatrix}
+\end{split}\]</div>
+<ol class="simple">
+<li><p>So that finally we again get:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{X}^T \mathbf{X} \mathbf{w} = \mathbf{X}^T \mathbf{y}
+\]</div>
+</section>
+<section id="e-example-with-a-bit-of-fun">
+<h2><strong>e) Example with a bit of fun:</strong><a class="headerlink" href="#e-example-with-a-bit-of-fun" title="Permalink to this headline">#</a></h2>
+<p>For fun let us apply linear regression to a problem which is utterly non-linear: digit classification.</p>
+<section id="least-squares-method">
+<h3><strong>Least squares method:</strong><a class="headerlink" href="#least-squares-method" title="Permalink to this headline">#</a></h3>
+<p>The idea is as follows: we will encode labels simply as <span class="math notranslate nohighlight">\( y \in \{0, 1,...,9\} \)</span> and treat them as real numbers.</p>
+<p>We will compute the estimate as</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{ŷ} = \text{round}(\text{vec}(\mathbf{x})^T\mathbf{w}))
+\]</div>
+<p>and the weights <span class="math notranslate nohighlight">\( \mathbf{w} \)</span> using the least squares procedure described above.</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mlxtend.data</span> <span class="kn">import</span> <span class="n">loadlocal_mnist</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">loadlocal_mnist</span><span class="p">(</span>
+        <span class="n">images_path</span><span class="o">=</span><span class="s1">&#39;/Users/dokman0000/Downloads/train-images-idx3-ubyte&#39;</span><span class="p">,</span> 
+        <span class="n">labels_path</span><span class="o">=</span><span class="s1">&#39;/Users/dokman0000/Downloads/train-labels-idx1-ubyte&#39;</span>
+        <span class="p">)</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="mi">28</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">50000</span>
+
+<span class="c1"># sample n digits from the big training set</span>
+<span class="n">shuffle_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="n">shuffle_idx</span><span class="p">]</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">[</span><span class="n">shuffle_idx</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># remove pixels that are always zero</span>
+<span class="n">nz_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">X_train</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">X_mask</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[:,</span> <span class="n">nz_mask</span><span class="p">]</span> <span class="o">/</span> <span class="mf">255.0</span>
+<span class="n">d_mask</span> <span class="o">=</span> <span class="n">nz_mask</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="c1"># compute the weights</span>
+<span class="n">lam</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">w_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">X_mask</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X_mask</span> <span class="o">+</span> <span class="n">lam</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">d_mask</span><span class="p">))</span> <span class="o">@</span> <span class="n">X_mask</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y_train</span>
+<span class="n">relerr</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">X_mask</span> <span class="o">@</span> <span class="n">w_mask</span><span class="p">)</span> <span class="o">!=</span> <span class="n">y_train</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">n</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The relative training error is </span><span class="si">%3.0f%%</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">relerr</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">The</span> <span class="pre">relative</span> <span class="pre">training</span> <span class="pre">error</span> <span class="pre">is</span>&#160; <span class="pre">75%</span></code></p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># we can show the weights as an image... </span>
+
+<span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">d</span><span class="p">,))</span>
+<span class="n">w</span><span class="p">[</span><span class="n">nz_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">w_mask</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><img alt="figure 4" src="_images/Plot4.png" /></p>
+<p>A relative training error of <span class="math notranslate nohighlight">\( 75\% \)</span> is not really what we are dreaming about.
+Let’s try to improve the result a bit with one-hot encoding…</p>
+<p>Now we can perform our predictions:</p>
+</section>
+<section id="label-encoding">
+<h3><strong>Label encoding</strong>:<a class="headerlink" href="#label-encoding" title="Permalink to this headline">#</a></h3>
+<blockquote>
+<div><p>📜 “In label encoding in Python, we replace the categorical value with a numeric value between 0 and the number of classes minus 1. If the categorical variable value contains 5 distinct classes, we use (0, 1, 2, 3, and 4).”
+[1]</p>
+</div></blockquote>
+<ol class="simple">
+<li><p>The first step consist in building the one-hot encoding matrix. This is necessary since the algorithm can’t classify the features directly. That’s why we attribute a binary vector for each x-variable. (Which gives us a matrix for all <span class="math notranslate nohighlight">\( \mathbf{X} \)</span>).</p></li>
+</ol>
+<p>If the first feature is a <span class="math notranslate nohighlight">\( 8 \)</span> we build a vector with the eight index as a <span class="math notranslate nohighlight">\( 1 \)</span> and the rest as <span class="math notranslate nohighlight">\( 0 \)</span> and so on.</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">y_onehot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">y_onehot</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">y_train</span><span class="p">[</span><span class="n">i</span><span class="p">])]</span> <span class="o">=</span> <span class="mi">1</span>
+
+
+
+<span class="c1"># y_onehot[y_onehot == 0] = -1</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">y_train</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>  
+<span class="nb">print</span><span class="p">(</span><span class="n">y_onehot</span><span class="p">[:</span><span class="mi">5</span><span class="p">,</span> <span class="p">:])</span>
+</pre></div>
+</div>
+<p>As output for the one hot encoding we get:
+<code class="docutils literal notranslate"><span class="pre">[8</span> <span class="pre">4</span> <span class="pre">9</span> <span class="pre">0</span> <span class="pre">8]</span></code>
+For our features and</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">1.</span> <span class="mf">0.</span><span class="p">]</span>
+ <span class="p">[</span><span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">1.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span><span class="p">]</span>
+ <span class="p">[</span><span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">1.</span><span class="p">]</span>
+ <span class="p">[</span><span class="mf">1.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span><span class="p">]</span>
+ <span class="p">[</span><span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">1.</span> <span class="mf">0.</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>for our one-hot encoded matrix.</p>
+<ol class="simple">
+<li><p>We can now calculate the relative training error:</p></li>
+</ol>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">X_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X_mask</span><span class="p">))</span>
+
+<span class="n">lam</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">W_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">X_b</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X_b</span> <span class="o">+</span> <span class="n">lam</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">d_mask</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">@</span> <span class="n">X_b</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y_onehot</span>
+<span class="n">y_hat_onehot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">X_b</span> <span class="o">@</span> <span class="n">W_mask</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">relerr</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_hat_onehot</span> <span class="o">!=</span> <span class="n">y_train</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">n</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The relative training error is </span><span class="si">%3.0f%%</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">relerr</span><span class="p">)</span> <span class="p">)</span>
+
+<span class="c1"># TODO: show test errors!</span>
+</pre></div>
+</div>
+<p>We get an error of:
+<code class="docutils literal notranslate"><span class="pre">The</span> <span class="pre">relative</span> <span class="pre">training</span> <span class="pre">error</span> <span class="pre">is</span>&#160; <span class="pre">14%</span></code></p>
+<p>The relative training error is dramatically reduced! Label encoding is a really helpfull method for optimizing the algorithm.</p>
+<blockquote>
+<div><p>📔 <strong>Note</strong>: You will often hear ML researchers discuss which are the right features for the task.
+But this example shows that using the right label encoding can also have a dramatic effect!</p>
+</div></blockquote>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="a-probabilistic-perspective-on-linear-regression">
+<h1>4. A probabilistic perspective on linear regression<a class="headerlink" href="#a-probabilistic-perspective-on-linear-regression" title="Permalink to this headline">#</a></h1>
+<section id="a-visual-explanation">
+<h2><strong>a) Visual explanation</strong><a class="headerlink" href="#a-visual-explanation" title="Permalink to this headline">#</a></h2>
+<p>In linear regression we assume (or hope) that the response <span class="math notranslate nohighlight">\( Y \)</span> is indeed obtained as a linear combination of the explanatory variables <span class="math notranslate nohighlight">\( {x_{1},...,x_{n}} \)</span> and a constant “variable” <span class="math notranslate nohighlight">\( 1 \)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+Y = \mathbf{w}^T \mathbf{X} + \epsilon
+\]</div>
+<p>The noise or error <span class="math notranslate nohighlight">\(\epsilon\)</span> that has been added is usually assumed Gaussian, <span class="math notranslate nohighlight">\(\epsilon \sim \mathcal{N}(\mu, \sigma^2)\)</span> so that we can write</p>
+<div class="math notranslate nohighlight">
+\[
+p(y \mid \mathbf{x};  \mathbf{\theta}) = \mathcal{N}(y \mid  \mathbf{w}^T \mathbf{x}, \sigma^2)
+\]</div>
+<p><img alt="Gaussian Probability" src="_images/GaussianProb1.png" /></p>
+<p>This means that our best fitting line represents the mean values of the gaussian distribution for the predictions. And so the predicted results are distributed around this line in a gaussian manner.</p>
+<p>Let’s explore it with a visual example:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">sig</span> <span class="o">=</span> <span class="mf">0.08</span>
+<span class="n">deg</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">a</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="n">sig</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;X&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Y&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Draws from $\mathcal</span><span class="si">{N}</span><span class="s1">(y | \mathbf</span><span class="si">{w}</span><span class="s1">^T \mathbf</span><span class="si">{x}</span><span class="s1">, \sigma^2)$&#39;</span><span class="p">)</span>
+   
+
+<span class="n">reg</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">x_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">line</span><span class="p">,</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">([],[],</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">line</span><span class="o">.</span><span class="n">set_xdata</span><span class="p">(</span><span class="n">x_grid</span><span class="p">)</span>
+<span class="n">line</span><span class="o">.</span><span class="n">set_ydata</span><span class="p">(</span><span class="n">reg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_grid</span><span class="p">))</span>
+
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">hexbin</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">gridsize</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;X&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Y&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Histogram of $\mathcal</span><span class="si">{D}</span><span class="s1">$&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="Figure 5" src="_images/Plot5.png" /></p>
+<p>Text(0.5, 1.0, ‘Histogram of <span class="math notranslate nohighlight">\(\mathcal{D}\)</span>’)</p>
+<p>Where the colors represent the height of the distribution (yellow high to blue low).</p>
+<p>Or in 3D:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">cm</span>
+
+<span class="n">x_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">y_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x_</span><span class="p">,</span> <span class="n">y_</span><span class="p">)</span>
+<span class="n">zz</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">sig</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">xx</span> <span class="o">+</span> <span class="n">b</span> <span class="o">-</span> <span class="n">yy</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">sig</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">zz</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">coolwarm</span><span class="p">,</span>  <span class="n">rcount</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">ccount</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="Gaussian distribution in 3d" src="_images/Plot6.png" /></p>
+<p>Here our best fitting line would pass through the middle of the “tunnel”…</p>
+</section>
+<section id="statistically-optimal-parameters-maximum-likelihood">
+<h2><strong>2) Statistically optimal parameters: Maximum likelihood</strong><a class="headerlink" href="#statistically-optimal-parameters-maximum-likelihood" title="Permalink to this headline">#</a></h2>
+<p>Our goal is now to find values for the parameter <span class="math notranslate nohighlight">\( \theta \)</span> (in our case the weights and the variance) that minimizes the error, which is the difference between our predicted point and the real datapoint. (see figure)
+<br></br></p>
+<p><img alt="error from our predictions" src="_images/GaussianProb2.png" /></p>
+<p>What we do is to:</p>
+<blockquote>
+<div><p>📜 “Maximize the chance of seeing data given a certain value of <span class="math notranslate nohighlight">\(\theta\)</span>.” <a class="reference external" href="https://www.nural.cc/intro-to-ml3/">2</a></p>
+</div></blockquote>
+<p>This is the definition of the <strong><em>likelihood</em></strong>!
+In order to find the best <span class="math notranslate nohighlight">\(\theta\)</span> we have to maximize the likelihood. This process is called the Maximum likelihood estimation MLE.</p>
+<p>We will go through these calculations step by step:</p>
+<ol class="simple">
+<li><p>We model the training set <span class="math notranslate nohighlight">\(\mathcal{D} = \{ (\mathbf{x}_i, \mathbf{y_i}) \}_{i=1}^n\)</span> as independent, identically distributied random draws (copies)</p></li>
+<li><p>We can thus compute the probability (likelihood) of observing a given training set <span class="math notranslate nohighlight">\(p(\mathcal{D}; \theta)\)</span> if we believe that the data is generated by a linear regression model with parameters <span class="math notranslate nohighlight">\(\theta = (\mathbf{w},\sigma)\)</span>. It is then appealing to estimate <span class="math notranslate nohighlight">\(\theta\)</span> such that it maximizes the likelihood of observing <span class="math notranslate nohighlight">\(\mathcal{D}\)</span>:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+\hat{\theta} = \arg\max_{\theta} p(\mathcal{D} ; \theta) = \arg\max_\theta \prod_{i = 1}^n p(y_i | \mathbf{x}_i; \theta)
+\]</div>
+<ol class="simple">
+<li><p>We define the log-likelihood which is a function of θ rather than D:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+\ell(\theta) := \log p(\mathcal{D}; \theta) = \sum_{i = 1}^n \log p(y_i | \mathbf{x}_i ; \theta)
+\]</div>
+<blockquote>
+<div><p>🤔 <strong>Note</strong>: Why the logarithm?</p>
+<p>We do this because if is earsier to calculate the derivative of a sum than of a product and the log of a product gives us a sum… + it is numerically more stable since the likelihood values could be very small and vanish, a problem that can be solved by taking the logarithm</p>
+</div></blockquote>
+<ol class="simple">
+<li><p>Maximizing the log-likelihood is equivalent to minimizing the negative log-likelihood (NLL):</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+\mathrm{NLL}(\theta) := - \ell(\theta) = -  \sum_{i = 1}^n \log p(y_i | \mathbf{x}_i ; \theta)
+\]</div>
+<ol class="simple">
+<li><p>Apply it to our model of linear regression:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned} \ell(\theta) = \sum_{i = 1}^n \log \left[ \frac{1}{\sigma \sqrt{2 \pi}} \exp \left( -\frac{1}{2\sigma^2}(y_i - \mathbf{w}^T \mathbf{x}_i)^2 \right) \right] \\
+=- \frac{1}{2 \sigma^2} \underbrace{\sum_{i = 1}^n (y_i - \mathbf{w}^T \mathbf{x}_i)^2}_{\text{residual sum of squares}~\mathrm{RSS}(\mathbf{w})} - \frac{n}{2} \log(2\pi\sigma^2) \end{aligned}
+\end{split}\]</div>
+<p>Note that since our underlying functional model is <span class="math notranslate nohighlight">\(Y = \mathbf{w}^T \mathbf{X} + \epsilon\)</span>, we have that</p>
+<div class="math notranslate nohighlight">
+\[
+\mathrm{RSS}(\mathbf{w}) = \sum_{i = 1}^n (y_i - \mathbf{w}^T \mathbf{x}_i)^2= \| \boldsymbol{\epsilon} \|^2 = \sum_{i = 1}^n \epsilon_i^2
+\]</div>
+<p>So the difference between our prediction and the correct solution equals the noise…</p>
+<p>-&gt; Simple mathematical magic! 😉</p>
+</section>
+<section id="limitations-of-simple-linear-regression-and-outlook">
+<h2><strong>Limitations of simple linear regression and outlook</strong><a class="headerlink" href="#limitations-of-simple-linear-regression-and-outlook" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>So far our predictors could only look like lines, etc so most of the time it will not give us good results</p></li>
+<li><p>It is highly sensitiv to outliers (for example a mouse with a size of <span class="math notranslate nohighlight">\( 6cm \)</span> and a weight of <span class="math notranslate nohighlight">\( 30g\)</span>).</p></li>
+<li><p>It makes the assumption of independency of the data which is not always true. (For example: mice which we found in the city might generally be heavier than mice from the country)</p></li>
+<li><p>It tends to overfit the data by taking into account to much detail from the learning model.</p></li>
+</ul>
+<p>So linear regression tends to oversimplify real life data.
+Now how can we improve the algorithm?</p>
+<ul class="simple">
+<li><p>In order to capture more than only linear functions we will learn something that is called logistic regression…</p></li>
+<li><p>And we will use so called kernels. This allows us to apply linear classifiers to non-linear problems by changing to a higher dimension. <span class="math notranslate nohighlight">\(\\\)</span>
+Let’s try this rather cracy idea:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\phi(x; \omega) = \cos(\omega x)
+\]</div>
+<p>Let’s go towards kernel methods!</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">102</span><span class="p">)</span>
+
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span> <span class="o">-</span> <span class="mi">2</span><span class="p">):</span>
+<span class="c1"># TODO</span>
+</pre></div>
+</div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">

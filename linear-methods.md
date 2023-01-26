@@ -1,3 +1,26 @@
+---
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+    format_version: 0.13
+    jupytext_version: 1.14.1
+kernelspec:
+  display_name: Python 3 (ipykernel)
+  language: python
+  name: python3
+substitutions:
+  fig2Da: |
+    ```{image} images/linear-random-1.svg
+    :alt: fig2Da
+    ```
+  fig2Db: |
+    ```{image} images/linear-random.svg
+    :alt: fig2Db
+    ```  
+---
+
+
 # **Different Perspectives on Linear Regression (1)**
 
 # 1. Recap: What is supervised learning?
@@ -30,27 +53,31 @@
 If we have two sets of variables with a linear dependence, we can use a machine learning method which is called (surprize!): Linear regression.
 So for example if we observe the weight of mice we can assume, that it increases linearly with their size.
 
-```py
+```{code-cell} ipython3
+from tabulate import tabulate
+import matplotlib.pyplot as plt
+from numpy import random
+
 # create data
-        data = [[5.0, 7.0],
-                [6.0, 8.4],
-                [7.0, 9.8],
-                [8.0, 11.2],
-                [9.0, 12.6],
-                [10.0, 14.0]]
+data = [[5.0, 7.0],
+        [6.0, 8.4],
+        [7.0, 9.8],
+        [8.0, 11.2],
+        [9.0, 12.6],
+        [10.0, 14.0]]
 
-        # define header names
-        col_names = ["Size in cm", "Weight in g"]
+# define header names
+col_names = ["Size in cm", "Weight in g"]
 
-        # display table
-        print(tabulate(data, headers=col_names, tablefmt="fancy_grid"))
+# display table
+print(tabulate(data, headers=col_names, tablefmt="fancy_grid"))
 
-        data_2 = np.array(data)
+data_2 = np.array(data)
 
-        plt.plot(data_2[:,0], data_2[:,1], '--og')
-        plt.xlabel("Size of mouse")
-        plt.ylabel("Weight of mouse")
-        plt.show()
+plt.plot(data_2[:,0], data_2[:,1], '--og')
+plt.xlabel("Size of mouse")
+plt.ylabel("Weight of mouse")
+plt.show()
 ```
 
 ![Table with size and weight](./images/LinearRegression1/TablePlot.png)
