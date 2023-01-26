@@ -119,7 +119,6 @@ $$
 
 > 📔 **Note**: The difference between the actual value and the models estimate is called a **residual**
 
-Codesnipped:
 
 ```py
 from sklearn.metrics import mean_squared_error
