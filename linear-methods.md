@@ -23,7 +23,7 @@ substitutions:
 
 # **Different Perspectives on Linear Regression (1)**
 
-# 1. Recap: What is supervised learning?
+# Recap: What is supervised learning?
 
 - In supervised learning algorithms, a labeled dataset is provided which serves as a training set and gives the algorithm examples of how to classify new data. The  question for the algorithm is then to find out the caracteristics of the different categories.
   
@@ -48,7 +48,7 @@ substitutions:
 - It can be used for classification or regression, so for predictions of probabilities or numerical values.
 - The inconveniant is that a lot of work is needed, in order to prepare the training set.
 
-# 2. Introduction: What is Linear regression?
+# Introduction: What is Linear regression?
 
 If we have two sets of variables with a linear dependence, we can use a machine learning method which is called (surprize!): Linear regression.
 So for example if we observe the weight of mice we can assume, that it increases linearly with their size.
@@ -86,11 +86,11 @@ The table lists some of the data values. The goal of the algorithm is now to lea
 We can observe from the plot, that there is a linear trend in the data.
 The function which builds a link between the two variables is called the regression function.
 
-# 3. Mathematical formulation
+# Mathematical formulation
 
 Now a linear function is written as $ y = ax + b$. In our case $ y $ would be the weight of the mice and $ x $ corresponds to the size.
 
-### a) Miminizing error of prediction
+### Miminizing error of prediction
 
 - Our linear model is now:
 
@@ -286,7 +286,8 @@ The resulting equation is also called the least squared residual. We passed from
 \lim_{n \to \infty} \underbrace{\frac{1}{n} \sum_{i = 1}^n (Y_i - (w_0 + w_1 \cdot X_i))^2}_{\text{sample risk}} \to \underbrace{\mathbb{E} ~ (Y - (w_0 + w_1 \cdot X))^2}_{\text{population risk}}
 $$
 
-### b) Find optimal weights for the function
+
+### Find optimal weights for the function
 
 We want to find the best weights that minimize the loss which we call $ \mathbf{w}^\star $
 
@@ -349,7 +350,7 @@ $$
     \end{bmatrix}
 $$
 
-### c) An alternative derivation of weights
+### An alternative derivation of weights
 
 First note that a quadratic form may be expanded as
 
@@ -418,7 +419,7 @@ $$
 
 - Putting things together we again get $\  \mathbf{X}^T \mathbf{X} \mathbf{w} = \mathbf{X}^T \mathbf{y}$
 
-### d) Yet another perspective: Geometry
+### Yet another perspective: Geometry
 
 We can rewrite:
 
@@ -520,7 +521,7 @@ $$
 \mathbf{X}^T \mathbf{X} \mathbf{w} = \mathbf{X}^T \mathbf{y}
 $$
 
-### **e) Example with a bit of fun:**
+### **Example with a bit of fun:**
 
 For fun let us apply linear regression to a problem which is utterly non-linear: digit classification.
 
@@ -645,9 +646,9 @@ The relative training error is dramatically reduced! Label encoding is a really 
 > But this example shows that using the right label encoding can also have a dramatic effect!
 
 
-# 4. A probabilistic perspective on linear regression
+# A probabilistic perspective on linear regression
 
-### **a) Visual explanation**
+### **Visual explanation**
 
 In linear regression we assume (or hope) that the response $ Y $ is indeed obtained as a linear combination of the explanatory variables $ {x_{1},...,x_{n}} $ and a constant "variable" $ 1 $,
 
