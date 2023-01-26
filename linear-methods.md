@@ -171,7 +171,7 @@ for i in range(n):
 
 ![Linear Regression with error bars](./images/LinearRegression1/Plot1.png)
 
-This was an example in one dimension. For the simple function $ y = ax + b $. Now we can apply the same procedure in higher dimensions. We then get a function like:
+This was an example in one dimension. For the simple function $ y = w_{1}x + w_{0} $. Now we can apply the same procedure in higher dimensions. We then get a function like:
 
 $$
 ŷ = w_{0} + w_{1}x_{1} + ... + w_{n}x_{n}
@@ -187,6 +187,12 @@ This would then look something like this:
 see @MurphyMachineLearning, pp. 218, chp. 7
 
 Coding the error would be:
+
+> @@ -1,18 +1, 797 @@
+
+----
+
+-jupytext:
 
 ```py
 # Snatched from: 
