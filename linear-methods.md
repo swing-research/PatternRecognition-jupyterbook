@@ -136,7 +136,7 @@ $$
 \min_{w_0, w_1} \mathbb{E} ~ \mathrm{loss}(\hat{Y}(X), Y) = \min_{w_0, w_1} \mathbb{E} ~ (w_0 + w_1 X - Y)^2
 $$
 
-but now we are in the realistic supervised learning mode so we cannot compute expectations.
+but now we are in the realistic supervised learning mode so we cannot compute expectations. This is because we don't know the joint distribution of the samples and labels. Without it we cannot calculate an expectation value. In supervised learning we are dealing with the empirical error (the real error) and not with the predicted error.
 
 - So we attempt to solve:
 
