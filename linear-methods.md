@@ -1,11 +1,5 @@
 # **Different Perspectives on Linear Regression (1)**
 
-<br></br>
-
-![image](./images/sada-unibas-0.svg)
-
-<br></br>
-
 # 1. Recap: What is supervised learning?
 
 - In supervised learning algorithms, a labeled dataset is provided which serves as a training set and gives the algorithm examples of how to classify new data. The  question for the algorithm is then to find out the caracteristics of the different categories.
@@ -16,7 +10,7 @@
     $$
     (x_{1}, y_{1}), (x_{2}, y_{2}),..., (x_{n}, y_{n})
     $$
-  - we assume that each pattern-label pair $(x_{i},y_{i})$ is a *draw* from the same distribution as that of $(X,Y)$. Sometimes the word *realization* is used for it.
+  - we assume that each pattern-label pair $(x_{i},y_{i})$ is a *draw* from the same distribution as that of $(X,Y)$. Sometimes the word *realization* is used for instead of "sample".
   - both *draw* and *realization* are a bit imprecise but convenient; deterministic numbers admit no notion of distribution or independence.
   - when we want to do math and statistics of learning, we assume that the sample consists of *n* iid / i.i.d ($=$ independent, identically-distributed) copies of $(X,Y)$:
   <br/><br/>
