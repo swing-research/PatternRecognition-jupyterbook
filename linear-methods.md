@@ -88,7 +88,7 @@ The function which builds a link between the two variables is called the regress
 
 # Mathematical formulation
 
-Now a linear function is written as $ y = ax + b$. In our case $ y $ would be the weight of the mice and $ x $ corresponds to the size.
+Now a linear function is written as $ ŷ = w_{1}\cdot x + w_{0}$. In our case $ y $ would be the weight of the mice and $ x $ corresponds to the size.
 
 ### Miminizing error of prediction
 
