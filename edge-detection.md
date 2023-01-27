@@ -131,6 +131,7 @@ _,ax = plt.subplots(1, 1, figsize=(12, 12))
 ax.title.set_text('- gradnorm')
 ax.imshow(-gradnorm, cmap='gray')
 ax.axis(False)
+plt.show()
 ```
 As one can see calculating the "edge strength" can be a nice indicator for detecting edges in this case. But what happens if we add noise to the image?
 
@@ -155,6 +156,7 @@ axs[0].axis(False)
 axs[1].title.set_text('- gradnorm2')
 axs[1].imshow(-gradnorm2, cmap='gray')
 axs[1].axis(False)
+plt.show()
 ```
 It seems that we can't quite detect edges well on a noisy image. This is not surprising considering we have added a lot of variation with the noise and since our basic edge detection process naturally accentuates high frequencies it only amplified the noise. What can be done in this case? We want to attenuate the high frequency noise in order to more so passively accentuate the important lower frequencies. So we want to smooth out the image to lessen the noise. This can be done with convolution. For now, let it suffice to say that a convolution applies a smaller convolution matrix to the image in order to for example blur, sharpen, emboss, edge detect and more. This convolution matrix is also called a kernel, filter or mask and in the following we will apply two versions to smooth out/blur the image.
 
@@ -234,6 +236,7 @@ axs[0].axis(False)
 axs[1].title.set_text('- gradnorm4, smoothed with 1-Kernel')
 axs[1].imshow(-gradnorm4, cmap='gray')
 axs[1].axis(False)
+plt.show()
 ```
 By convolving the image with those kernels we have managed to bring back those edges regardless of the noise. Lets look at a close-up of an edge.
 ```{code-cell}
@@ -253,6 +256,7 @@ axs[0].axis(False)
 axs[1].title.set_text('Noisy image of an edge')
 axs[1].imshow(img_noise, cmap='gray')
 axs[1].axis(False)
+plt.show()
 ```
 In order to better understand what happened with applying convolution and maybe further elaborate on how we speak of frequencies in 2D images we can take just one row of this image in order to make it an one-dimensional array $x \in \{ 0,1,...,255\}^{1\times800}$ (any row here contains more or less the same anyway). We plot the original and the derivative (remember how we calculated "edge strength" in 2D with the gradient).
 
@@ -537,11 +541,57 @@ The LoG can be approximated quite well with a difference of Gaussian (DoG) compu
 
 {cite}`CVAA`
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-## Gabor Filter
-BONUS
+## Convolution in Audio Processing
+We can also apply convolution to 1D signals like audio for example. Given an audio file we can convolve it with a so called impulse response (IR). This impulse responses function like kernels in image proceessing, in that they function as filters and change the original signal. More specifically, by convolving audio and IR, frequencies that are shared between the two sources will be accentuated, while frequencies that are not shared will be attenuated. In music production for example, IRs are used to to add reverb to a dry signal (dry = no reverb) by convolving the impulse response of a specific location with the dry source. An impulse response of a location is nothing but the response of the room/location to a short impulse. There are a lot of complicated and more optimized ways to encapture the reverb of various locations, but the easiest method is to just press the record button and clap. Given a silent environment without noise one would have recorded an impulse response. The next audio snippets include such an impulse response.
+#### Original Audio
+```{code-cell}
+from scipy.io import wavfile
+from IPython.lib.display import Audio
+
+fs2, x = wavfile.read('audio/noreverb-stereo3.wav')
+Audio(x, rate=fs2, autoplay=False)
+```
+#### Impulse Response
+```{code-cell}
+# Reference IR library: http://www.echothief.com/downloads/
+fs, h_ir = wavfile.read('audio/TunnelToHeaven3.wav')
+Audio(h_ir, rate=fs2, autoplay=False)
+```
+```{admonition} Hint: Make your own IR
+:class: note
+
+You can easily make your own impulse response of a room with great reverb (or the lecture hall?). Simply record a loud clap and the response and cut it to the start of the clap (or better, the end of the clap transient) and end of reverb. In order for it to work like in the examples you will have to use a .wav file with 22050 Hz as sample rate and the same amount of channels (mono/stereo) as the audio you want to convolve. Or use [this free Online Audio Converter](https://fconvert.com/audio/).
+```
+#### Convolution Original Audio $\ast$ Impulse Response
+```{code-cell}
+from scipy.signal import fftconvolve
+
+x_ir = fftconvolve(x, h_ir)
+
+Audio(x_ir, rate=fs, autoplay=False)
+#Audio(x, rate=fs, autoplay=False)
+```
+#### Low-Pass Filter
+Similarly to how we smoothed out a noisy image, removing high frequency noise, we can use a "one-kernel" as IR and convolve it with the audio in order to get a low-pass filter.
+```{code-cell}
+L = int(fs / 1000)
+
+h_lp = np.ones((L, )) / L
+x_lp = fftconvolve(x, h_lp, mode='same')
+Audio(x_lp, rate=fs, autoplay=False)
+```
+#### High-Pass Filter
+We can create a qualitatively bad, but for our purposes educational high pass filter with discrete time differences.
+```{code-cell}
+Audio(np.diff(np.diff(x)), rate=fs, autoplay=False)
+```
+If we recall how for edge detection we have previously plotted one row of an image and concluded, that its derivation won't allow us to detect edges well because of high-frequency noise, we can start to see how this method attenuates low frequencies and accentuates high ones. Maybe even consider the extreme case of the lowest frequency, which wouldn't change with time - a constant. The derivative of a constant is zero, meaning the signal can't pass through. A difference of two values that are the same will obviously be zero. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-## Canny Edge Detection
-BONUS
+%## Gabor Filter
+%BONUS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%## Canny Edge Detection
+%BONUS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ## Convolutional Neural Networks
 
@@ -684,10 +734,37 @@ for i in range(48):
 ```
 
 We can see this filter bank consists of 48 filters in total. The first 3x6 pairs are first order derivatives of Gaussians at 6 orientations and 3 scales, followed by the second order derivatives of Gaussian filters. Furthermore 4 Gaussians and 8 Laplacian of Gaussian filters are part of this bank.
-  
-  
-   
-     
+
+### A last, fun example
+
+```{code-cell}
+import skimage
+from scipy.signal import fftconvolve
+
+moon = skimage.data.moon()
+moon = moon / moon.max()
+
+crater = moon[60:115, 90:150]
+crater /= crater.max()
+moonfilt = fftconvolve(moon, crater, mode='same')
+```
+```{code-cell}
+:tags: [hide-input]
+fig, axs = plt.subplots(2, 2, figsize=(7, 7))
+[ax.set_axis_off() for ax in axs.ravel()]
+
+axs[0, 0].imshow(moon, cmap='gray')
+axs[0, 1].imshow(crater, cmap='gray')
+axs[1, 0].imshow(moonfilt**5, cmap='gray')
+x_max, y_max = np.unravel_index(moonfilt.argmax(), moonfilt.shape)
+axs[0, 0].scatter(y_max - crater.shape[0]//2, x_max) # todo: figure this out   
+plt.show()
+```
+
+
+
+
+---
 
 ```{bibliography}
 :filter: docname in docnames
