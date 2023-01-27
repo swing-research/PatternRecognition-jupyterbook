@@ -121,7 +121,8 @@ ax.legend('males > females')
 ax.set_xlabel('Number of rings')
 ```
 We can see in the plot that we have more males than females with smaller number of rings, and more 
-females than males with bigger number of rings. 
+females than males with bigger number of rings. The curve is 1 as long there are more males than females with the same
+number of rings. If the snail have more than $\approx$ 9 rings, then there are more females in than males within the group.
 
 ## A good but impractical rule
 
