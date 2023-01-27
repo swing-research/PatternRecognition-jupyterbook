@@ -425,9 +425,11 @@ $$
 
 - Putting things together we again get $\  \mathbf{X}^T \mathbf{X} \mathbf{w} = \mathbf{X}^T \mathbf{y}$
 
-### Yet another perspective: Geometry
+### Geometric perspective
 
-We can rewrite:
+Next let us try a geometric approach of the problem. The datapoints can be represented on a $2D$ plane and the error as the distance away from the plane. Plotting the formulas will give us an interessting result.
+
+Let's start with the formulas we need for our plot. We can rewrite:
 
 $$
 \min \left \{ \| \mathbf{y} - \mathbf{X} \mathbf{w} \|^2 \mid \mathbf{w} \in \mathbb{R}^d \right\}
