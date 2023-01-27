@@ -596,7 +596,11 @@ Now we can perform our predictions:
 > 📜 "In label encoding in Python, we replace the categorical value with a numeric value between 0 and the number of classes minus 1. If the categorical variable value contains 5 distinct classes, we use (0, 1, 2, 3, and 4)."
 > [1]
 
-1) The first step consist in building the one-hot encoding matrix. This is necessary since the algorithm can't classify the features directly. That's why we attribute a binary vector for each x-variable. (Which gives us a matrix for all $ \mathbf{X} $).
+Why do we need this?
+
+-> Some algorithms can only be used for binary classification problems. (Linear / Logistic Regression, SVM, etc...) Since they can only choose between two class options. But there is a way for running such an algorithm for this type of problem. We just need to adapt our data and get it into a binary form. This is done by one-hot encoding.
+
+1) The first step consist in building the one-hot encoding matrix. This is necessary since the algorithm can't classify the labels directly. That's why we attribute a binary vector for each x-variable. (Which gives us a matrix for all $ \mathbf{X} $).
 
 If the first feature is a $ 8 $ we build a vector with the eight index as a $ 1 $ and the rest as $ 0 $ and so on.
 
