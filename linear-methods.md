@@ -286,7 +286,7 @@ $$
 
 The resulting equation is also called the least squared residual. We passed from a scalar equation to a vector equation.
 
-> 📔 **Note**: if $ (X_i,Y_i) ∼ iidP $, then by the law of large numbers
+> 📔 **Note**: if $ (X_i,Y_i) ∼ iid P $, then by the law of large numbers
 > 
 > $$
 \lim_{n \to \infty} \underbrace{\frac{1}{n} \sum_{i = 1}^n (Y_i - (w_0 + w_1 \cdot X_i))^2}_{\text{sample risk}} \to \underbrace{\mathbb{E} ~ (Y - (w_0 + w_1 \cdot X))^2}_{\text{population risk}}
