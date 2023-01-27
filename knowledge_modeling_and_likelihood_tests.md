@@ -288,20 +288,25 @@ Since our prediction will make mistakes, we want to make the best out of it, so 
 for different kind of mistakes. This is called loss or loss-function. An easy example of a loss-function could be:
 $ loss(\hat{y}, y) = \begin{cases} 0, \hat{y} = y \\ 1, \hat{y} \neq y \end{cases}$
 More interesting is the so-called Risk. **The risk defines the expectations how often our model do a mistake**. Remember, 
-the mistake is connected to the before defined loss-function. Therefore, we can define the risk in case of our prediction/estimation
+the mistake is connected to the before defined loss-function. We want to minimize the loss fo all samples. 
+One way to look at all samples is through expectation. 
+Therefore, we can define the risk in case of our prediction/estimation
 as :
 - $R[\hat{Y}]:=\mathbb{E}_{(X,Y)\sim \mathbb{P}}[loss(\hat{Y}(X),Y)]$
 
-To explain why the risk function is the mean of the loss function, we can average over samples from $\mathbb{P}$.
+To explain why the risk function is the mean of the loss function, we can look at all samples from $\mathbb{P}$ through 
+expectation. 
 To compute the loss, we have to choose samples from $\mathbb{P}$, but the question is how many samples should we take to get a 
 reliable sense of performance? The answer is, as many as needed to minimize the expected loss. 
+
+## Smallest Risk
 
 Obviously we want as fewer mistakes as possibles. Therefore, we want the smallest possible risk/risk-function. Instead of 
 looking for the biggest as in a maximization problem, we have here a minimization problem. We want to minimize our risk. 
 To minimize the risk, we have to use the prediction rule which leads to the smallest risk:
 - $\hat{Y} = f_{best}(X)$ where $f_{best} = arg\min\limits_{f \in A}R[f(X)]$. 
 
-##The optimal predictor
+## The optimal predictor
 
 This leads to the optimal predictor/estimate $\hat{Y}(x) = \mathbb{1}\{\mathbb{P}[Y=1\mid X=x] \geq \text{factor} \cdot 
 \mathbb{P}[Y=0 \mid X=0]\}$. $\text{factor}$ is a function regarding the different possible outcomes/losses:
@@ -317,7 +322,7 @@ prediction (0 or 1):
 - $\mathbb{E}[loss(1,Y) \mid X=x] = loss(1,0)\mathbb{P}[Y=0\mid X=x] + loss(1,1)\mathbb{P}[Y=1\mid X=x]$
 
 Optimal assignment is to output $\hat{Y}(x) = 1$ whenever $\mathbb{E}[loss(1,Y)\mid X=x] \leq \mathbb{E}[loss(0,Y)
-\mid X=x]
+\mid X=x]$
 
 # Likelihood Tests
 
@@ -336,12 +341,16 @@ Using the Bayes Theorem, posterior probability and the likelihood we get:
 - $\mathbb{P}[Y=y \mid X=x] = \frac{p(x\mid Y=y)p_y}{p(x)}$, where $p(x)$ is the density of the marginal distribution of $X$, 
 and $p_y$ is the probability of observing $Y$ without any given conditions (in other words: density of prior distribution of $Y$).
   
-Remember our optimal predictor: $\hat{Y}(x) = \mathbb{1}\{\mathbb{P}[Y=1\mid X=x] \geq factor \cdot \mathbb{P}[Y=0\mid X=x]\}$
+Remember our optimal predictor: $\hat{Y}(x) = \mathbb{1}\{\mathbb{P}[Y=1\mid X=x] \geq \text{factor} \cdot \mathbb{P}[Y=0\mid X=x]\}$
 With the help of Bayes and likelihood our optimal predictor becomes:
-- $\hat{Y}(x) = \mathbb{1}\{\frac{p(x\mid Y=1)}{p(x\mid Y=0)} \geq \frac{p_o(loss(1,0)-loss(0,0))}{p_1(loss(0,1)-loss(1,1))}\}$
-- $\mathbb{P}[Y=1 \mid X=x]$ is equals $\frac{p(x\mid Y=1)}{p(x\mid Y=0)}. $\mathbb{P}(X=x\mid Y=1)$ is the same as
+
+
+$$
+\hat{Y}(x) = \mathbb{1}\{\frac{p(x\mid Y=1)}{p(x\mid Y=0)} \geq \frac{p_o(loss(1,0)-loss(0,0))}{p_1(loss(0,1)-loss(1,1))}\}
+$$ (likelihood_function)
+- $\mathbb{P}[Y=1 \mid X=x]$ is equals $\frac{p(x\mid Y=1)}{p(x\mid Y=0)}$. $\mathbb{P}(X=x\mid Y=1)$ is the same as
 $p(x\mid Y=1)$.
-- $\mathbb{P}[Y=0\mid X=x]$ is the same as $\frac{\mathbb{P}(Y=0)}{\mathbb{P}(Y=1)} which is the same as $\frac{p_0}{p_1}$
+- $\mathbb{P}[Y=0\mid X=x]$ is the same as $\frac{\mathbb{P}(Y=0)}{\mathbb{P}(Y=1)}$ which is the same as $\frac{p_0}{p_1}$
 - $p_0, p_1$ were defined above
 
 ## Likelihood Ratio Test
@@ -353,14 +362,12 @@ has to be bigger than zero.
 
 # Signal and Noise Example
 
-**Definitions**:
 
-- $Y$ is a label
-- $x$ is the pattern
-- $w$ is observable
+Using the knowledge of likelihood ratio tests we can do an example regarding signal and noise. In this example we 
+use $Y$ as our labels, $x$ is the pattern and $w$ is an observable. 
 
-Using the knowledge of likelihood ratio tests we can do an example regarding signal and noise. We are still in a linear system,
- where $Y$ can be zero or one. If $Y=0$ we observe $w$, where $w \sim \mathcal{N}(0,1)$ and if $Y=1$ we observe $w + s$ 
+We are still in a linear system, where $Y$ can be zero or one. 
+If $Y=0$ we observe $w$, where $w \sim \mathcal{N}(0,1)$ and if $Y=1$ we observe $w + s$ 
 for a deterministic scalar $s$. 
 - The pdf (probability density function) of a standard normal distribution ($\sim N(0,1)$) is $\phi(z) = \frac{1}{\sqrt{2\pi}}
 e^{-\frac{z^2}{2}}$.
@@ -412,7 +419,11 @@ def update(thr=thr0):
 interact(update, thr=(5.0, 22.5, 0.1));
 ```
 
-This is exactly the same plot as we already got in the section Modeling Knowledge (see above).
+The plot show the pdf for the males and female snales regarding the number of rings (see Snail Example/Modeling Knowledge).
+It is the same plot and it is included to see the difference to the next plot in Example with likelihood ratio tests. 
+
+
+
 
 
 ## Example with likelihood ratio tests
@@ -459,6 +470,9 @@ interact(update, thr=(x_min, x_max, (x_max - x_min) / 200));
 This is again the pdf of males and females regarding their number of rings. The difference to the plot before is,
 that we used here likelihood ratio tests. We tend to maximize $y$ which is the reason that we get a different plot. 
 
+As in the plot in Example without likelihood ratio tests we have a rightshift of the red curve and both curves are look more 
+like a normalized gaussian curve than before. 
+
 
 ## Gaussian example
 
@@ -474,7 +488,7 @@ $p_1 = \mathbb{P}(Y=1)$ which is very small, e.g. $p_1 = 10^{-6}$.
 | $Y$ = 1 | 0 | —1'000'000  |
 
 We can define the optimal threshold value $\eta$ as $\ln(\eta) = log(\frac{p_0(loss(1,0)-loss(0,0))}{p_1(loss(0,1)-loss(1,1))})
-\approx 4.61$. We are using the before defined function (see Likelihood Tests)
+\approx 4.61$. We are using the before defined function {eq}`likelihood_function`
 
 To receive the optimal predictor we use the calculation $\ln p(x\mid Y=1) = \ln p(x\mid Y=0) = -\frac{1}{2}(x-s)^2 + \frac{1}{2}
 x^2 = sx-\frac{1}{2}s^2$. This leads to the following predictor:
@@ -558,4 +572,7 @@ def update(thr=thr0):
 interact(update, thr=(x_min, x_max, (x_max - x_min) / 300));
 ```
 
-Here wer are again plotting the pdf of two classes. But this time we have a third curve (grey) which is the pdf of both classes together.
+Here wer are again plotting the pdf of two classes. 
+But this time we have a third curve (grey) which is the pdf of both classes together. With this plot it is now clear
+that even when TPR is close to 1, we could still be misclassifying half of the positive class. Another observation is
+that small error classification is not necessarily the best option. 
