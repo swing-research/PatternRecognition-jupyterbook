@@ -20,6 +20,21 @@ substitutions:
     ```  
 ---
 
+```{code-cell}
+:tags: [hide-input]
+
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+#from tqdm import tqdm
+
+mpl.rcParams['axes.spines.top'] = 0
+mpl.rcParams['axes.spines.right'] = 0
+mpl.rcParams['axes.spines.left'] = 1
+mpl.rcParams['axes.spines.bottom'] = 1
+mpl.rcParams.update({'font.size': 12})
+```
+
 
 # **Different Perspectives on Linear Regression (1)**
 
@@ -60,27 +75,45 @@ from numpy import random
 
 # create data
 data = [[5.0, 7.0],
-        [6.0, 8.4],
-        [7.0, 9.8],
-        [8.0, 11.2],
-        [9.0, 12.6],
-        [10.0, 14.0]]
+       [6.0, 8.4],
+       [7.0, 9.8],
+       [8.0, 11.2],
+       [9.0, 12.6],
+       [10.0, 14.0]]
+data = np.transpose(data)
+
+data_3 = [[5.0, 7.0],
+         [6.0, 8.4],
+         [7.0, 9.8],
+         [8.0, 11.2],
+         [9.0, 12.6],
+         [10.0, 14.0],
+         [5.5, 8.0],
+         [6.3, 8.1],
+         [6.7, 10.2],
+         [7.7, 9.5],
+         [8.4, 11.7],
+         [9.3, 12.6]]
+
+data_3 = np.transpose(data_3)
 
 # define header names
-col_names = ["Size in cm", "Weight in g"]
+row_names = ["Size in cm", "Weight in g"]
 
 # display table
-print(tabulate(data, headers=col_names, tablefmt="fancy_grid"))
+
+print(tabulate(data_3, tablefmt="fancy_grid"))
 
 data_2 = np.array(data)
+data_4 = np.array(data_3)
 
-plt.plot(data_2[:,0], data_2[:,1], '--og')
+plt.plot(data_2[0,:], data_2[1,:], '-og')
+plt.plot(data_4[0,:],data_4[1,:], 'ob')
 plt.xlabel("Size of mouse")
 plt.ylabel("Weight of mouse")
 plt.show()
 ```
 
-![Table with size and weight](./images/LinearRegression1/TablePlot.png)
 
 The table lists some of the data values. The goal of the algorithm is now to learn from this distribution in order to be able to classify new points.
 We can observe from the plot, that there is a linear trend in the data.
@@ -128,6 +161,7 @@ Y_hat = [0.6,1.29,2.67,2.99,3.4]
   
 # Calculation of Mean Squared Error
 mean_squared_error(Y,Y_hat)
+print("The mean squared error is: ", mean_squared_error(Y,Y_hat))
 ```
 
 Earlier we would have tried something like
@@ -169,7 +203,7 @@ for i in range(n):
     plt.plot([x[i], x[i]], [y[i], y_hat[i]], 'y')
 ```
 
-![Linear Regression with error bars](./images/LinearRegression1/Plot1.png)
+
 
 This was an example in one dimension. For the simple function $ y = w_{1}x + w_{0} $. Now we can apply the same procedure in higher dimensions. We then get a function like:
 
@@ -235,13 +269,6 @@ ax.plot_surface(xs,ys,zs, alpha=0.5)
 plt.show()
 ```
 
-![2d Linear regression](./images/LinearRegression1/Plot2.png)
-
-```{code-cell} ipython3
-MAE: 22995.110040883304
-RMSE: 34665.4522791148
-Equation: y = -3.47 + 0.64x1 + 0.72x2
-```
 
 Graphical Interpretation for the $ n = 3$, $ d = 2 $ example:
 We have more examples than features (n > d), we get a subspace that is spanned as a plane. And a vector which points somewhere in $ \mathbb{R}^3 $. Our goal is to find a vector $ ŷ \in \mathbb{R}^N $ which is as close as possible to the real value.
@@ -496,7 +523,6 @@ ax.text(*(y_hat + 0.2), '$\widehat{y}$')
 ax.axis(False)
 ```
 
-![Least squares projection](./images/LinearRegression1/Plot3.png)
 
 Our variables are represented on the blue plane with the vector $\mathbb{x_1}$ and $\mathbb{x_2}$ and As in Murphys Machine Learning we get again an example of Least squares projection (dotted line), this time with the output:
 
@@ -546,12 +572,12 @@ $$
 
 and the weights $ \boldsymbol{w} $ using the least squares procedure described above.
 
-```py
+```{code-cell} ipython3
 from mlxtend.data import loadlocal_mnist
 
 X_train, y_train = loadlocal_mnist(
-        images_path='/Users/dokman0000/Downloads/train-images-idx3-ubyte', 
-        labels_path='/Users/dokman0000/Downloads/train-labels-idx1-ubyte'
+        images_path='./book_data/train-images-idx3-ubyte', 
+        labels_path='./book_data/train-labels-idx1-ubyte'
         )
 
 d = 28**2
@@ -576,7 +602,6 @@ relerr = (np.round(X_mask @ w_mask) != y_train).sum() / n
 print('The relative training error is %3.0f%%' % (100*relerr) )
 ```
 
-`The relative training error is  75%`
 
 ```{code-cell} ipython3
 # we can show the weights as an image... 
@@ -587,7 +612,6 @@ fig, ax = plt.subplots(1, 1)
 ax.imshow(w.reshape(28, 28))
 ```
 
-![figure 4](./images/LinearRegression1/Plot4.png)
 
 A relative training error of $ 75\% $ is not really what we are dreaming about.
 Let's try to improve the result a bit with one-hot encoding...
@@ -620,19 +644,7 @@ print(y_train[:5])
 print(y_onehot[:5, :])
 ```
 
-As output for the one hot encoding we get:
-`[8 4 9 0 8]`
-For our features and
 
-```py
-[[0. 0. 0. 0. 0. 0. 0. 0. 1. 0.]
- [0. 0. 0. 0. 1. 0. 0. 0. 0. 0.]
- [0. 0. 0. 0. 0. 0. 0. 0. 0. 1.]
- [1. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
- [0. 0. 0. 0. 0. 0. 0. 0. 1. 0.]]
-```
-
-for our one-hot encoded matrix.
 
 So we got from multiple categorical classes to several binary classes. We split the big classification problem into several smaller binary problems. In each row of our one-hot encoding matrix we classify our variable in the positive "$1$" class or in the whole rest: the $"0"$ class. A binary classifier is now trained on every binary problem (= on every row of the matrix). Finally we compare the predictions of every binary problem and choose the hightest score as our predicted $ŷ$.
 -> This procedure going from one problem of a multiple categorical classifier to several smaller binary classifiers is called **one vs rest classifier**.
@@ -652,8 +664,6 @@ print('The relative training error is %3.0f%%' % (100*relerr) )
 # TODO: show test errors!
 ```
 
-We get an error of:
-`The relative training error is  14%`
 
 The relative training error is dramatically reduced! Label encoding is a really helpfull method for optimizing the algorithm. 
 
@@ -717,9 +727,6 @@ axs[1].set_ylabel('Y')
 axs[1].set_title('Histogram of $\mathcal{D}$')
 ```
 
-![Figure 5](./images/LinearRegression1/Plot5.png)
-
-Text(0.5, 1.0, 'Histogram of $\mathcal{D}$')
 
 Where the colors represent the height of the distribution (yellow high to blue low).
 
@@ -739,7 +746,6 @@ ax = plt.axes(projection='3d')
 ax.plot_surface(xx, yy, zz, cmap=cm.coolwarm,  rcount=100, ccount=100)
 ```
 
-![Gaussian distribution in 3d](./images/LinearRegression1/Plot6.png)
 
 Here our best fitting line would pass through the middle of the "tunnel"...
 
@@ -748,7 +754,7 @@ Here our best fitting line would pass through the middle of the "tunnel"...
 Our goal is now to find values for the parameter $ \theta $ (in our case the weights and the variance) that minimizes the error, which is the difference between our predicted point and the real datapoint. (see figure)
 <br></br>
 
-![error from our predictions](./images/LinearRegression1/GaussianProb2.png)
+![error from our predictions](./images/LinearRegression1/GaussianProb2_sharp.svg)
 
 What we do is to:
 
@@ -828,7 +834,7 @@ y = np.random.rand(102)
 A = np.random.rand(3)
 
 for i in range(100 - 2):
-# TODO
+  # TODO
 ```
 
 
