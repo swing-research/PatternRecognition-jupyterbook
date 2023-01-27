@@ -281,7 +281,7 @@ $$
     ~
     \right\|^2
     =
-    \| \mathbf{y} - \mathbf{X} \mathbf{w} \|^2
+    \| \boldsymbol{y} - \boldsymbol{X} \boldsymbol{w} \|^2
 $$
 
 The resulting equation is also called the least squared residual. We passed from a scalar equation to a vector equation.
@@ -295,60 +295,60 @@ $$
 
 ### Find optimal weights for the function
 
-We want to find the best weights that minimize the loss which we call $ \mathbf{w}^\star $
+We want to find the best weights that minimize the loss which we call $ \boldsymbol{w}^\star $
 
 $$
-\mathbf{w}^\star = \arg\min_{\mathbf{w}} \underbrace{\| \mathbf{y} - \mathbf{X} \mathbf{w} \|^2}_{= \text{loss} ~ \mathcal{L}(\mathbf{w})}
+\boldsymbol{w}^\star = \arg\min_{\boldsymbol{w}} \underbrace{\| \boldsymbol{y} - \boldsymbol{X} \boldsymbol{w} \|^2}_{= \text{loss} ~ \mathcal{L}(\boldsymbol{w})}
 $$
 
-Now for the solution we proceed as usual: in order to find a minimum we calculate the partial derivatives with respect to the components of $ \mathbf{w} = [w_0, w_1,..., w_d] $ with $ d $ the number of dimensions.
+Now for the solution we proceed as usual: in order to find a minimum we calculate the partial derivatives with respect to the components of $ \boldsymbol{w} = [w_0, w_1,..., w_d] $ with $ d $ the number of dimensions.
 
 It turns out:
 
 $$
-\nabla_\mathbf{w} \left( \| \mathbf{y} - \mathbf{X} \mathbf{w} \|^2 \right) = \frac{\partial \mathcal{L}(\mathbf{w})}{\partial \mathbf{w}} = \begin{bmatrix}\frac{\partial \mathcal{L}}{\partial w_0}\\ 
+\nabla_\boldsymbol{w} \left( \| \boldsymbol{y} - \boldsymbol{X} \boldsymbol{w} \|^2 \right) = \frac{\partial \mathcal{L}(\boldsymbol{w})}{\partial \boldsymbol{w}} = \begin{bmatrix}\frac{\partial \mathcal{L}}{\partial w_0}\\ 
 \frac{\partial \mathcal{L}}{\partial w_1} \\
 \vdots \\
-\frac{\partial \mathcal{L}}{\partial w_d}\end{bmatrix} = -2 \mathbf{X}^T(\mathbf{y} - \mathbf{X} \mathbf{w})
+\frac{\partial \mathcal{L}}{\partial w_d}\end{bmatrix} = -2 \boldsymbol{X}^T(\boldsymbol{y} - \boldsymbol{X} \boldsymbol{w})
 $$
 
 
 > 🎯 **Result**: The optimal weights are now:
 > 
 > $$
--2 \mathbf{X}^T(\mathbf{y} - \mathbf{X} \mathbf{w}) = \mathbf{0} \Rightarrow \mathbf{w}^\star = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}
+-2 \boldsymbol{X}^T(\boldsymbol{y} - \boldsymbol{X} \boldsymbol{w}) = \boldsymbol{0} \Rightarrow \boldsymbol{w}^\star = (\boldsymbol{X}^T \boldsymbol{X})^{-1} \boldsymbol{X}^T \boldsymbol{y}
 $$
 
 **Higher dimension:**
 
 - In "real" Pattern Recognition (so all around us) we more or less never have simple scalar patterns / features $ x_i \in \mathbb{R} $
-- Pictures, environnement... All is in high dimension. In digit classification we had vector features $ \mathbf{x} \in \mathbb{R}^{284} $ or $ \mathbf{x} \in \mathbb{R}^{24 \times 24} $ (Number of pixels in an picture).
+- Pictures, environnement... All is in high dimension. In digit classification we had vector features $ \boldsymbol{x} \in \mathbb{R}^{284} $ or $ \boldsymbol{x} \in \mathbb{R}^{24 \times 24} $ (Number of pixels in an picture).
 - The prediction is then (note the "1" for notational convenience):
 
 $$
 \hat{y} = w_0 + \sum_{i = 1}^d w_i x_i = [1, x_1, \ldots, x_d] \begin{bmatrix} w_0 \\
 w_1 \\
 \vdots \\
-w_d \end{bmatrix} =: \mathbf{x}^T \mathbf{w}
+w_d \end{bmatrix} =: \boldsymbol{x}^T \boldsymbol{w}
 $$
 
-For a training set $(\mathbf{x}_1, y_1), \ldots, (\mathbf{x}_n, y_n) $ we can write as before
+For a training set $(\boldsymbol{x}_1, y_1), \ldots, (\boldsymbol{x}_n, y_n) $ we can write as before
 
 $$
-\mathbf{y} =
+\boldsymbol{y} =
     \begin{bmatrix}
     y_1 \\\\ y_2 \\\\ \vdots \\\\ y_n
     \end{bmatrix}
     \quad \quad
-    \mathbf{X} =
+    \boldsymbol{X} =
     \begin{bmatrix}
-    1 & -  \mathbf{x}_1^T - \\
+    1 & -  \boldsymbol{x}_1^T - \\
     \vdots &   \vdots \\  
      \\
-    1 & -  \mathbf{x}_n^T - \\
+    1 & -  \boldsymbol{x}_n^T - \\
     \end{bmatrix}
     \quad \quad
-    \mathbf{w} = \begin{bmatrix}
+    \boldsymbol{w} = \begin{bmatrix}
     w_0 \\
     \ w_1 \\
     \\ \vdots \\
@@ -358,72 +358,72 @@ $$
 
 ### An alternative derivation of weights
 
-Our loss function $ \| \mathbf{y} - \mathbf{X} \mathbf{w} \|^2 $ has a quadratic form if we expand it. Since we want to minimize it by taking the derivative, we will first try to simplify the math part. First note that a quadratic form may be expanded as
+Our loss function $ \| \boldsymbol{y} - \boldsymbol{X} \boldsymbol{w} \|^2 $ has a quadratic form if we expand it. Since we want to minimize it by taking the derivative, we will first try to simplify the math part. First note that a quadratic form may be expanded as
 
 $$
-\mathbf{a}^T \mathbf{Q} \mathbf{a} = \sum_{i = 1}^d \sum_{j = 1}^d a_i q_{ij}  a_j
+\boldsymbol{a}^T \boldsymbol{Q} \boldsymbol{a} = \sum_{i = 1}^d \sum_{j = 1}^d a_i q_{ij}  a_j
 $$
 
-with some vector $ \mathbf{a} $ and some matrix $ \mathbf{Q} $
+with some vector $ \boldsymbol{a} $ and some matrix $ \boldsymbol{Q} $
 Now in order to get optimal weights we need to find the minimum. Again we will do it by taking the derivative:
 
 Thus:
 
 $$
 \begin{aligned}
-  \frac{\partial \mathbf{a}^T \mathbf{Q} \mathbf{a}}{\partial a_k}
+  \frac{\partial \boldsymbol{a}^T \boldsymbol{Q} \boldsymbol{a}}{\partial a_k}
   &= \sum_{j = 1}^d a_j q_{kj} + \sum_{i = 1}^d a_i q_{ik}  \\
-  \\&= (\mathbf{Q} \mathbf{a})_k + (\mathbf{Q}^T \mathbf{a})_k
+  \\&= (\boldsymbol{Q} \boldsymbol{a})_k + (\boldsymbol{Q}^T \boldsymbol{a})_k
   \end{aligned}
 $$
 
 Collecting this for all $ {k} $ we get:
 
 $$
-\nabla_{\mathbf{a}} (\mathbf{a}^T \mathbf{Q} \mathbf{a})
+\nabla_{\boldsymbol{a}} (\boldsymbol{a}^T \boldsymbol{Q} \boldsymbol{a})
     =
     \begin{bmatrix}
-    \frac{\partial \mathbf{a}^T \mathbf{Q} \mathbf{a}}{\partial a_1} \\\\
-    \frac{\partial \mathbf{a}^T \mathbf{Q} \mathbf{a}}{\partial a_2} \\\\ \vdots \\\\
-    \frac{\partial \mathbf{a}^T \mathbf{Q} \mathbf{a}}{\partial a_d} \\\\
+    \frac{\partial \boldsymbol{a}^T \boldsymbol{Q} \boldsymbol{a}}{\partial a_1} \\\\
+    \frac{\partial \boldsymbol{a}^T \boldsymbol{Q} \boldsymbol{a}}{\partial a_2} \\\\ \vdots \\\\
+    \frac{\partial \boldsymbol{a}^T \boldsymbol{Q} \boldsymbol{a}}{\partial a_d} \\\\
     \end{bmatrix} =
     \begin{bmatrix}
-    (\mathbf{Q} \mathbf{a})_1 + (\mathbf{Q}^T \mathbf{a})_1 \\\\
-    (\mathbf{Q} \mathbf{a})_2 + (\mathbf{Q}^T \mathbf{a})_2 \\\\
+    (\boldsymbol{Q} \boldsymbol{a})_1 + (\boldsymbol{Q}^T \boldsymbol{a})_1 \\\\
+    (\boldsymbol{Q} \boldsymbol{a})_2 + (\boldsymbol{Q}^T \boldsymbol{a})_2 \\\\
     \vdots \\\\
-    (\mathbf{Q} \mathbf{a})_d + (\mathbf{Q}^T \mathbf{a})_d \\\\
+    (\boldsymbol{Q} \boldsymbol{a})_d + (\boldsymbol{Q}^T \boldsymbol{a})_d \\\\
     \end{bmatrix} =
-    \mathbf{Q} \mathbf{a} + \mathbf{Q}^T \mathbf{a}
+    \boldsymbol{Q} \boldsymbol{a} + \boldsymbol{Q}^T \boldsymbol{a}
 $$
 
-Now we apply this formula to our loss function $ \| \mathbf{y} - \mathbf{X} \mathbf{w} \|^2 $:
+Now we apply this formula to our loss function $ \| \boldsymbol{y} - \boldsymbol{X} \boldsymbol{w} \|^2 $:
 
-- We first expand using the fact that $ \| \mathbf{x} \|^2 = \mathbf{x}^T\mathbf{x} $:
-
-$$
-\| \mathbf{X} \mathbf{w} - \mathbf{y} \|^2 = (\mathbf{X} \mathbf{w} - \mathbf{y})^T(\mathbf{X} \mathbf{w} - \mathbf{y}) = \mathbf{w}^T \mathbf{X}^T \mathbf{X} \mathbf{w} - 2 \mathbf{w}^T (\mathbf{X}^T \mathbf{y}) + \mathbf{y}^T \mathbf{y}
-$$
-
-- Now we differentiate term by term. We first apply the rule derived on the previous slide: $ \frac{\partial \mathbf{a}^T \mathbf{Q} \mathbf{a}}{\partial a_k} = (\mathbf{Q} \mathbf{a})_k + (\mathbf{Q}^T \mathbf{a})_k $ :
+- We first expand using the fact that $ \| \boldsymbol{x} \|^2 = \boldsymbol{x}^T\boldsymbol{x} $:
 
 $$
-\frac{\partial \mathbf{w}^T \mathbf{X}^T \mathbf{X} \mathbf{w}}{\partial \mathbf{w}} = \mathbf{X}^T \mathbf{X} \mathbf{w} + (\mathbf{X}^T \mathbf{X})^T \mathbf{w}
-    = 2 \mathbf{X}^T \mathbf{X} \mathbf{w}
+\| \boldsymbol{X} \boldsymbol{w} - \boldsymbol{y} \|^2 = (\boldsymbol{X} \boldsymbol{w} - \boldsymbol{y})^T(\boldsymbol{X} \boldsymbol{w} - \boldsymbol{y}) = \boldsymbol{w}^T \boldsymbol{X}^T \boldsymbol{X} \boldsymbol{w} - 2 \boldsymbol{w}^T (\boldsymbol{X}^T \boldsymbol{y}) + \boldsymbol{y}^T \boldsymbol{y}
 $$
 
-- For the second term we use the rule for differentiating linear functionals of $ \mathbf{w} $ which is very simple to derive:
+- Now we differentiate term by term. We first apply the rule derived on the previous slide: $ \frac{\partial \boldsymbol{a}^T \boldsymbol{Q} \boldsymbol{a}}{\partial a_k} = (\boldsymbol{Q} \boldsymbol{a})_k + (\boldsymbol{Q}^T \boldsymbol{a})_k $ :
 
 $$
-\frac{\partial \mathbf{w}^T (\mathbf{X}^T \mathbf{y})}{\partial \mathbf{w}} = \mathbf{X}^T \mathbf{y}
+\frac{\partial \boldsymbol{w}^T \boldsymbol{X}^T \boldsymbol{X} \boldsymbol{w}}{\partial \boldsymbol{w}} = \boldsymbol{X}^T \boldsymbol{X} \boldsymbol{w} + (\boldsymbol{X}^T \boldsymbol{X})^T \boldsymbol{w}
+    = 2 \boldsymbol{X}^T \boldsymbol{X} \boldsymbol{w}
 $$
 
-- And finally for the third term, we have the derivative of a constant (wrt $ \mathbf{w} $) is zero:
+- For the second term we use the rule for differentiating linear functionals of $ \boldsymbol{w} $ which is very simple to derive:
 
 $$
-\frac{\partial \mathbf{y}^T \mathbf{y}}{\partial \mathbf{w}} = \mathbf{0}.
+\frac{\partial \boldsymbol{w}^T (\boldsymbol{X}^T \boldsymbol{y})}{\partial \boldsymbol{w}} = \boldsymbol{X}^T \boldsymbol{y}
 $$
 
-- Putting things together we again get $\  \mathbf{X}^T \mathbf{X} \mathbf{w} = \mathbf{X}^T \mathbf{y}$
+- And finally for the third term, we have the derivative of a constant (wrt $ \boldsymbol{w} $) is zero:
+
+$$
+\frac{\partial \boldsymbol{y}^T \boldsymbol{y}}{\partial \boldsymbol{w}} = \boldsymbol{0}.
+$$
+
+- Putting things together we again get $\  \boldsymbol{X}^T \boldsymbol{X} \boldsymbol{w} = \boldsymbol{X}^T \boldsymbol{y}$
 
 ### Geometric perspective
 
@@ -432,24 +432,24 @@ Next let us try a geometric approach of the problem. The datapoints can be repre
 Let's start with the formulas we need for our plot. We can rewrite:
 
 $$
-\min \left \{ \| \mathbf{y} - \mathbf{X} \mathbf{w} \|^2 \mid \mathbf{w} \in \mathbb{R}^d \right\}
+\min \left \{ \| \boldsymbol{y} - \boldsymbol{X} \boldsymbol{w} \|^2 \mid \boldsymbol{w} \in \mathbb{R}^d \right\}
 $$
 
 as:
 
 $$
-\min \left\{ \| \mathbf{y} - \mathbf{v} \|^2 \mid \mathbf{v} = \mathbf{X} \mathbf{w}, \mathbf{w} \in \mathbb{R}^d \right\}
+\min \left\{ \| \boldsymbol{y} - \boldsymbol{v} \|^2 \mid \boldsymbol{v} = \boldsymbol{X} \boldsymbol{w}, \boldsymbol{w} \in \mathbb{R}^d \right\}
 $$
 
-if we ignore $ \mathbf{w} $ for the moment and only care about $ \mathbf{v} $, then we can also write:
+if we ignore $ \boldsymbol{w} $ for the moment and only care about $ \boldsymbol{v} $, then we can also write:
 
 $$
-\min \left\{ \| \mathbf{y} - \mathbf{v} \|^2 \mid \mathbf{v} \in \mathrm{span} \{ \mathbf{x}^{(1)}, \ldots, \mathbf{x}^{(d)} \}\right\}
+\min \left\{ \| \boldsymbol{y} - \boldsymbol{v} \|^2 \mid \boldsymbol{v} \in \mathrm{span} \{ \boldsymbol{x}^{(1)}, \ldots, \boldsymbol{x}^{(d)} \}\right\}
 $$
 
-where $ \{ \mathbf{x}^{(1)}, \ldots, \mathbf{x}^{(d)} \} $ are the columns of $ \mathbf{X} $.
+where $ \{ \boldsymbol{x}^{(1)}, \ldots, \boldsymbol{x}^{(d)} \} $ are the columns of $ \boldsymbol{X} $.
 
-So which vector $ \mathbf{v} \in \mathrm{span} \{ \mathbf{x}^{(1)}, \ldots, \mathbf{x}^{(d)} \} $ minimizes this distance? Consider a small example with $ d = 2, n = 3 $
+So which vector $ \boldsymbol{v} \in \mathrm{span} \{ \boldsymbol{x}^{(1)}, \ldots, \boldsymbol{x}^{(d)} \} $ minimizes this distance? Consider a small example with $ d = 2, n = 3 $
 
 ```py
 x1 = np.array([1, 1, 1])
@@ -498,35 +498,36 @@ ax.axis(False)
 
 ![Least squares projection](./images/LinearRegression1/Plot3.png)
 
-As in Murphys Machine Learning we get again an example of Least squares projection (dotted line), this time with the output:
+Our variables are represented on the blue plane with the vector $\mathbb{x_1}$ and $\mathbb{x_2}$ and As in Murphys Machine Learning we get again an example of Least squares projection (dotted line), this time with the output:
 
 ` (-3.3, 3.3, -3.3, 3.3)`
 
-- So again the shortest residual $ \mathbf{ŷ - y} $ (the one with the smallest norm) is perpendicular to the plane, and in particular to $ \mathbf{x^{(1)}} $ and $ \mathbf{x^{(2)}} $
 
-1) For general $ d $, $ \mathbf{ŷ - y} $ is perpendicular to every column of $ \mathbf{X} $, (which means that the scalar product is $ 0 $):
+- So again the shortest residual $ \boldsymbol{ŷ - y} $ (the one with the smallest norm) is perpendicular to the plane, and in particular to $ \boldsymbol{x^{(1)}} $ and $ \boldsymbol{x^{(2)}} $
+
+1) For general $ d $, $ \boldsymbol{ŷ - y} $ is perpendicular to every column of $ \boldsymbol{X} $, (which means that the scalar product is $ 0 $):
 
 $$
-(\mathbf{x}^{(j)})^T (\hat{\mathbf{y}} - \mathbf{y}) = (\mathbf{x}^{(1)})^T (\mathbf{X} \mathbf{w} - \mathbf{y}) = 0 \quad \text{for} \quad j = 1, 2, \ldots, d + 1
+(\boldsymbol{x}^{(j)})^T (\hat{\boldsymbol{y}} - \boldsymbol{y}) = (\boldsymbol{x}^{(1)})^T (\boldsymbol{X} \boldsymbol{w} - \boldsymbol{y}) = 0 \quad \text{for} \quad j = 1, 2, \ldots, d + 1
 $$
 
 2) Writing this for every $ j $ gives:
 
 $$
-\left[\begin{array}{cc} - & (\mathbf{x}^{(1)})^T & -  \\\\ - & (\mathbf{x}^{(2)})^T & - \\ 
-\vdots \\ - & (\mathbf{x}^{(d + 1)})^T & - \end{array} \right] (\mathbf{X} \mathbf{w} - \mathbf{y}) = \mathbf{0}
+\left[\begin{array}{cc} - & (\boldsymbol{x}^{(1)})^T & -  \\\\ - & (\boldsymbol{x}^{(2)})^T & - \\ 
+\vdots \\ - & (\boldsymbol{x}^{(d + 1)})^T & - \end{array} \right] (\boldsymbol{X} \boldsymbol{w} - \boldsymbol{y}) = \boldsymbol{0}
 $$
 
 3) Now we recall that:
 
 $$
-\mathbf{X} = \begin{bmatrix} | & \cdots & |\\\\ \mathbf{x}^{(1)} & \cdots & \mathbf{x}^{(d+1)}\\\\| & \cdots & |\end{bmatrix}
+\boldsymbol{X} = \begin{bmatrix} | & \cdots & |\\\\ \boldsymbol{x}^{(1)} & \cdots & \boldsymbol{x}^{(d+1)}\\\\| & \cdots & |\end{bmatrix}
 $$
 
 4) So that finally we again get:
 
 $$
-\mathbf{X}^T \mathbf{X} \mathbf{w} = \mathbf{X}^T \mathbf{y}
+\boldsymbol{X}^T \boldsymbol{X} \boldsymbol{w} = \boldsymbol{X}^T \boldsymbol{y}
 $$
 
 ### **Example with a bit of fun:**
@@ -540,10 +541,10 @@ The idea is as follows: we will encode labels simply as $ y \in \{0, 1,...,9\} $
 We will compute the estimate as
 
 $$
-\mathbf{ŷ} = \text{round}(\text{vec}(\mathbf{x})^T\mathbf{w}))
+\boldsymbol{ŷ} = \text{round}(\text{vec}(\boldsymbol{x})^T\boldsymbol{w}))
 $$
 
-and the weights $ \mathbf{w} $ using the least squares procedure described above.
+and the weights $ \boldsymbol{w} $ using the least squares procedure described above.
 
 ```py
 from mlxtend.data import loadlocal_mnist
@@ -602,7 +603,7 @@ Why do we need this?
 
 -> Some algorithms can only be used for binary classification problems. (Linear / Logistic Regression, SVM, etc...) Since they can only choose between two class options. But there is a way for running such an algorithm for this type of problem. We just need to adapt our data and get it into a binary form. This is done by one-hot encoding.
 
-1) The first step consist in building the one-hot encoding matrix. This is necessary since the algorithm can't classify the labels directly. That's why we attribute a binary vector for each x-variable. (Which gives us a matrix for all $ \mathbf{X} $).
+1) The first step consist in building the one-hot encoding matrix. This is necessary since the algorithm can't classify the labels directly. That's why we attribute a binary vector for each x-variable. (Which gives us a matrix for all $ \boldsymbol{X} $).
 
 If the first feature is a $ 8 $ we build a vector with the eight index as a $ 1 $ and the rest as $ 0 $ and so on.
 
@@ -668,13 +669,13 @@ The relative training error is dramatically reduced! Label encoding is a really 
 In linear regression we assume (or hope) that the response $ Y $ is indeed obtained as a linear combination of the explanatory variables $ {x_{1},...,x_{n}} $ and a constant "variable" $ 1 $,
 
 $$
-Y = \mathbf{w}^T \mathbf{X} + \epsilon
+Y = \boldsymbol{w}^T \boldsymbol{X} + \epsilon
 $$
 
 The noise or error $\epsilon$ that has been added is usually assumed Gaussian, $\epsilon \sim \mathcal{N}(\mu, \sigma^2)$ so that we can write
 
 $$
-p(y \mid \mathbf{x};  \mathbf{\theta}) = \mathcal{N}(y \mid  \mathbf{w}^T \mathbf{x}, \sigma^2)
+p(y \mid \boldsymbol{x};  \boldsymbol{\theta}) = \mathcal{N}(y \mid  \boldsymbol{w}^T \boldsymbol{x}, \sigma^2)
 $$
 
 ![Gaussian Probability](./images/LinearRegression1/GaussianProb1.png)
@@ -700,7 +701,7 @@ fig, axs = plt.subplots(1, 2, figsize=(10, 4))
 axs[0].scatter(x, y, color='g', marker='.', alpha=0.1)
 axs[0].set_xlabel('X')
 axs[0].set_ylabel('Y')
-axs[0].set_title('Draws from $\mathcal{N}(y | \mathbf{w}^T \mathbf{x}, \sigma^2)$')
+axs[0].set_title('Draws from $\mathcal{N}(y | \boldsymbol{w}^T \boldsymbol{x}, \sigma^2)$')
    
 
 reg = LinearRegression().fit(x, y)
@@ -758,17 +759,17 @@ In order to find the best $\theta$ we have to maximize the likelihood. This proc
 
 We will go through these calculations step by step:
 
-1. We model the training set $\mathcal{D} = \{ (\mathbf{x}_i, \mathbf{y_i}) \}_{i=1}^n$ as independent, identically distributed random draws (copies)
-2. We can thus compute the probability (likelihood) of observing a given training set $p(\mathcal{D}; \theta)$ if we believe that the data is generated by a linear regression model with parameters $\theta = (\mathbf{w},\sigma)$. It is then appealing to estimate $\theta$ such that it maximizes the likelihood of observing $\mathcal{D}$:
+1. We model the training set $\mathcal{D} = \{ (\boldsymbol{x}_i, \boldsymbol{y_i}) \}_{i=1}^n$ as independent, identically distributed random draws (copies)
+2. We can thus compute the probability (likelihood) of observing a given training set $p(\mathcal{D}; \theta)$ if we believe that the data is generated by a linear regression model with parameters $\theta = (\boldsymbol{w},\sigma)$. It is then appealing to estimate $\theta$ such that it maximizes the likelihood of observing $\mathcal{D}$:
 
 $$
-\hat{\theta} = \arg\max_{\theta} p(\mathcal{D} ; \theta) = \arg\max_\theta \prod_{i = 1}^n p(y_i | \mathbf{x}_i; \theta)
+\hat{\theta} = \arg\max_{\theta} p(\mathcal{D} ; \theta) = \arg\max_\theta \prod_{i = 1}^n p(y_i | \boldsymbol{x}_i; \theta)
 $$
 
 3. We define the log-likelihood which is a function of θ rather than D:
 
 $$
-\ell(\theta) := \log p(\mathcal{D}; \theta) = \sum_{i = 1}^n \log p(y_i | \mathbf{x}_i ; \theta)
+\ell(\theta) := \log p(\mathcal{D}; \theta) = \sum_{i = 1}^n \log p(y_i | \boldsymbol{x}_i ; \theta)
 $$
 
 > 🤔 **Note**: Why the logarithm?
@@ -780,20 +781,20 @@ $$
 4. Maximizing the log-likelihood is equivalent to minimizing the negative log-likelihood (NLL):
 
 $$
-\mathrm{NLL}(\theta) := - \ell(\theta) = -  \sum_{i = 1}^n \log p(y_i | \mathbf{x}_i ; \theta)
+\mathrm{NLL}(\theta) := - \ell(\theta) = -  \sum_{i = 1}^n \log p(y_i | \boldsymbol{x}_i ; \theta)
 $$
 
 5. Apply it to our model of linear regression:
 
 $$
-\begin{aligned} \ell(\theta) = \sum_{i = 1}^n \log \left[ \frac{1}{\sigma \sqrt{2 \pi}} \exp \left( -\frac{1}{2\sigma^2}(y_i - \mathbf{w}^T \mathbf{x}_i)^2 \right) \right] \\
-=- \frac{1}{2 \sigma^2} \underbrace{\sum_{i = 1}^n (y_i - \mathbf{w}^T \mathbf{x}_i)^2}_{\text{residual sum of squares}~\mathrm{RSS}(\mathbf{w})} - \frac{n}{2} \log(2\pi\sigma^2) \end{aligned}
+\begin{aligned} \ell(\theta) = \sum_{i = 1}^n \log \left[ \frac{1}{\sigma \sqrt{2 \pi}} \exp \left( -\frac{1}{2\sigma^2}(y_i - \boldsymbol{w}^T \boldsymbol{x}_i)^2 \right) \right] \\
+=- \frac{1}{2 \sigma^2} \underbrace{\sum_{i = 1}^n (y_i - \boldsymbol{w}^T \boldsymbol{x}_i)^2}_{\text{residual sum of squares}~\mathrm{RSS}(\boldsymbol{w})} - \frac{n}{2} \log(2\pi\sigma^2) \end{aligned}
 $$
 
-Note that since our underlying functional model is $Y = \mathbf{w}^T \mathbf{X} + \epsilon$, we have that
+Note that since our underlying functional model is $Y = \boldsymbol{w}^T \boldsymbol{X} + \epsilon$, we have that
 
 $$
-\mathrm{RSS}(\mathbf{w}) = \sum_{i = 1}^n (y_i - \mathbf{w}^T \mathbf{x}_i)^2= \| \boldsymbol{\epsilon} \|^2 = \sum_{i = 1}^n \epsilon_i^2
+\mathrm{RSS}(\boldsymbol{w}) = \sum_{i = 1}^n (y_i - \boldsymbol{w}^T \boldsymbol{x}_i)^2= \| \boldsymbol{\epsilon} \|^2 = \sum_{i = 1}^n \epsilon_i^2
 $$
 
 So the difference between our prediction and the correct solution equals the noise...
