@@ -120,7 +120,7 @@ $$
 > 📔 **Note**: The difference between the actual value and the models estimate is called a **residual**
 
 
-```py
+```{code-cell} ipython3
 from sklearn.metrics import mean_squared_error
   
 Y = [0.5,1,3,2,4] 
@@ -144,7 +144,7 @@ $$
 min_{\ w_{0},w_{1}} \  \frac{1}{n} \sum_{i}^{n}(w_{0} + w_{1}x_{i} - y_{i})^2
 $$
 
-```python
+```{code-cell} ipython3
 from sklearn.linear_model import LinearRegression
 
 n = 10
@@ -195,7 +195,7 @@ Coding the error would be:
 -jupytext:
 
 
-```py
+```{code-cell} ipython3
 # Snatched from: 
 
 import matplotlib.pyplot as plt
@@ -237,7 +237,7 @@ plt.show()
 
 ![2d Linear regression](./images/LinearRegression1/Plot2.png)
 
-```python
+```{code-cell} ipython3
 MAE: 22995.110040883304
 RMSE: 34665.4522791148
 Equation: y = -3.47 + 0.64x1 + 0.72x2
@@ -451,7 +451,7 @@ where $ \{ \boldsymbol{x}^{(1)}, \ldots, \boldsymbol{x}^{(d)} \} $ are the colum
 
 So which vector $ \boldsymbol{v} \in \mathrm{span} \{ \boldsymbol{x}^{(1)}, \ldots, \boldsymbol{x}^{(d)} \} $ minimizes this distance? Consider a small example with $ d = 2, n = 3 $
 
-```py
+```{code-cell} ipython3
 x1 = np.array([1, 1, 1])
 x2 = np.array([1, -1, 1])
 y = np.array([-3, 1, 2])
@@ -563,7 +563,7 @@ X_train = X_train[shuffle_idx]
 y_train = y_train[shuffle_idx]
 ```
 
-```py
+```{code-cell} ipython3
 # remove pixels that are always zero
 nz_mask = np.any(X_train > 0, axis=0)
 X_mask = X_train[:, nz_mask] / 255.0
@@ -578,7 +578,7 @@ print('The relative training error is %3.0f%%' % (100*relerr) )
 
 `The relative training error is  75%`
 
-```py
+```{code-cell} ipython3
 # we can show the weights as an image... 
 
 w = np.zeros((d,))
@@ -607,7 +607,7 @@ Why do we need this?
 
 If the first feature is a $ 8 $ we build a vector with the eight index as a $ 1 $ and the rest as $ 0 $ and so on.
 
-```py
+```{code-cell} ipython3
 y_onehot = np.zeros((n, 10))
 for i in range(n):
     y_onehot[i, int(y_train[i])] = 1
@@ -639,7 +639,7 @@ So we got from multiple categorical classes to several binary classes. We split 
 
 2. We can now calculate the relative training error:
 
-```py
+```{code-cell} ipython3
 X_b = np.hstack((np.ones((n, 1)), X_mask))
 
 lam = 0.1
@@ -684,7 +684,7 @@ This means that our best fitting line represents the mean values of the gaussian
 
 Let's explore it with a visual example:
 
-```py
+```{code-cell} ipython3
 from sklearn.linear_model import LinearRegression
 
 n = 10000
@@ -725,7 +725,7 @@ Where the colors represent the height of the distribution (yellow high to blue l
 
 Or in 3D:
 
-```py
+```{code-cell} ipython3
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm
 
@@ -821,7 +821,7 @@ $$
 
 Let's go towards kernel methods!
 
-```py
+```{code-cell} ipython3
 x = np.random.rand(100)
 y = np.random.rand(102)
 
