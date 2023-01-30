@@ -31,7 +31,7 @@ substitutions:
 % ```
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 (ch:edge-detection)=
-# Filtering and Boundary Detection
+# Filtering and Boundary Detection (Mark Starzynski)
 written by Mark Starzynski 
 
 ```{code-cell}

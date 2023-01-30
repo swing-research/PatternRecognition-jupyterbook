@@ -7,7 +7,9 @@ chapters:
 - file: installation.md
 - file: introduction
 - file: modeling-knowledge
-- file: linear-methods
+- file: likelihood-tests-and-linear-regression
+- file: linear-methods-2
 - file: logistic-regression
 - file: filtering
 - file: denoise-deblur
+- file: edge-detection
