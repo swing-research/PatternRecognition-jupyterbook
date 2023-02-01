@@ -47,7 +47,7 @@ In this example there are the following two mistakes which can happen:
 
 ## Initialize Dataset
 
-First we have to load the dataset and store the the number of males with their corresponding number of rings into a new variable.
+First we have to load the dataset and store the number of males with their corresponding number of rings into a new variable.
 The same goes for female:
 
 ```{code-cell}
@@ -156,45 +156,39 @@ line1, = axs[0].plot(x, skewnorm.pdf(x, a1, loc=l1, scale=s1),
        'b-', lw=4, alpha=0.6, label='skewnorm pdf')
 line2, = axs[0].plot(x, skewnorm.pdf(x, a2, loc=l2, scale=s2),
        'r-', lw=4, alpha=0.6, label='skewnorm pdf')
-text = axs[0].text(15, 0.12, '0.000')
 
 axs[0].set_xlabel('Number of rings')
 axs[0].set_ylabel('Probability density')
 axs[0].set_ylim(0, 0.154)
 
 thr0 = 15
-thrline, = axs[0].plot([thr0, thr0], [0, 0.20])
+
+e1 = []
+e2 = []
 
 def update(thr=thr0):
     err1 = skewnorm.cdf(thr, a2, loc=l2, scale=s2)
     err2 = 1 - skewnorm.cdf(thr, a1, loc=l1, scale=s1)
-    
     p_error = (err1 + err2) / 2
-    
-    thrline.set_xdata([thr, thr])
-    axs[1].plot(err1, 1 - err2, 'b.')
-    text.set_text('$\mathbb{P}_{\mathrm{err}}$ = %0.3f' % (p_error,))
-    fig.canvas.draw_idle()
+    e1.append(err1)
+    e2.append(1-err2)
+
+thrx = list(np.linspace(5.0, 22.5, 175))
+
+for thr0 in thrx:
+    update(thr0)
+pos2 = axs[1].scatter(x=e1, y=e2, c=thrx, cmap="summer")
+fig.colorbar(pos2, ax=axs[1])
 ```
 
-This shows the probability densitiy function (pdf) for the males and females regarding the number of rings.
+Left side:
 
-```{code-cell}
-:tags: [hide-input]
-fig, axs = plt.subplots(1, 2, figsize=(10, 4))
-line1, = axs[0].plot(x, skewnorm.pdf(x, a1, loc=l1, scale=s1),
-       'b-', lw=4, alpha=0.6, label='skewnorm pdf')
-line2, = axs[0].plot(x, skewnorm.pdf(x, a2, loc=l2, scale=s2),
-       'r-', lw=4, alpha=0.6, label='skewnorm pdf')
-text = axs[0].text(15, 0.12, '0.000')
+- This shows the probability density function (pdf) for the males and females regarding the number of rings.
 
-axs[0].set_xlabel('Number of rings')
-axs[0].set_ylabel('Probability density')
-axs[0].set_ylim(0, 0.154)
+Right side:
 
-thrline, = axs[0].plot([thr0, thr0], [0, 0.20])
-interact(update, thr=(5.0, 22.5, 0.1));
-```
+- This shows the errors for different threshold (from 5.0 to 22.5, see colors)
+
 
 # Prediction
 
@@ -204,7 +198,7 @@ and $\mathbb{P}$ as class-conditional probabilities.
 
 
 In binary classification (0, 1) we can formalize the minimum error rule / the best predictor using the following definitions:
-We can use this again for the snail example. Instead of using male and female for the sex, we are using 0 and 1. Therefore 
+We can use this again for the snail example. Instead of using male and female for the sex, we are using 0 and 1. Therefore, 
 Y = 1, is predicting the snail's sex as female and Y=0 is predicting the snails sex as male. 
 Y is the label or in our case the sex of a snail, which we want to predict. 
 
@@ -300,7 +294,7 @@ expectation.
 To compute the loss, we have to choose samples from $\mathbb{P}$, but the question is how many samples should we take to get a 
 reliable sense of performance? The answer is, as many as needed to minimize the expected loss. 
 
-## Smallest Risk
+## The Smallest Risk
 
 Obviously we want as fewer mistakes as possibles. Therefore, we want the smallest possible risk/risk-function. Instead of 
 looking for the biggest as in a maximization problem, we have here a minimization problem. We want to minimize our risk. 
@@ -317,7 +311,7 @@ We can use the law of iterated expectation to proof this:
 - $\mathbb{E}[loss(\hat{Y}(X),Y)], =\mathbb{E}[\mathbb{E}[loss(\hat{Y}(X),Y) \mid X]]$
 
 Outer expectation is over draws of $X$, inner over draws of $Y$ conditional on $X$. There are no constraints on 
-$\hat{Y}$ so we can minimize the expression for each $X=x$ independently. We can compute the expected losses for each
+$\hat{Y}$, so we can minimize the expression for each $X=x$ independently. We can compute the expected losses for each
 prediction (0 or 1):
 - $\mathbb{E}[loss(0,Y)\mid X=x] = loss(0,0)\mathbb{P}[Y=0\mid X=x] + loss(0,1)\mathbb{P}[Y=1\mid X=x]$
 - $\mathbb{E}[loss(1,Y) \mid X=x] = loss(1,0)\mathbb{P}[Y=0\mid X=x] + loss(1,1)\mathbb{P}[Y=1\mid X=x]$
@@ -377,15 +371,13 @@ e^{-\frac{z^2}{2}}$.
 - $p(x\mid Y=0)=\mathcal{N}(0,1)=\frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}$ and
 - $p(x \mid Y=1) = \mathcal{N}(s,1)=\frac{1}{\sqrt{2\pi}}e^{-\frac{(x-s)^2}{2}}$
 
-$s$ is called shift and it determines how hard it is to predict $Y$
+$s$ is called shift, and it determines how hard it is to predict $Y$
   
 ## Example without Likelihood ratio tests
 
 
 ```{code-cell}
 :tags: [hide-input]
-
-
 l1, s1, a1 = 7.40, 4.48, 3.12
 l2, s2, a2 = 7.63, 4.67, 4.34
 
@@ -393,35 +385,38 @@ x = np.linspace(skewnorm.ppf(0.001, a1, loc=l1, scale=s1),
                 skewnorm.ppf(0.999, a1, loc=l1, scale=s1), 
                 100)
 
-fig, ax = plt.subplots(1, 1, figsize=(10, 4))
-line1, = ax.plot(x, skewnorm.pdf(x, a1, loc=l1, scale=s1),
+fig, axs = plt.subplots(1, 2, figsize=(10, 4))
+line1, = axs[0].plot(x, skewnorm.pdf(x, a1, loc=l1, scale=s1),
        'b-', lw=4, alpha=0.6, label='skewnorm pdf')
-line2, = ax.plot(x, skewnorm.pdf(x, a2, loc=l2, scale=s2),
+line2, = axs[0].plot(x, skewnorm.pdf(x, a2, loc=l2, scale=s2),
        'r-', lw=4, alpha=0.6, label='skewnorm pdf')
-text = ax.text(15, 0.12, '0.000')
 
-ax.set_xlabel('Number of rings')
-ax.set_ylabel('Probability density')
-ax.set_ylim(0, 0.154)
+axs[0].set_xlabel('Number of rings')
+axs[0].set_ylabel('Probability density')
+axs[0].set_ylim(0, 0.154)
 
 thr0 = 15
-thrline, = ax.plot([thr0, thr0], [0, 0.20])
+
+e1 = []
+e2 = []
 
 def update(thr=thr0):
     err1 = skewnorm.cdf(thr, a2, loc=l2, scale=s2)
     err2 = 1 - skewnorm.cdf(thr, a1, loc=l1, scale=s1)
-    
     p_error = (err1 + err2) / 2
-    
-    thrline.set_xdata([thr, thr])
-    text.set_text('$\mathbb{P}_{\mathrm{err}}$ = %0.3f' % (p_error,))
-    fig.canvas.draw_idle()
-    
-interact(update, thr=(5.0, 22.5, 0.1));
+    e1.append(err1)
+    e2.append(1-err2)
+
+thrx = list(np.linspace(5.0, 22.5, 175))
+
+for thr0 in thrx:
+    update(thr0)
+pos2 = axs[1].scatter(x=e1, y=e2, c=thrx, cmap="summer")
+fig.colorbar(pos2, ax=axs[1])
 ```
 
-The plot show the pdf for the males and female snales regarding the number of rings (see Snail Example/Modeling Knowledge).
-It is the same plot and it is included to see the difference to the next plot in Example with likelihood ratio tests. 
+The plot shows the pdf for the males and female snails regarding the number of rings (see Snail Example/Modeling Knowledge).
+It is the same plot, and it is included to see the difference to the next plot in Example with likelihood ratio tests. 
 
 
 
@@ -445,27 +440,10 @@ line1, = ax.plot(x, norm.pdf(x, loc=loc1, scale=sigma),
        'b-', lw=4, alpha=0.6, label='skewnorm pdf')
 line2, = ax.plot(x, norm.pdf(x, loc=loc2, scale=sigma),
        'r-', lw=4, alpha=0.6, label='skewnorm pdf')
-text = ax.text(2, 0.12, '$\mathbb{P}_{\mathrm{err}}$ = %0.3f' % (0,))
-
 ax.set_xlabel('Number of rings')
 ax.set_ylabel('Probability density')
 y_max = 1.1 / sigma / np.sqrt(2 * np.pi)
 ax.set_ylim(0, y_max)
-
-thr0 = 0
-thrline, = ax.plot([thr0, thr0], [0, y_max], 'k')
-
-def update(thr=thr0):
-    err2 = 1 - norm.cdf(thr, loc=loc1, scale=sigma)
-    err1 = norm.cdf(thr, loc=loc2, scale=sigma)
-    
-    p_error = (err1 + err2) / 2
-    
-    thrline.set_xdata([thr, thr])
-    text.set_text('$\mathbb{P}_{\mathrm{err}}$ = %0.3f' % (p_error,))
-    fig.canvas.draw_idle()
-    
-interact(update, thr=(x_min, x_max, (x_max - x_min) / 200));
 ```
 
 This is again the pdf of males and females regarding their number of rings. The difference to the plot before is,
@@ -481,7 +459,7 @@ Let's now work with Gaussian distribution.
 - For this example we define a prior probability
 $p_1 = \mathbb{P}(Y=1)$ which is very small, e.g. $p_1 = 10^{-6}$. 
 - There is no cost/loss if we declare $\hat{Y} = 0$. 
-- On the other side, if we declare $\hat{Y} = 1$ we have a cost of 100 if $Y$ is actual 0 and we gain a reward if we predict correct. 
+- On the other side, if we declare $\hat{Y} = 1$ we have a cost of 100 if $Y$ is actual 0, and we gain a reward if we predict correct. 
 
 | loss | $\hat{Y}$ = 0 | $\hat{Y}$ = 1|
 |-----|--------:|--------:|
@@ -497,7 +475,7 @@ x^2 = sx-\frac{1}{2}s^2$. This leads to the following predictor:
 
 ## Types of Errors and successes
 
-We already mentioned that there are different errors which we can do with a classifier. In the snail example we could classifiy
+We already mentioned that there are different errors which we can do with a classifier. In the snail example we could classify
 a snail as male if it was actual a female. We now define these types of errors more formally:
 
 |                   | $Y = 0$        | $Y = 1$        |
@@ -535,45 +513,14 @@ line2, = ax.plot(x, norm.pdf(x, loc=loc2, scale=sig2),
        'r-', lw=4, alpha=0.6)
 line3, = ax.plot(x, p1*norm.pdf(x, loc=loc1, scale=sig1) + p2*norm.pdf(x, loc=loc2, scale=sig2),
        'k-', lw=1, alpha=0.6)
-
-text_str = '$\mathbb{P}_{\mathrm{err}}$ = %0.3f\n' \
-         + 'TPR = %0.3f\n' \
-         + 'FNR = %0.3f\n' \
-         + 'FPR = %0.3f\n' \
-         + 'TNR = %0.3f\n'
-
-text = ax.text(2, 0.25, text_str % (0,0,0,0,0))
-
 ax.set_xlabel('Number of rings')
 ax.set_ylabel('Probability density')
 ax.legend(['Class 0', 'Class 1'], frameon=False)
 y_max = 1.1 / min(sig1, sig2) / np.sqrt(2 * np.pi)
 ax.set_ylim(0, y_max)
-
-thr0 = 0
-thrline, = ax.plot([thr0, thr0], [0, y_max], 'k')
-
-def update(thr=thr0):
-
-    # FPR = P(\hat{Y} = 1 | Y = 0)
-    #     = P(BLUE > thr)
-    FPR = 1 - norm.cdf(thr, loc=loc1, scale=sig1)
-    # FPR = P(\hat{Y} = 0 | Y = 1)
-    #     = P(RED <= thr)
-    FNR = norm.cdf(thr, loc=loc2, scale=sig2)
-    
-    # P(mistake) = P(\hat{Y} = 1 | Y = 0) * p_0 + P(\hat{Y} = 0 | Y = 1) * p_1
-    #            = p_0 * FPR + p_1 * FNR
-    p_mistake = p1*FPR + p2*FNR
-    
-    thrline.set_xdata([thr, thr])
-    text.set_text(text_str % (p_mistake, 1 - FNR, FNR, FPR, 1 - FPR))
-    fig.canvas.draw_idle()
-
-interact(update, thr=(x_min, x_max, (x_max - x_min) / 300));
 ```
 
 Here wer are again plotting the pdf of two classes. 
 But this time we have a third curve (grey) which is the pdf of both classes together. With this plot it is now clear
-that even when TPR is close to 1, we could still be misclassifying half of the positive class. Another observation is
+that even when TPR is close to 1, we could still misclassifiy half of the positive class. Another observation is
 that small error classification is not necessarily the best option. 
