@@ -117,7 +117,7 @@ This is also called the minimum error rule. Remember the two mistakes we can mak
 :tags: [hide-input]
 fig, ax = plt.subplots(1, 1, figsize=(6, 3))
 ax.plot(np.array([-1, 1])[np.int8(males > females)[3:]]);
-ax.legend('males > females')
+ax.legend(['males > females'])
 ax.set_xlabel('Number of rings')
 ```
 We can see in the plot that we have more males than females with smaller number of rings, and more 
